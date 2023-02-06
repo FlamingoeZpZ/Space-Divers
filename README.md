@@ -2,8 +2,9 @@
 
 (NOTE: I added the images after submission because they're not necessary, but they are convinent)
 
+## Features
 
-##Lighting
+### Lighting
 Wasn't sure what to do for the "light section" Unsure if you wanted me to actually edit the light in unity or to make shaders... I asked others and wasn't sure, and I really don't want to be the guy that's consistantly asking for help. so hopefully this good.
 
 Ambient + Rim Light
@@ -16,7 +17,7 @@ The Blinn shader is taken from class, again minor changes for increased control
 
 Why rim light? Because it counts for one of the sections, and looks like atmosphere
 
-##LUTS
+### LUTS
 
 Color Grading: 
 
@@ -31,7 +32,7 @@ Custom (Warm + Contrast):
 
 LUTs seem to always look bad, not sure why... They look really good in Photoshop
 
-##Custom
+### Custom
 Rim lighting (Explained earlier)
 Normal extrusion ( Bump mapping) Gives the game a more "BorderLandsy" Rough and tumble type look. Also helps improve areas that got color graded too hard when I was making the texture white. When normals are 1, everything looks like a toy, when normals are 10 everything looks borderlands
 
