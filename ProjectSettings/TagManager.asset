@@ -8,15 +8,15 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Enemy
+  - Harvestable
+  - Obstacle
+  - Planet
+  - EnemyRoot
+  - PlayerRoot
   - 
   - 
   - 
