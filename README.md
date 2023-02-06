@@ -2,6 +2,9 @@
 
 (NOTE: I added the images after submission because they're not necessary, but they are convinent)
 
+Also, I think I spent around 30 hours developing this project & assignment, maybe a bit more, but overall I think that's a great speed. I did Friday, 2p-2a, Sat 10a-9p, Sun 12pm - 12am
+For game Jam hours, certainly better than your typical game jam produce. (Times include breaks, work specifically for ass. 1 and research)
+
 ## Features
 
 ### Lighting
