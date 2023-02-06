@@ -10,7 +10,8 @@ I have multiple design patterns (Flyweight, Singletons (light use tho))
 
 The code for the color picker, though I'm sure you know how it works, it's super simple and the manipulation of it in game would be almost identical to how the LUTs are handled.
 
-
+Youtube Video
+https://youtu.be/mPkiP0KxTGw
 
 Google slides
 [https://docs.google.com/presentation/d/1b1NrIQdTX083GBhReAvFBrGcwF4PFgROCB6B2utCwPA/edit?usp=sharing]
