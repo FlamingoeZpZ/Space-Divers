@@ -81,8 +81,8 @@ Material:
     - _QueueOffset: 0
     - _Smoothness: 0.8
     m_Colors:
-    - _ColorA: {r: 0.9152541, g: 0, b: 1, a: 1}
-    - _ColorB: {r: 1, g: 0.75, b: 0.7216981, a: 1}
-    - _ColorC: {r: 0, g: 1, b: 0.8898306, a: 1}
-    - _EmissiveColor: {r: 0.23702809, g: 1.920302, b: 10.049993, a: 1}
+    - _ColorA: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorB: {r: 0, g: 0.20754719, b: 0.056159813, a: 1}
+    - _ColorC: {r: 1, g: 0.06557379, b: 0, a: 1}
+    - _EmissiveColor: {r: 3.3318195, g: 0.21694617, b: 0, a: 1}
   m_BuildTextureStacks: []
