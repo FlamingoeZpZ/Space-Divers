@@ -1,25 +1,25 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Enemy : BaseCharacter
 {
-    public static readonly Dictionary<int, Blip> Blips = new();
-    private int id;
+    public static readonly Dictionary<uint, Blip> Blips = new();
+    private static uint _shipID;
+    private uint id;
     private Vector3 target;
+    public static readonly Dictionary<uint, bool> Targeting = new();
     
     protected void Start()
     {
         curSpeed = stats.maxSpeed * 0.8f;
         do
         {
-            id = Random.Range(int.MinValue,int.MaxValue);
+            id = _shipID++;
         } while (Blips.ContainsKey(id));
-        Blips.Add(id, new Blip(transform, stats.blip));
+        Blips.Add(id, new Blip(transform, stats.blip, id));
         target = Random.insideUnitSphere * 100;
+        Targeting.Add(id, false);
 
     }
 
@@ -34,6 +34,7 @@ public class Enemy : BaseCharacter
         if (curTarget)
         {
             target = curTarget.position;
+            Targeting[id] = true;
         }
 
         if (mag < 4)
@@ -62,7 +63,7 @@ public class Enemy : BaseCharacter
         if (damage < 0)
         {
             curTarget = attacker;
-            targetLocked = true;
+            Targeting[id] = false;
         }
     }
 
@@ -70,6 +71,7 @@ public class Enemy : BaseCharacter
     {
         Blips[id].DestroyBlip();
         Blips.Remove(id);
+        Targeting.Remove(id);
         #if UNITY_EDITOR
                 if (Application.isEditor && !Application.isFocused)
                     return;
@@ -78,7 +80,6 @@ public class Enemy : BaseCharacter
         {
             GameManager.instance.TEMP_END_GAME(true);
         }
-
     }
 
     public override void OnTargeted()

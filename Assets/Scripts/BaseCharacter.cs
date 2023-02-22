@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
@@ -18,6 +17,7 @@ public abstract class BaseCharacter : MonoBehaviour, ITargetable
 
 
     [SerializeField] private Transform eyePoint;
+    private Transform shipBody;
     [SerializeField] private Vector2 viewDist;
 
     [SerializeField] protected ShipBaseStats stats;
@@ -31,16 +31,13 @@ public abstract class BaseCharacter : MonoBehaviour, ITargetable
     [SerializeField] protected Vector2 direction;
 
     protected bool targetLocked;
-
-
-    
-
     private Vector3 searchBoxExtent;
     protected virtual void Awake()
     {
         _currentHealth = stats.maxHealth;
         searchBoxExtent = new Vector3(viewDist.x, viewDist.x, viewDist.y);
         myTrans = transform;
+        shipBody = transform.GetChild(0);
     }
 
     public void AddWeapon(Weapon newWeapon, bool homing, bool automatic)
@@ -116,11 +113,13 @@ public abstract class BaseCharacter : MonoBehaviour, ITargetable
             }
         }
     }
-    
+
+    private bool bIsUpsideDown;
+
     protected virtual void Move()
     {
         //Handles movement logic.
-        Vector3 eulerAngles = myTrans.eulerAngles;
+        //Quaternion eulerAngles = myTrans.rotation;
         myTrans.position += curSpeed * Time.deltaTime * myTrans.forward;
         float s = (stats.baseHandling + curSpeed) * Time.deltaTime;
         if (Mathf.Abs(direction.y) > 0) //if going right and left
@@ -130,19 +129,27 @@ public abstract class BaseCharacter : MonoBehaviour, ITargetable
                 roll -= m;
         }
         else if(roll < -stats.rollDecay)
-            roll += stats.rollDecay * stats.baseHandling * Time.deltaTime;
+            roll += stats.rollDecay * stats.baseHandling * Time.deltaTime * s;
         else if (roll >stats.rollDecay)
-            roll -= stats.rollDecay * stats.baseHandling * Time.deltaTime;
+            roll -= stats.rollDecay * stats.baseHandling * Time.deltaTime * s;
 
+        myTrans.rotation *= Quaternion.Euler(direction.x * s, direction.y * s,0);
+        Vector3 n = myTrans.eulerAngles;
 
-        eulerAngles = new Vector3(eulerAngles.x, eulerAngles.y, roll);
+        /*
+        if(direction == Vector2.zero && Mathf.Abs(n.z - 180) > 0.5f)
+        {
+            if (n.z > 180) n.z += Time.deltaTime * s;
+            else if (n.z < 180) n.z -= stats.rollDecay * stats.baseHandling * Time.deltaTime;
+        } */
+        myTrans.eulerAngles = n;
         
-        //This is unfortunate, but Gimbal Lock is a real problem
-        if (Mathf.Abs(eulerAngles.x - 180 + direction.x) > 105)
-            eulerAngles.x += direction.x * s;
+        //eulerAngles.z = 0;
         
-        eulerAngles.y +=  direction.y * s ;
-        myTrans.eulerAngles = eulerAngles;
+        
+        
+        //myTrans.eulerAngles += new Vector3(direction.x * s,direction.y * s,0);
+        shipBody.localEulerAngles = new Vector3(0, 0, roll);
     }
 
     protected virtual void ShootAutomaticWeapons()

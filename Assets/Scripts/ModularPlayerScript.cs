@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,6 +22,7 @@ public class ModularPlayerScript : BaseCharacter
     [SerializeField, Range(40,70)] private float maxFov = 70;
 
     [SerializeField] private bool invertedUpDown = true;
+
 
     
 
@@ -64,6 +62,7 @@ public class ModularPlayerScript : BaseCharacter
     
     protected override void Move()
     {
+        
         direction = joyStick.Direction;
         base.Move();
         cmv.m_Lens.FieldOfView = Mathf.Lerp(minFov, maxFov,Mathf.Max(0.2f,speedSlider.value));

@@ -1,22 +1,21 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 public class PlayerUI : MonoBehaviour
 {
     
    [SerializeField] private Button settingsButton;
 
-
    [Header("Radar")] 
-   [SerializeField] private RectTransform radar;
+   [SerializeField] private RectTransform enemyBlipParent;
 
-   public static RectTransform Radar;
+   public static RectTransform EnemyBlipParent { get; private set; }
    public static bool VerticalityDetection;
    public static float RadarDist;
    
-   [SerializeField] private RectTransform enemyBlip;
    [SerializeField] private float radarDist;
    [SerializeField] private bool verticalityDetection;
 
@@ -41,7 +40,7 @@ public class PlayerUI : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        Radar = radar;
+        EnemyBlipParent = enemyBlipParent;
         VerticalityDetection = verticalityDetection;
         RadarDist = radarDist;
         cam = Camera.main;
@@ -54,10 +53,11 @@ public class PlayerUI : MonoBehaviour
         healthLeft.transform.GetChild(1).GetChild(0).GetComponent<Image>().color = healthColor;
         healthRight.transform.GetChild(1).GetChild(0).GetComponent<Image>().color = healthColor;
         crossHairTrans = crossHairCenter.transform;
-
         parent = transform.parent;
 
     }
+
+
 
     private Vector3 old;
     // Update is called once per frame
@@ -67,6 +67,7 @@ public class PlayerUI : MonoBehaviour
         Vector3 parentPos = parent.position;
         Vector3 parentForward = parent.forward;
         
+        enemyBlipParent.eulerAngles = new Vector3(0,0,parent.eulerAngles.y);
         
         foreach (Blip e in Enemy.Blips.Values)
         {
@@ -128,26 +129,57 @@ public readonly struct Blip
 {
     private readonly Transform coreComponent;
     private readonly RectTransform blipComponent;
-    public Blip(Transform core, RectTransform blip)
+    private readonly GameObject blipObject;
+    private readonly Image blipImage;
+    private readonly Image blipBaseImage;
+    private readonly uint blipID;
+
+    public Blip(Transform core, RectTransform blip, uint id)
     {
         coreComponent = core;
-        blipComponent = Object.Instantiate(blip, PlayerUI.Radar);
-        Debug.Log("I've attached a blip to: " + PlayerUI.Radar.gameObject.name);
+        blipComponent = Object.Instantiate(blip, PlayerUI.EnemyBlipParent);
+        blipObject = blipComponent.gameObject;
+        blipBaseImage = blipComponent.GetComponent<Image>();
+        blipImage = blipComponent.GetChild(0).GetComponent<Image>();
+        blipID = id;
     }
     public void DestroyBlip()
     {
         Debug.Log("Destroying Blip");
-        Object.Destroy(blipComponent.gameObject);
+        Object.Destroy(blipObject);
         Debug.Log(Enemy.Blips.Count);
     }
     
     public void UpdatePosition(Vector3 start)
     {
         Vector3 dif = coreComponent.position - start;
-
-        if (dif.sqrMagnitude < PlayerUI.RadarDist)
+        float mag = dif.magnitude;
+        //if the enemy is in range of the players' "RADAR DISTANCE"
+        //then display the enemy...
+        if (mag < PlayerUI.RadarDist)
         {
-             
+            //Enable the blip
+            blipObject.SetActive(true);
+            
+            //Convert the blip position to local space...
+            Vector3 pos = new Vector3(dif.x, dif.z);
+
+            //Keep the blips in bounds...
+            if (pos.sqrMagnitude > 6400) pos = pos.normalized * 80;
+
+            blipComponent.localPosition = pos;
+
+            //let 0.5 be the center.
+            //First, normalize the y., then we apply an offset
+            
+            blipImage.color = Settings.verticalityGradient.Evaluate((dif.y / mag + 1)/2);
+            blipBaseImage.color = Enemy.Targeting[blipID] ? Settings.enemyTargetingPlayer : Settings.enemyLostPlayer;
+            //blipComponent.position = coreComponent.position
+        }
+        else
+        {
+            //Blip out of range (play animation?)
+            blipObject.SetActive(false);
         }
     }
 }
