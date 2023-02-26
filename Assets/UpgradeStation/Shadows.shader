@@ -9,6 +9,7 @@ Shader "Unlit/VertAndFragStandard"
         Tags
         {
             "RenderType"="Opaque"
+            "RenderPipeline" = "UniversalPipeline"
         }
         LOD 100
 
@@ -17,8 +18,9 @@ Shader "Unlit/VertAndFragStandard"
             Tags
             {
                 "LightMode" = "ForwardBase"
+                "RenderPipeline" = "UniversalPipeline"
             }
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_fwdbase nolightmap nodirlightmap nodynlightmap novertexlight
@@ -62,15 +64,17 @@ Shader "Unlit/VertAndFragStandard"
                 col.rgb *= i.diff * shadow;
                 return col;
             }
-            ENDCG
+            ENDHLSL
         }
         Pass
         {
             Tags
             {
-                "LightMode" = "ShadowCaster"
+                "LightMode" = "ShadowCaster"       
+                "RenderPipeline" = "UniversalPipeline"
+
             }
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_shadowcaster
@@ -99,7 +103,7 @@ Shader "Unlit/VertAndFragStandard"
             {
                 SHADOW_CASTER_FRAGMENT(i)
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

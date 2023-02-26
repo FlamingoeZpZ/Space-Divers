@@ -52,9 +52,7 @@ public class ColorWheelController : MonoBehaviour, IPointerMoveHandler
 
     public void OnPointerMove(PointerEventData eventData)
     {
-        print(Vector2.Distance(eventData.position, transform.position) + ">" + (rt.x/2-2));
-        
-        if (Vector2.Distance(eventData.position, transform.position) > rt.x/2-2) return;
+        if (Vector2.Distance(eventData.position, transform.position) > rt.x/2-16) return;
         Vector2 d = (eventData.position - (Vector2)transform.position + rt/2)/rt;
         
         curCol = colorWheel.GetPixelBilinear(d.x, d.y);

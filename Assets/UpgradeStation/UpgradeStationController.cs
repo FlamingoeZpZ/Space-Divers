@@ -28,7 +28,10 @@ public class UpgradeStationController : MonoBehaviour
 
     [SerializeField] private GameObject returnButton;
     [SerializeField] private GameObject quitButton;
-
+    [SerializeField] private Material outlineMat;
+    private readonly int outlineColorID = Shader.PropertyToID("_OutlineColor");
+    
+    
     private CinemachineTrackedDolly dolly;
 
     //On Awake, we should start the cart.
@@ -44,7 +47,6 @@ public class UpgradeStationController : MonoBehaviour
         StartCoroutine(MoveShip());
     }
 
-
     private void Update()
     {
         //May not work in mobile...
@@ -55,6 +57,7 @@ public class UpgradeStationController : MonoBehaviour
                 inController = n;
                 inController.SwapCams(1);
                 IsInMenu = true;
+                outlineMat.SetColor(outlineColorID, Color.clear);
                 returnButton.SetActive(true);
                 quitButton.SetActive(false);
             }
@@ -63,16 +66,17 @@ public class UpgradeStationController : MonoBehaviour
 
     public void BackToMain()
     {
-        print("Back to main");
         inController.SwapCams(-1);
         inController = null;
         returnButton.SetActive(false);
         quitButton.SetActive(true);
+        outlineMat.SetColor(outlineColorID, Color.green);
     }
 
 
     private IEnumerator MoveShip()
     {
+        IsInMenu = true;
         Vector3 startPos = shipStartPoint.position;
         Vector3 endPos = shipEndPoint.position;
         float curTime = 0;
@@ -84,11 +88,15 @@ public class UpgradeStationController : MonoBehaviour
             dolly.m_PathPosition = Mathf.Lerp(0, 3, Mathf.Sqrt(t * 2));
             yield return null;
         }
+        IsInMenu = false;
+        outlineMat.SetColor(outlineColorID, Color.green);
+
     }
 
     public void ExitShop()
     {
         IsInMenu = true;
+        outlineMat.SetColor(outlineColorID, Color.clear);
         StartCoroutine(ExitMoveShip());
         cart.LookAt = shipTrans;
     }
@@ -118,7 +126,6 @@ public class UpgradeStationController : MonoBehaviour
         float x = 0;
         while (curTime < dollyExitTimeB)
         {
-            print("Alpha beta: " + curTime);
             curTime += Time.deltaTime;
             x += curTime;
             shipTrans.position += x * Time.deltaTime * shipTrans.forward;

@@ -26,7 +26,6 @@ public class UpgradeStationNode : MonoBehaviour
         do
         {
             camOrder[_curCam].SetActive(false);
-            print(_curCam + " + " + dir);
             _curCam += dir;
 
             camOrder[_curCam].SetActive(true);
