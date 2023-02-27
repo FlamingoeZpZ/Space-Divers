@@ -9,8 +9,6 @@ Shader "Universal Render Pipeline/OutlineShader"
 {
     Properties
     {
-         
-        
         // Specular vs Metallic workflow
         [HideInInspector] _WorkflowMode("WorkflowMode", Float) = 1.0
 

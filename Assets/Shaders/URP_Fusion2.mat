@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: URP_Fusion
+  m_Name: URP_Fusion2
   m_Shader: {fileID: -6465566751694194690, guid: 497d4e11c3c84e148b1fceace247e553, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -81,8 +81,8 @@ Material:
     - _QueueOffset: 0
     - _Smoothness: 0.8
     m_Colors:
-    - _ColorA: {r: 0.21067742, g: 0.056842864, b: 0.9894784, a: 1}
-    - _ColorB: {r: 0.9960784, g: 0.9803921, b: 0.6901961, a: 1}
-    - _ColorC: {r: 0.9596197, g: 0.77966076, b: 0.4275862, a: 0}
+    - _ColorA: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorB: {r: 1, g: 0, b: 0.05513668, a: 1}
+    - _ColorC: {r: 0, g: 0.07258034, b: 1, a: 1}
     - _EmissiveColor: {r: 0.94713515, g: 0.55047345, b: 0.32298282, a: 0.6259214}
   m_BuildTextureStacks: []

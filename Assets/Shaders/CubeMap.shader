@@ -69,7 +69,7 @@ Shader "Custom/SkyboxCubemap" {
                 float3 ase_worldPos = i.base_texcoord1.xyz;
 				float3 worldSpaceLightDir = Unity_SafeNormalize(UnityWorldSpaceLightDir(ase_worldPos));
 				float3 ase_sunPos = i.base_texcoord2.xyz; // I think it's un pos?
-								float sun = (1 - length( worldSpaceLightDir - ase_sunPos));
+            	float sun = (1 - length( worldSpaceLightDir - ase_sunPos));
 				float InvSunSize = 1 - _SunSize;
 				float sunBlur = smoothstep( (1 - _SunSize*_SunStrength-0.01) , InvSunSize , sun);
 				float sunGlow = smoothstep(  (1 - _SunSize*_SunStrength*2) , InvSunSize , sun);
