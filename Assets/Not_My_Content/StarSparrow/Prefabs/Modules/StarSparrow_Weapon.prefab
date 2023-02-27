@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33573272946828148}
   - component: {fileID: 23314147900957894}
   - component: {fileID: 2301323875269263967}
+  - component: {fileID: -1316284546936147987}
   m_Layer: 0
   m_Name: StarSparrow_Weapon
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1035129555781656}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0.135, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -63,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 14cc321f15ae44a4d8ead98d7550ee77, type: 2}
+  - {fileID: 2100000, guid: cac8a660b423c0d4f82ab0d84df4fe84, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97,8 +98,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10d129f90f700f34bb0d49982697943f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTargeting: 0
+  <stats>k__BackingField: {fileID: 0}
   projectile: {fileID: -3160180244165366855, guid: 972a076ffa29f164a92a0b63382dcf0e, type: 3}
+--- !u!114 &-1316284546936147987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035129555781656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c91156c4fb06c840bd6fe5b68f67d2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myType: 1
+  components: []
 --- !u!1 &1570126557378428
 GameObject:
   m_ObjectHideFlags: 0
