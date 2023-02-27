@@ -1,7 +1,7 @@
 ~~![](Title.jpg)
 ## Description
 
-Abstract void 
+Abstract void is a space action adventure game with strategy elements where players will manage their fleets, gather resources and defeat their opposition.
 
 
 
@@ -109,7 +109,7 @@ Notes in short cus I'm lazy
 
 [Youtube Video Assignment 1](https://youtu.be/mPkiP0KxTGw)
 
-[Youtube Video Assignment 2]()
+[Youtube Video Assignment 2](https://youtu.be/M33u_Xt4gQE)
 
 [Google slides Assignment 1](https://docs.google.com/presentation/d/1b1NrIQdTX083GBhReAvFBrGcwF4PFgROCB6B2utCwPA/edit?usp=sharing)
 
