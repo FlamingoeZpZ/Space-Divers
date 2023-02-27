@@ -27,15 +27,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AtmosphereThickness: 1.84
+    - _AtmosphereThickness: 0.72
     - _CExposure: 1
     - _CRotation: 0
-    - _Exposure: 5.04
+    - _Exposure: 0.76
     - _SunDisk: 2
-    - _SunSize: 0.157
-    - _SunSizeConvergence: 5
+    - _SunSize: 0.068
+    - _SunSizeConvergence: 10
     m_Colors:
-    - _CTint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
-    - _GroundColor: {r: 0.36899996, g: 0.34899998, b: 0.34099993, a: 1}
-    - _SkyTint: {r: 1, g: 0.9575472, b: 0.9575472, a: 1}
+    - _CTint: {r: 0.26312745, g: 0.58657426, b: 0.6886792, a: 0.5}
+    - _GroundColor: {r: 0, g: 0.21164168, b: 0.8584906, a: 1}
+    - _SkyTint: {r: 0.4870111, g: 0.36320752, b: 1, a: 1}
   m_BuildTextureStacks: []
