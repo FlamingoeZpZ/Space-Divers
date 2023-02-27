@@ -1,8 +1,9 @@
-~~![](Title.jpg)
+![](Title.jpg)
 ## Description
 
 Abstract void is a space action adventure game with strategy elements where players will manage their fleets, gather resources and defeat their opposition.
 
+Total working time: Approx. 9 Days
 
 
 
