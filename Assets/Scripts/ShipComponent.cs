@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class ShipComponent : MonoBehaviour
 {
-    [SerializeField] private PartType myType;
+    [field: SerializeField] public PartType myType;
     [SerializeField] private ComponentPlacementPoint[] components;
+    public PartType GetPartType => myType;
 
     private float y;
     private void Update()
@@ -15,13 +16,13 @@ public class ShipComponent : MonoBehaviour
         transform.eulerAngles = new Vector3(0,y,0);
     }
 
-
-    private enum PartType
-    {
-        Special=0,
-        Weapon=1,
-        HeavyWeapon=2,
-        Wing=4,
-        Thruster = 8
-    }
+}
+[Flags, Serializable]
+public enum PartType
+{
+    Special=0,
+    Weapon=1,
+    HeavyWeapon=2,
+    Wing=4,
+    Thruster = 8
 }

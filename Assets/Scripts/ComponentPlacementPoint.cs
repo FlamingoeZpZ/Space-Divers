@@ -53,7 +53,7 @@ public class ComponentPlacementPoint : MonoBehaviour
             }
         }
 
-        Gizmos.DrawSphere(transform.position, col.radius);
+        //Gizmos.DrawSphere(transform.position, col.radius);
     }
     
 }

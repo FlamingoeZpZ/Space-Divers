@@ -35,6 +35,8 @@ public class PlayerUI : MonoBehaviour
    [SerializeField] private Slider healthLeft;
    [SerializeField] private Slider healthRight;
 
+   public static int Balance;
+   
    private Transform parent;
    
     // Start is called before the first frame update
