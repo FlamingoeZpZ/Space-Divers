@@ -1,15 +1,23 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Section : MonoBehaviour
 {
-    private List<GameObject> parents;
-    private List<ShipItem> items;
+    private List<GameObject> parents = new();
+    private List<ShipComponent> items = new();
 
-    public void AddElement(GameObject parent, ShipItem item)
+    private RectTransform myRT;
+    private void Start()
     {
-        parents.Add(parent);
+        myRT = GetComponent<RectTransform>();
+    }
+
+    public void AddElement(RectTransform parent, ShipComponent item)
+    {
+        parents.Add(parent.gameObject);
         items.Add(item);
+        myRT.sizeDelta += parent.sizeDelta;
     }
 
     public void RemoveElement(int idx)
@@ -22,7 +30,7 @@ public class Section : MonoBehaviour
     {
         for (int i = 0; i < items.Count; ++i)
         {
-            ShipItem item = items[i];
+            ShipComponent item = items[i];
             /*
             if (item.isUnlocked)
             {

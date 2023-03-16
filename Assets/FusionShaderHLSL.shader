@@ -28,6 +28,11 @@ Shader "Custom/FusionShaderHLSL"
 
             Pass
             {
+                Stencil {
+                  Ref 1
+                  Comp Equal
+                }
+                
                 CGPROGRAM
                 #pragma vertex vert
                 #pragma fragment frag
@@ -40,21 +45,18 @@ Shader "Custom/FusionShaderHLSL"
                     float4 vertex : POSITION;
                     float2 uv : TEXCOORD0;
                     float4 normal : NORMAL;
-                    float3 tangent : TANGENT;
 
                 };
 
                 struct VertexOutput {
                     float2 uv : TEXCOORD0;
                     float4 vertex : SV_POSITION;
-                    float2 uv1 : TEXCOORD1;
                     float4 normals : NORMAL;
-
-                    float3 tangentSpaceLight: TANGENT;
                    
                 };
 
                 sampler2D _Tex0;
+                float4 _Tex0_ST;
                 sampler2D _Tex1;
                 sampler2D _Tex2;
                 sampler2D _TexEmissive0;
@@ -68,23 +70,23 @@ Shader "Custom/FusionShaderHLSL"
                 fixed4 _Color2;
                 fixed4 _ColorEmissive0;
 
+                
+
                 VertexOutput vert(VertexInput v) {
 
                     VertexOutput o;
                     o.normals = v.normal;
-                    o.uv1 = v.uv;
                     o.vertex = UnityObjectToClipPos( v.vertex );
-                   // o.uv = TRANSFORM_TEX( v.uv, _MainTex ); // used for texture
+                    o.uv = v.uv;
+                     //.uv = TRANSFORM_TEX( v.uv, _Tex0 ); // used for texture
 
                     return o;
                 }
 
-
-
                 float4 frag(VertexOutput i) : COLOR{
 
-                    float4 col2 = tex2D(_Tex0, i.uv1) * _Color0 + tex2D(_Tex1, i.uv1) * _Color1 + tex2D(_Tex2, i.uv1) * _Color2 + tex2D(_TexEmissive0, i.uv1) * _ColorEmissive0; 
-                    return col2 * i.normals * 5;
+                    float4 col2 = tex2D(_Tex0, i.uv) * _Color0 + tex2D(_Tex1, i.uv) * _Color1 + tex2D(_Tex2, i.uv) * _Color2 + tex2D(_TexEmissive0, i.uv) * _ColorEmissive0; 
+                    return col2;
                 }
                 ENDCG
             }

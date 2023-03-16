@@ -97,7 +97,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c91156c4fb06c840bd6fe5b68f67d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myType: 2
+  <MyType>k__BackingField: 32
+  <Cost>k__BackingField: 35000
+  <Damage>k__BackingField: 0
+  <Health>k__BackingField: 1500
+  <Shield>k__BackingField: 500
+  <Speed>k__BackingField: 10
+  <Turning>k__BackingField: 30
   components: []
 --- !u!1 &1693674368464086
 GameObject:

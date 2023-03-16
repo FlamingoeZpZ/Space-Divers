@@ -1,28 +1,29 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ShipComponent : MonoBehaviour
 {
-    [field: SerializeField] public PartType myType;
+    [field: SerializeField] public PartType MyType { get; private set; } // You're my type
+    
+    //Advantage to having it here: less clutter, easier to code, makes it so individual parts have an easier time remembering shit
+    //Disadvantage: SOs mean that we can conform all their stats
+    [field: SerializeField] public int Cost { get; private set; }
+    [field: SerializeField] public int Damage { get; private set; }
+    [field: SerializeField] public int Health { get; private set; }
+    [field: SerializeField] public int Shield { get; private set; }
+    [field: SerializeField] public int Speed { get; private set; }
+    [field: SerializeField] public int Turning { get; private set; }
+    
     [SerializeField] private ComponentPlacementPoint[] components;
-    public PartType GetPartType => myType;
-
-    private float y;
-    private void Update()
-    {
-        y += Time.deltaTime * 20;
-        transform.eulerAngles = new Vector3(0,y,0);
-    }
 
 }
 [Flags, Serializable]
 public enum PartType
 {
-    Special=0,
-    Weapon=1,
-    HeavyWeapon=2,
-    Wing=4,
-    Thruster = 8
+    Special=1,
+    Weapon=2,
+    HeavyWeapon=4,
+    Wing=8,
+    ShortWing=16,
+    Thruster = 32
 }
