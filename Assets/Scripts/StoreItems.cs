@@ -8,12 +8,12 @@ public class StoreItems : MonoBehaviour
     [SerializeField] private RectTransform storeItemPrefab;
     [SerializeField] private Section[] storeSections;
     [SerializeField] private ShipComponent[] purchasableComponents;
-    [SerializeField] private Material overlay;
     [SerializeField] private Material mainMat;
 
     // Start is called before the first frame update
     void Start()
     {
+
         int l = purchasableComponents.Length;
 
         RectTransform viewport = GetComponent<RectTransform>();
@@ -41,10 +41,10 @@ public class StoreItems : MonoBehaviour
             //Header Text
             rt.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.name;
 
-            Transform t  = Instantiate(item, rt.GetChild(1).GetChild(0)).transform;
-            t.localScale *= 500;
+            Transform t  = Instantiate(item, rt.GetChild(1).GetChild(1)).transform;
+            t.localScale *= 50;
             t.gameObject.layer = layer;
-            t.GetComponent<MeshRenderer>().materials = new []{mainMat, overlay};
+            t.GetComponent<MeshRenderer>().material = mainMat;
             Transform stats = rt.GetChild(2);
             stats.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.Cost.ToString();
             stats.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.Health.ToString();

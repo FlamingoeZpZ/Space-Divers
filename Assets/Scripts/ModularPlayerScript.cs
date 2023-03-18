@@ -23,7 +23,7 @@ public class ModularPlayerScript : BaseCharacter
 
     [SerializeField] private bool invertedUpDown = true;
 
-
+    public static Vector3 Position { get; private set; }
     
 
     void Start()
@@ -56,8 +56,9 @@ public class ModularPlayerScript : BaseCharacter
             ui.SetTarget(prvTarget);
             
         }
-        
-        
+
+        Position = transform.position;
+
     }
     
     protected override void Move()

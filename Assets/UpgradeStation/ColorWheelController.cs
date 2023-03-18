@@ -19,6 +19,7 @@ public class ColorWheelController : MonoBehaviour, IPointerMoveHandler
     [ColorUsage(false, true)] private Color curCol;
     //[SerializeField] private int hdrGlow;
     [SerializeField] private Material mat;
+    [SerializeField] private Material hiddenMat;
 
     [SerializeField]private string id;
     private int storedId;
@@ -67,7 +68,10 @@ public class ColorWheelController : MonoBehaviour, IPointerMoveHandler
 
         colorWheelColor.color = c;
         mat.SetColor(storedId, c);
+        hiddenMat.SetColor(storedId, c);
         hexText.text = ColorUtility.ToHtmlStringRGB(c);
     }
-
+    
+    
+    
 }
