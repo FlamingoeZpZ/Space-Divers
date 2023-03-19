@@ -5,6 +5,8 @@ Shader "Custom/SkyboxCubemap" {
         _SunSize ("Sun Size", Range(0, 0.1)) = 1.0
         _SunStrength ("Sun Strength", Range(0, 100.0)) = 1.0
         _MainTex ("Cubemap", Cube) = "" {}
+    	//_Motion("X", Vector) = (0,0,0,0)
+    	
     }
  
     SubShader {
@@ -23,6 +25,7 @@ Shader "Custom/SkyboxCubemap" {
             float _SunSize;
             float _SunStrength;
             fixed4 _Tint;
+            float4 _Motion;
  
             struct appdata {
                 float4 vertex : POSITION;
@@ -56,7 +59,7 @@ Shader "Custom/SkyboxCubemap" {
                 float3 worldNormal = normalize(i.worldPos - _WorldSpaceCameraPos.xyz);
                 float3 worldView = normalize(_WorldSpaceCameraPos.xyz - i.worldPos);
                 float3 worldReflection = reflect(worldView, worldNormal);
-                float4 color = texCUBE(_MainTex, worldReflection);
+                float4 color = texCUBE(_MainTex, worldReflection + _Motion);
                 color.rgb *= _Tint.rgb;
                 color.rgb *= _Exposure;
 

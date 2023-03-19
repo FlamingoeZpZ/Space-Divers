@@ -22,7 +22,7 @@ Material:
     m_TexEnvs:
     - _MainTex:
         m_Texture: {fileID: 8900000, guid: 81a02bd77be164d448233bfc7cf368f5, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 0.89, y: -0.28}
         m_Offset: {x: 0, y: 0}
     - _Tex:
         m_Texture: {fileID: 8900000, guid: 81a02bd77be164d448233bfc7cf368f5, type: 3}
@@ -46,6 +46,7 @@ Material:
     - _SunStrength: 32.9
     - __Nebula1Waves: 0.1
     m_Colors:
+    - _Motion: {r: 0.95, g: 0.09, b: 0.36, a: 0}
     - _Nebular1ColorMain: {r: 0.5374949, g: 0.8301887, b: 0.49733, a: 0}
     - _Nebular1ColorMid: {r: 0, g: 0.8584906, b: 0.14234048, a: 0}
     - _Nebular2Color1: {r: 0.7821289, g: 0.9601844, b: 0.9811321, a: 0}

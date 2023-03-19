@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     [field: SerializeField]   public Transform bulletParent { get; private set; }
     [SerializeField] private GameObject TEMP_WIN_OBJECT;
     [SerializeField] private GameObject TEMP_LOSS_OBJECT;
+
+    
     
     // Start is called before the first frame update
     void Awake()
@@ -19,7 +21,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
         }
-
+        
         instance = this;
         DontDestroyOnLoad(instance);
     }

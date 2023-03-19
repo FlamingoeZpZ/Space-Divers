@@ -81,7 +81,7 @@ Material:
     - _QueueOffset: 0
     - _Smoothness: 0.8
     m_Colors:
-    - _ColorA: {r: 0.050980393, g: 0.6784314, b: 0.74509805, a: 0.7490196}
+    - _ColorA: {r: 0.039215688, g: 0.6784314, b: 0.74509805, a: 0.7490196}
     - _ColorB: {r: 1, g: 0, b: 0, a: 0.50980395}
     - _ColorC: {r: 1, g: 0.92156863, b: 0, a: 0}
     - _EmissiveColor: {r: 0.9607843, g: 0.023529412, b: 0, a: 0}

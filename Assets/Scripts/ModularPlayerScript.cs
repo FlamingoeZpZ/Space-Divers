@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,6 +25,8 @@ public class ModularPlayerScript : BaseCharacter
     [SerializeField] private bool invertedUpDown = true;
 
     public static Vector3 Position { get; private set; }
+
+    [SerializeField] private float aimForgiveness = 0.05f; // range of -1,1
     
 
     void Start()
@@ -38,11 +41,13 @@ public class ModularPlayerScript : BaseCharacter
 
         speedSlider.onValueChanged.AddListener(_ => curSpeed =  stats.maxSpeed*speedSlider.value );
 
+        DontDestroyOnLoad(gameObject);
         //manualFire.OnPointerUp(isFiring);
         //manualFire.
     }
 
     private Transform prvTarget;
+    public static float maxTravelDist = 4000f;
 
     protected override void Update()
     {
@@ -54,8 +59,10 @@ public class ModularPlayerScript : BaseCharacter
 
             // Blink targeting UI
             ui.SetTarget(prvTarget);
-            
         }
+
+        
+
 
         Position = transform.position;
 
@@ -101,6 +108,5 @@ public class ModularPlayerScript : BaseCharacter
         }
         
         base.UpdateHealth(attacker, damage);
-
     }
 }

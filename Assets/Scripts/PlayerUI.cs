@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
@@ -35,9 +38,11 @@ public class PlayerUI : MonoBehaviour
    [SerializeField] private Slider healthLeft;
    [SerializeField] private Slider healthRight;
 
-   public static int Balance;
    
+   
+   public static int Balance;
    private Transform parent;
+   private static bool fromWarp;
    
     // Start is called before the first frame update
     void Awake()
@@ -56,18 +61,39 @@ public class PlayerUI : MonoBehaviour
         healthRight.transform.GetChild(1).GetChild(0).GetComponent<Image>().color = healthColor;
         crossHairTrans = crossHairCenter.transform;
         parent = transform.parent;
-
+        SceneManager.sceneUnloaded += (scene) =>
+        {
+            if (scene.buildIndex == 0 || !fromWarp)
+            {
+                fromWarp = false;
+                Shader.SetGlobalVector(movementID, new Vector4(0,0,0,0));
+                return;
+            }
+            
+           StartCoroutine(Warp(-1));
+        };
     }
 
 
 
     private Vector3 old;
+
+    private Vector3 parentForward;
     // Update is called once per frame
+
+    
+    private int warpTo ;
+    [Header("Warping")]
+    [SerializeField] private GameObject warpButton;
+    [SerializeField] private TextMeshProUGUI warpText;
+    [SerializeField] private AnimationCurve warpCurve;
+    [SerializeField] private float warpDur = 0.8f;
+    private readonly int movementID = Shader.PropertyToID("_Motion");
     void LateUpdate()
     {
         //First get distance.
         Vector3 parentPos = parent.position;
-        Vector3 parentForward = parent.forward;
+        parentForward = parent.forward;
         
         enemyBlipParent.eulerAngles = new Vector3(0,0,parent.eulerAngles.y);
         
@@ -75,19 +101,73 @@ public class PlayerUI : MonoBehaviour
         {
             e.UpdatePosition(parentPos);
         }
-        
-        
-        
+
         Vector3 v = parentPos + parentForward * 50;
         if ((v - old).sqrMagnitude > 0)
         {
             old = v;
             crossHairTrans.parent.position = cam.WorldToScreenPoint(v);
         }
+        foreach (KeyValuePair<int, Vector3> planet in PlanetSystem.PlanetDirs)
+        {
+            if(warpTo != 0 && planet.Key != warpTo) continue;
+            if (Vector3.Dot(parentForward, planet.Value) + 0.01f > 1)
+            {
 
+                warpTo = planet.Key;
+                warpButton.SetActive(true);
+                String s = SceneUtility.GetScenePathByBuildIndex(warpTo);
+                warpText.text = s.Substring(14, s.LastIndexOf('.')-14);
+            }
+            else 
+            {
+                warpTo = 0;
+                warpButton.SetActive(false);
+            }
+        }
         if (!target) return;
         crossHairTrans.position = (Vector2)cam.WorldToScreenPoint(target.position);
+
+        
     }
+
+    public void InitiateWarp()
+    {
+        
+        //Lock player movement
+        
+        
+        //Make player immortal
+        
+        
+        //Play warp
+        StartCoroutine(Warp(1));
+    }
+
+    private IEnumerator Warp(int dir)
+    {
+       print("called");
+        float cT = dir==1?0:warpDur;
+        while (cT <= warpDur && cT >= 0)
+        {
+            Shader.SetGlobalVector(movementID, parentForward * -warpCurve.Evaluate(cT/warpDur));
+            cT += Time.deltaTime * dir;
+            yield return null;
+        }
+
+        fromWarp = true;
+
+
+
+        if (dir == 1)
+        {
+            int prv = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadSceneAsync(warpTo);
+            SceneManager.UnloadSceneAsync(prv);
+        }
+
+    }
+
 
     public void UpdateHealth(float currentHealth)
     {

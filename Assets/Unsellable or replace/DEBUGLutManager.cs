@@ -18,6 +18,7 @@ public class DEBUGLutManager : MonoBehaviour
     private void Awake()
     {
         RotateLut();
+        DontDestroyOnLoad(gameObject);
     }
 
     public void RotateLut()

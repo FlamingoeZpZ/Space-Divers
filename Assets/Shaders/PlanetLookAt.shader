@@ -3,16 +3,13 @@ Shader "Unlit/PlanetLookAt"
    Properties {
       _MainTex ("Texture Image", 2D) = "white" {}
       _ScaleX ("Scale X", Float) = 1.0
-      _ScaleY ("Scale Y", Float) = 1.0
       [HDR]_Color ("Color", Color) = (1,1,1,1)
-      _PlayerPos ("Player Pos", Vector) = (0,0,0,0)
    }
    //https://stackoverflow.com/questions/57204343/can-a-shader-rotate-shapes-to-face-camera
    SubShader {
       Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"}
       ZWrite Off
       Blend SrcAlpha OneMinusSrcAlpha
-
       Pass {   
          HLSLPROGRAM
 
@@ -24,7 +21,6 @@ Shader "Unlit/PlanetLookAt"
          // User-specified uniforms            
          uniform sampler2D _MainTex;        
          uniform float _ScaleX;
-         uniform float _ScaleY;
          fixed4 _Color;
          float4 _PlayerPos;
 
@@ -42,12 +38,13 @@ Shader "Unlit/PlanetLookAt"
             vertexOutput output;
 
             //Look at player
-            
-            output.pos = mul(UNITY_MATRIX_P, 
+            //_PlayerPos /= scalef;
+
+            output.pos = mul(UNITY_MATRIX_P,
               mul(UNITY_MATRIX_MV, float4(_PlayerPos.x, _PlayerPos.y, _PlayerPos.z, 1)) // Modified matrix to move object
               + float4(input.vertex.x, input.vertex.y, 0.0, 0.0)
-              * float4(_ScaleX, _ScaleY, 1.0, 1.0));
-
+              * float4(_ScaleX, _ScaleX, 1.0, 1.0));
+            
             output.tex = input.tex;
 
             return output;

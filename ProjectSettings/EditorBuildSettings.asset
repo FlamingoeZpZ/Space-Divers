@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/UpgradeStation.unity
     guid: 563dc88c7dd7e4f4db1f79838d3885ef
   - enabled: 1
-    path: Assets/Scenes/Game_DemoScene.unity
+    path: Assets/Scenes/HomeWorld.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/Necron.unity
+    guid: 2df499fcfe6eab84fb2c59afe4b84b43
   m_configObjects: {}
