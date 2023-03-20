@@ -1,6 +1,6 @@
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "Hidden/UISimpleGradient"
+Shader "UI/UISimpleGradient"
 {
     Properties
     {
@@ -11,11 +11,12 @@ Shader "Hidden/UISimpleGradient"
     SubShader
     {
         // No culling or depth
-        Cull Off ZWrite Off ZTest Always
-
+        //Cull Off ZWrite Off ZTest Always
+        ZTest Always
+        
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
 
@@ -51,7 +52,7 @@ Shader "Hidden/UISimpleGradient"
                 const fixed4 col = lerp(_BelowColor,_AboveColor, i.uv.y) + tex2D(_Texture, i.uv);
                 return col;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

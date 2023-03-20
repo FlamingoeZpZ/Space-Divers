@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.WSA;
 using Application = UnityEngine.Application;
 
 [DefaultExecutionOrder(-20)]
@@ -22,9 +22,12 @@ public class Settings : MonoBehaviour
     private readonly int shipColB = Shader.PropertyToID("_ColorB");
     private readonly int shipColC = Shader.PropertyToID("_ColorC");
     private readonly int shipColEmissive = Shader.PropertyToID("_EmissiveColor");
+    private readonly int shipColIntensity = Shader.PropertyToID("_Intensity");
 
     private string SaveFolder; 
 
+    public static Settings instance { get; private set; }
+    
     //public static Action OnSettingsSaved;
     
     //This should only be in the title screen
@@ -32,16 +35,19 @@ public class Settings : MonoBehaviour
     {
         
        
-        
-        SaveFolder = Application.persistentDataPath + "/SavedInfo";
-        if(!Directory.Exists(SaveFolder))
+        string st= SaveFolder  = Application.persistentDataPath + "/Ships";
+        SaveFolder += '/';
+        if(!Directory.Exists(st))
         {    
             //if it doesn't, create it
-            Directory.CreateDirectory(SaveFolder);
+            Directory.CreateDirectory(st);
+            //This is pretty much game first load.
+            SaveShip(0, Resources.Load("Bodies/Body") as Transform); // Save ship for first time.   
         }
 
-        SaveFolder += '/';
-        SaveShip(0);
+        print("Target directory: " + SaveFolder);
+        
+        instance = this;
         
         //LoadGameInfo();
         //LoadSettings();
@@ -71,21 +77,18 @@ public class Settings : MonoBehaviour
     {
         StreamReader sr = new StreamReader(SaveFolder + "shipData" + i + ".dat");
 
-        string str = sr.ReadLine();
         int[] elems = { shipColA, shipColB, shipColC, shipColEmissive };
-        int n = 0;
-        while (str != null)
+        foreach (int t in elems)
         {
-            if (n < elems.Length)
-            {
-                int e = elems[n++];
-                Color c = uint.Parse(str).ToColor();
-                hiddenShipMaterial.SetColor(e, c);
-                myShipMaterial.SetColor(e, c);
-            }
-
-            str = sr.ReadLine();
+            Color c = uint.Parse(sr.ReadLine()).ToColor();
+            hiddenShipMaterial.SetColor(t, c);
+            myShipMaterial.SetColor(t, c);
         }
+
+        float intensity = float.Parse(sr.ReadLine());
+        myShipMaterial.SetFloat(shipColIntensity, intensity);
+        hiddenShipMaterial.SetFloat(shipColIntensity, intensity);
+
         sr.Close();
     }
 
@@ -103,8 +106,9 @@ public class Settings : MonoBehaviour
 
         sw.Close();
     }
+
     
-    public void SaveShip(int i)
+    public void SaveShip(int i, Transform bodyRoot)
     {
         StreamWriter sw = new StreamWriter(SaveFolder + "shipData" + i + ".dat");
         
@@ -118,7 +122,45 @@ public class Settings : MonoBehaviour
         sw.WriteLine(myShipMaterial.GetColor(shipColB).ToRgba());
         sw.WriteLine(myShipMaterial.GetColor(shipColC).ToRgba());
         sw.WriteLine(myShipMaterial.GetColor(shipColEmissive).ToRgba());
+        sw.WriteLine(myShipMaterial.GetFloat(shipColIntensity));
         
+        //Save the body
+        sw.WriteLine(bodyRoot.GetComponent<ShipComponent>().MyType+"/"+ bodyRoot.name);
+        
+        //First child is reserved for colliders
+        Queue<Transform> parts = new Queue<Transform>();
+        parts.Enqueue(bodyRoot);
+
+        while (parts.Count != 0)
+        {
+            Transform t = parts.Peek();
+            sw.WriteLine(t.GetComponent<ShipComponent>().MyType + "/" + t.name);
+
+            for (int j = 1; j < t.childCount; ++j)
+            {
+                Transform n = t.GetChild(j);
+                if(n.childCount != 0)
+                    parts.Enqueue(n.GetChild(0));
+            }
+
+            parts.Dequeue();
+        }
+
+        /*
+        for(int n = 0; n < part.childCount; ++n)
+        {
+            for (int j = 1; j < childCount; ++j)
+            {
+                
+                    if (part.childCount == 0)
+                    {
+                        sw.WriteLine(-1);
+                    }
+            }
+            //Semi recursive. If we've
+            part = bodyRoot.GetChild(j);
+        } */
+
         sw.Close();
     }
     

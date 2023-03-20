@@ -8,9 +8,10 @@ public class Section : MonoBehaviour
     private List<ShipComponent> items = new();
 
     private RectTransform myRT;
-    private void Start()
+    private void Awake()
     {
         myRT = GetComponent<RectTransform>();
+        gameObject.SetActive(false);
     }
 
     public void AddElement(RectTransform parent, ShipComponent item)

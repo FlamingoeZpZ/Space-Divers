@@ -6,16 +6,6 @@ public class ComponentPlacementPoint : MonoBehaviour
 {
     private SphereCollider col;
     
-    [Flags]
-    private enum PartType
-    {
-        Special=0,
-        Weapon=1,
-        HeavyWeapon=2,
-        Wing=4,
-        Thruster = 8,
-        BackThruster = 8
-    }
     
     [SerializeField] private PartType placeableTypes;
 

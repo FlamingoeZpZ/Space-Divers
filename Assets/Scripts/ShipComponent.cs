@@ -25,5 +25,6 @@ public enum PartType
     HeavyWeapon=4,
     Wing=8,
     ShortWing=16,
-    Thruster = 32
+    Thruster = 32,
+    Bodies = 64,
 }

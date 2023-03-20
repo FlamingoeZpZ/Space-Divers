@@ -161,6 +161,8 @@ public class PlayerUI : MonoBehaviour
 
         if (dir == 1)
         {
+            Enemy.Blips.Clear();
+            Enemy.Targeting.Clear();
             int prv = SceneManager.GetActiveScene().buildIndex;
             SceneManager.LoadSceneAsync(warpTo);
             SceneManager.UnloadSceneAsync(prv);
@@ -253,6 +255,9 @@ public readonly struct Blip
 
             //let 0.5 be the center.
             //First, normalize the y., then we apply an offset
+            //
+            if(blipImage == null) Debug.Log("blipImage is null");
+            if(Settings.verticalityGradient == null) Debug.Log("verticalityGradient is null");
             
             blipImage.color = Settings.verticalityGradient.Evaluate((dif.y / mag + 1)/2);
             blipBaseImage.color = Enemy.Targeting[blipID] ? Settings.enemyTargetingPlayer : Settings.enemyLostPlayer;

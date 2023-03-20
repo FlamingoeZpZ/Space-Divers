@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -13,7 +14,6 @@ public class ColorWheelController : MonoBehaviour, IPointerMoveHandler
     [SerializeField] private TMP_InputField hexText;
     [SerializeField] private Slider blackMult;
     private Vector2 rt;
-    private Camera cam;
     private Image myImg;
 
     [ColorUsage(false, true)] private Color curCol;
@@ -22,18 +22,26 @@ public class ColorWheelController : MonoBehaviour, IPointerMoveHandler
     [SerializeField] private Material hiddenMat;
 
     [SerializeField]private string id;
+
+    [SerializeField] private bool isEmissive;
+    
     private int storedId;
+
+    private readonly int intensityID = Shader.PropertyToID("_Intensity");
     
 
     private Transform colorTrans;
+    private Vector2 pos;
+    
     // Start is called before the first frame update
     void Start()
     {
-        cam = Camera.main;
         myImg = GetComponent<Image>();
         colorWheel = myImg.sprite.texture;
         //Multiply by the preset dimension / curDim;
-        rt = GetComponent<RectTransform>().sizeDelta * (new Vector2(Screen.width, Screen.height)/ new Vector2(2560, 1440));
+        RectTransform r = GetComponent<RectTransform>();
+        rt = r.sizeDelta * (new Vector2(Screen.width, Screen.height)/ new Vector2(2560, 1440));
+        //pos = (Vector2)transform.position;// + r.anchoredPosition;
         colorTrans = colorWheelColor.transform.parent;
         // posOffset.x += rt.sizeDelta.x;
         storedId = Shader.PropertyToID(id);
@@ -46,30 +54,50 @@ public class ColorWheelController : MonoBehaviour, IPointerMoveHandler
         
         blackMult.onValueChanged.AddListener(_ =>
         {
-            myImg.color = new Color(1 * blackMult.value,1* blackMult.value,1* blackMult.value,1); 
-            SetColor();
+            if (isEmissive)
+            {
+                mat.SetFloat(intensityID, blackMult.value * 20 - 10);
+                hiddenMat.SetFloat(intensityID, blackMult.value * 20 - 10);
+            }
+            else
+            {
+                myImg.color = new Color(1 * blackMult.value, 1 * blackMult.value, 1 * blackMult.value, 1);
+                SetColor();
+            }
         });
+
+
     }
+
 
     public void OnPointerMove(PointerEventData eventData)
     {
+        
+        print($"Detecting mouse hover on {transform.parent.name} at {eventData.position}, my pos is :{transform.position} Dist: {Vector2.Distance(eventData.position, transform.position)}");
+        
         if (Vector2.Distance(eventData.position, transform.position) > rt.x/2) return;
         Vector2 d = (eventData.position - (Vector2)transform.position + rt/2)/rt;
         
         curCol = colorWheel.GetPixelBilinear(d.x, d.y);
         colorTrans.position = eventData.position;
         SetColor();
+        
+        //MOVE THIS!
+        //Settings.instance.SaveShip(0, );
     }
     
 
     private void SetColor()
     {
-        Color c = curCol * blackMult.value;
+        Color c = curCol * (isEmissive?1:blackMult.value);
 
         colorWheelColor.color = c;
         mat.SetColor(storedId, c);
         hiddenMat.SetColor(storedId, c);
         hexText.text = ColorUtility.ToHtmlStringRGB(c);
+        
+        
+        
     }
     
     

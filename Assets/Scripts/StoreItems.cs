@@ -55,6 +55,8 @@ public class StoreItems : MonoBehaviour
             
             storeSections[i].AddElement(rt, item);
         }
+        
+        transform.parent.parent.parent.gameObject.SetActive(false);
     }
 
     public void ValidateShop(PartType type)

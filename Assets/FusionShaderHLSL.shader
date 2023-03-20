@@ -11,7 +11,8 @@ Shader "Custom/FusionShaderHLSL"
         _ColorA ("ColorA", Color) = (1,1,1,1)
         _ColorB ("ColorB", Color) = (1,1,1,1)
         _ColorC ("ColorC", Color) = (1,1,1,1)
-        [HDR] _EmissiveColor ("EmissiveColor", Color) = (1,1,1,1)
+        _EmissiveColor ("EmissiveColor", Color) = (1,1,1,1)
+        _Intensity("Intensity", Range(-10,10)) = 0
         
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
@@ -69,6 +70,7 @@ Shader "Custom/FusionShaderHLSL"
                 fixed4 _ColorB;
                 fixed4 _ColorC;
                 fixed4 _EmissiveColor;
+                half _Intensity;
 
                 
 
@@ -86,6 +88,8 @@ Shader "Custom/FusionShaderHLSL"
                 float4 frag(VertexOutput i) : COLOR{
 
                     float4 col2 = tex2D(_Tex0, i.uv) * _ColorA + tex2D(_Tex1, i.uv) * _ColorB + tex2D(_Tex2, i.uv) * _ColorC + tex2D(_TexEmissive0, i.uv) * _EmissiveColor; 
+
+                    col2 *= pow(2.2, _Intensity);
                     return col2;
                 }
                 ENDCG
