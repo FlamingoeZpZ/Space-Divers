@@ -68,7 +68,8 @@ public class StoreItems : MonoBehaviour
             storeSections[i].AddElement(rt, item);
         }
         
-        transform.parent.parent.parent.parent.gameObject.SetActive(false);
+        //Epic
+        transform.parent.parent.parent.parent.parent.gameObject.SetActive(false);
     }
 
     public void ValidateShop(PartType type)

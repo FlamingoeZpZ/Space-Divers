@@ -72,9 +72,7 @@ public class ColorWheelController : MonoBehaviour, IPointerMoveHandler
 
     public void OnPointerMove(PointerEventData eventData)
     {
-        
-        print($"Detecting mouse hover on {transform.parent.name} at {eventData.position}, my pos is :{transform.position} Dist: {Vector2.Distance(eventData.position, transform.position)}");
-        
+
         if (Vector2.Distance(eventData.position, transform.position) > rt.x/2) return;
         Vector2 d = (eventData.position - (Vector2)transform.position + rt/2)/rt;
         
@@ -90,7 +88,6 @@ public class ColorWheelController : MonoBehaviour, IPointerMoveHandler
     private void SetColor()
     {
         Color c = curCol * (isEmissive?1:blackMult.value);
-
         colorWheelColor.color = c;
         mat.SetColor(storedId, c);
         hiddenMat.SetColor(storedId, c);
