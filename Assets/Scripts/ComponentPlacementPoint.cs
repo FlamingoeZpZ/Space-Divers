@@ -1,49 +1,27 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(SphereCollider))]
 public class ComponentPlacementPoint : MonoBehaviour
 {
-    private SphereCollider col;
-    
-    
-    [SerializeField] private PartType placeableTypes;
+    [field: SerializeField] public PartType PlaceableTypes { get; private set; }
+    private MeshRenderer _mr;
+   
 
-    private void Start()
+    private void Awake()
     {
-        col = GetComponent<SphereCollider>();
+        _mr = GetComponent<MeshRenderer>();
+        
     }
 
-    private void OnDrawGizmos()
-    {
-        int p = (int)placeableTypes;
-        if ((p & 1) == 1 && p > 1)
-        {
-            Gizmos.color = Color.white;
-        }
-        else
-        {
-            switch (placeableTypes)
-            {
-                case PartType.Special:
-                    Gizmos.color = Color.black;
-                    break;
-                case PartType.Weapon:
-                    Gizmos.color = Color.yellow;
-                    break;
-                case PartType.HeavyWeapon:
-                    Gizmos.color = Color.red;
-                    break;
-                case PartType.Wing:
-                    Gizmos.color = Color.green;
-                    break;
-                case PartType.Thruster:
-                    Gizmos.color = Color.blue;
-                    break;
-            }
-        }
 
-        //Gizmos.DrawSphere(transform.position, col.radius);
+    public void ToggleDisplay(bool t)
+    {
+        _mr.enabled = t;
     }
-    
+
+    public void SetMat(Material m)
+    {
+        _mr.material = m;
+    }
+
 }

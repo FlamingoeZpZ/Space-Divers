@@ -21,7 +21,6 @@ public class UpgradeStationController : MonoBehaviour
     [SerializeField] private Transform shipEndPointExitA;
     [SerializeField] private Transform shipEndPointExitB;
     [SerializeField] private Transform Twinkle;
-    private Transform shipTrans;
     private Camera cam;
     public static bool IsInMenu;
     private UpgradeStationNode inController;
@@ -31,16 +30,18 @@ public class UpgradeStationController : MonoBehaviour
     [SerializeField] private Material outlineMat;
     private readonly int outlineColorID = Shader.PropertyToID("_OutlineColor");
     
-    
     private CinemachineTrackedDolly dolly;
+
+    public static Transform playerShip { get; private set; }
+
 
     //On Awake, we should start the cart.
     private void Awake()
     {
         //Follow the ship
-        shipTrans = Instantiate(myShippyDoo, shipStartPoint.position, Quaternion.identity);
-        shipTrans.LookAt(shipEndPoint.position, Vector3.up);
-        cart.Follow = shipTrans;
+        playerShip = Instantiate(myShippyDoo, shipStartPoint.position, Quaternion.identity);
+        playerShip.LookAt(shipEndPoint.position, Vector3.up);
+        cart.Follow =  playerShip;
 
         cam = Camera.main;
         dolly = cart.GetCinemachineComponent<CinemachineTrackedDolly>();
@@ -84,7 +85,7 @@ public class UpgradeStationController : MonoBehaviour
         {
             curTime += Time.deltaTime;
             float t = curTime / dollyTime;
-            shipTrans.position = Vector3.Lerp(startPos, endPos, t);
+            playerShip.position = Vector3.Lerp(startPos, endPos, t);
             dolly.m_PathPosition = Mathf.Lerp(0, 3, Mathf.Sqrt(t * 2));
             yield return null;
         }
@@ -98,15 +99,15 @@ public class UpgradeStationController : MonoBehaviour
         IsInMenu = true;
         outlineMat.SetColor(outlineColorID, Color.clear);
         StartCoroutine(ExitMoveShip());
-        cart.LookAt = shipTrans;
+        cart.LookAt =  playerShip;
     }
 
 
     private IEnumerator ExitMoveShip()
     {
         float curTime = 0;
-        Vector3 start = shipTrans.position;
-        Quaternion lr = Quaternion.LookRotation(shipEndPointExitB.position - start, shipTrans.up);
+        Vector3 start =  playerShip.position;
+        Quaternion lr = Quaternion.LookRotation(shipEndPointExitB.position - start,  playerShip.up);
         Vector3 moveTo = shipEndPointExitA.position;
         while (curTime < dollyExitTimeA)
         {
@@ -115,7 +116,7 @@ public class UpgradeStationController : MonoBehaviour
             float t = curTime / dollyExitTimeA;
 
             dolly.m_PathPosition = Mathf.Lerp(3, 7, t);
-            shipTrans.position = Vector3.Lerp(start, moveTo, t);
+            playerShip.position = Vector3.Lerp(start, moveTo, t);
 
 
             //Dolly becomes automated, and follows the player & looks at based on distance.
@@ -128,19 +129,19 @@ public class UpgradeStationController : MonoBehaviour
         {
             curTime += Time.deltaTime;
             x += curTime;
-            shipTrans.position += x * Time.deltaTime * shipTrans.forward;
-            shipTrans.rotation = Quaternion.Lerp(shipTrans.rotation, lr, Time.deltaTime);
+            playerShip.position += x * Time.deltaTime *  playerShip.forward;
+            playerShip.rotation = Quaternion.Lerp( playerShip.rotation, lr, Time.deltaTime);
             yield return null;
         }
         
         //Play twinkle
-        Transform kx = Instantiate(Twinkle, shipTrans.position, Quaternion.identity);
+        Transform kx = Instantiate(Twinkle,  playerShip.position, Quaternion.identity);
         kx.LookAt(cart.transform);
         Destroy(kx.gameObject, 0.6f);
         StartCoroutine(BringToGameScene());
         
         //Destroy ship
-        Destroy(shipTrans.gameObject);
+        Destroy( playerShip.gameObject);
     }
 
     //Temporary code

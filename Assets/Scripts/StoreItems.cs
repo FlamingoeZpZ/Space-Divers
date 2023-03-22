@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StoreItems : MonoBehaviour
 {
@@ -10,13 +12,17 @@ public class StoreItems : MonoBehaviour
     [SerializeField] private ShipComponent[] purchasableComponents;
     [SerializeField] private Material mainMat;
 
-    // Start is called before the first frame update
+    
+    public static StoreItems Instance { get; private set; }
+    
+
+    private RectTransform viewport;
     void Start()
     {
-
+        Instance = this;
         int l = purchasableComponents.Length;
 
-        RectTransform viewport = GetComponent<RectTransform>();
+        viewport = GetComponent<RectTransform>();
         int layer = LayerMask.NameToLayer("UI"); 
         viewport.sizeDelta = new Vector2(800, l * storeItemPrefab.sizeDelta.y + storeSections.Length * 200) ;
         int[] elems = new int[storeSections.Length];
@@ -38,12 +44,18 @@ public class StoreItems : MonoBehaviour
 
             RectTransform rt = Instantiate(storeItemPrefab, storeSections[i].GetComponent<Transform>()); // Comes instansiated with all parts.
             
+            
+            
+            
+            
             //Header Text
             rt.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.name;
 
-            Transform t  = Instantiate(item, rt.GetChild(1).GetChild(1)).transform;
+            GameObject g  = Instantiate(item, rt.GetChild(1).GetChild(1)).gameObject;
+            Transform t = g.transform;
+            rt.GetComponent<Button>().onClick.AddListener(() => TogglePlacementPonits.PlaceNode(g));
             t.localScale *= 50;
-            t.gameObject.layer = layer;
+            g.layer = layer;
             t.GetComponent<MeshRenderer>().material = mainMat;
             Transform stats = rt.GetChild(2);
             stats.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.Cost.ToString();
@@ -56,26 +68,27 @@ public class StoreItems : MonoBehaviour
             storeSections[i].AddElement(rt, item);
         }
         
-        transform.parent.parent.parent.gameObject.SetActive(false);
+        transform.parent.parent.parent.parent.gameObject.SetActive(false);
     }
 
     public void ValidateShop(PartType type)
     {
-        int p = 1;
         int d = (int)type;
-        foreach (Section section in storeSections)
+        float len = 0;
+        int p = 1;
+        foreach (Section t in storeSections)
         {
-            if ((p & d) != 0)
+            if ((d & p) == 0)
             {
-                section.gameObject.SetActive(true);
-                section.Validate();
-                
+                t.gameObject.SetActive(false);
+                p <<= 1;
+                continue;
             }
-            else
-            {
-                section.gameObject.SetActive(false);
-            }
+
             p <<= 1;
+            t.gameObject.SetActive(true);
+            len += 200 + t.length;
         }
+        viewport.sizeDelta = new Vector2(800, len) ;
     }
 }

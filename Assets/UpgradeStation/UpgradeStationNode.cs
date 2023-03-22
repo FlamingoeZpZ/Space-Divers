@@ -23,6 +23,7 @@ public class UpgradeStationNode : MonoBehaviour
 
     private IEnumerator HandleCamMovement(int dir)
     {
+        myGui.SetActive(false);
         do
         {
             camOrder[_curCam].SetActive(false);
@@ -31,7 +32,6 @@ public class UpgradeStationNode : MonoBehaviour
             camOrder[_curCam].SetActive(true);
             yield return new WaitForSeconds(transitionTime);
         } while (_curCam > 0 && _curCam < camOrder.Length - 1);
-
         bool b = dir == 1;
         myGui.SetActive(b);
         if(!b)

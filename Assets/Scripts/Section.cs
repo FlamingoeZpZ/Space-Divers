@@ -8,6 +8,8 @@ public class Section : MonoBehaviour
     private List<ShipComponent> items = new();
 
     private RectTransform myRT;
+    public float length { get; private set; }
+
     private void Awake()
     {
         myRT = GetComponent<RectTransform>();
@@ -19,6 +21,7 @@ public class Section : MonoBehaviour
         parents.Add(parent.gameObject);
         items.Add(item);
         myRT.sizeDelta += parent.sizeDelta;
+        length += parent.sizeDelta.y;
     }
 
     public void RemoveElement(int idx)
@@ -27,7 +30,7 @@ public class Section : MonoBehaviour
         items.RemoveAt(idx);
     }
 
-    public void Validate()
+    private void OnEnable()
     {
         for (int i = 0; i < items.Count; ++i)
         {
