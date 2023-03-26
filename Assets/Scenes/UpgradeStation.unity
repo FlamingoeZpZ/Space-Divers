@@ -6286,7 +6286,7 @@ GameObject:
   m_Component:
   - component: {fileID: 591863802}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Canvus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10428,7 +10428,7 @@ MonoBehaviour:
   - {fileID: 1103759126}
   - {fileID: 1889273583}
   transitionTime: 2
-  myGui: {fileID: 1030806257}
+  myGui: {fileID: 591863801}
 --- !u!135 &1013896639
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -11381,7 +11381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cart: {fileID: 1103759127}
-  myShippyDoo: {fileID: 4394320405331038, guid: 328366602c7f9ae4aa29ecb957c7731d, type: 3}
+  myShippyDoo: {fileID: 8523701513218820894, guid: 040d33006c04e0d4eb0fa657b73b7fbf, type: 3}
   dollyTime: 4
   dollyExitTimeA: 3
   dollyExitTimeB: 2

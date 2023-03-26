@@ -61,6 +61,9 @@ public class PlayerUI : MonoBehaviour
         healthRight.transform.GetChild(1).GetChild(0).GetComponent<Image>().color = healthColor;
         crossHairTrans = crossHairCenter.transform;
         parent = transform.parent;
+
+        
+
         SceneManager.sceneUnloaded += (scene) =>
         {
             if (scene.buildIndex == 0 || !fromWarp)

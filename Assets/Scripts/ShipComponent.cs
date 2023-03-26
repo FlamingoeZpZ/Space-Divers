@@ -13,9 +13,11 @@ public class ShipComponent : MonoBehaviour
     [field: SerializeField] public int Shield { get; private set; }
     [field: SerializeField] public int Speed { get; private set; }
     [field: SerializeField] public int Turning { get; private set; }
-    
-    [SerializeField] private ComponentPlacementPoint[] components;
 
+    private void Awake()
+    {
+        print("Added");
+    }
 }
 [Flags, Serializable]
 public enum PartType

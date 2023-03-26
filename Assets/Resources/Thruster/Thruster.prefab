@@ -1,50 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1038534777481896
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4571345616370838}
-  - component: {fileID: 65920939777550522}
-  m_Layer: 0
-  m_Name: Collider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4571345616370838
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1038534777481896}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4152136229969394}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &65920939777550522
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1038534777481896}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 2.8048668}
-  m_Center: {x: 0, y: 7.2113e-17, z: -0.13104439}
 --- !u!1 &1733392146470058
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,7 +31,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4571345616370838}
   - {fileID: 9085580592263084515}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -150,7 +104,6 @@ MonoBehaviour:
   <Shield>k__BackingField: 1000
   <Speed>k__BackingField: 25
   <Turning>k__BackingField: 25
-  components: []
 --- !u!1 &7325676623886945476
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,6 +117,7 @@ GameObject:
   - component: {fileID: 7363282088525776395}
   - component: {fileID: 2931291207069485001}
   - component: {fileID: 7043266243537929334}
+  - component: {fileID: 1519188082290422333}
   m_Layer: 3
   m_Name: Particles
   m_TagString: Untagged
@@ -184,7 +138,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4152136229969394}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!2083052967 &8167642825392862499
 VisualEffect:
@@ -300,3 +254,16 @@ MonoBehaviour:
   m_Property:
     m_Name: Velocity
   Target: {fileID: 9085580592263084515}
+--- !u!65 &1519188082290422333
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7325676623886945476}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0345204, y: 3.1061528, z: 1.1448084}
+  m_Center: {x: 0.008396745, y: -1.4309397, z: 0.021193309}

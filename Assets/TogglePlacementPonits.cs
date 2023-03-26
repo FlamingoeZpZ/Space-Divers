@@ -6,9 +6,9 @@ using UnityEngine;
 public class TogglePlacementPonits : MonoBehaviour
 {   
    private Camera cam;
-   private static ComponentPlacementPoint currentNode;
-   private int NodeLayer;
-   private static int PlayerPlayer;
+   private static ComponentPlacementPoint _currentNode;
+   private int nodeLayer;
+   private static int _playerLayer;
 
    [SerializeField] private Material notSelectedNode;
     [SerializeField] private Material selectedNode;
@@ -29,19 +29,19 @@ public class TogglePlacementPonits : MonoBehaviour
    {
       PlayerMaterial = playerMaterial;
       cam = Camera.main;
-      NodeLayer = 1 << LayerMask.NameToLayer("PlacementNode");
-      PlayerPlayer = 1 << LayerMask.NameToLayer("Player");
+      nodeLayer = 1 << LayerMask.NameToLayer("PlacementNode");
+      _playerLayer = 1 << LayerMask.NameToLayer("Player");
    }
 
    private void Update()
    {
-      if(Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 100,  NodeLayer))
+      if(Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 100,  nodeLayer))
       {
-         if(currentNode)
-            currentNode.SetMat(notSelectedNode);
-         currentNode = hit.transform.GetComponent<ComponentPlacementPoint>();
-         StoreItems.Instance.ValidateShop(currentNode.PlaceableTypes);
-         currentNode.SetMat(selectedNode);
+         if(_currentNode)
+            _currentNode.SetMat(notSelectedNode);
+         _currentNode = hit.transform.GetComponent<ComponentPlacementPoint>();
+         StoreItems.Instance.ValidateShop(_currentNode.PlaceableTypes);
+         _currentNode.SetMat(selectedNode);
       }
    }
    
@@ -53,16 +53,18 @@ public class TogglePlacementPonits : MonoBehaviour
          .GetComponentsInChildren<ComponentPlacementPoint>();
       foreach(ComponentPlacementPoint c in cx)
       {
-         print("Toggling: " + c.gameObject.name + " to: " + state);
          c.ToggleDisplay(state); 
       }  
    }
 
    public static void PlaceNode(GameObject o)
    {
-      Transform g = Instantiate(o, currentNode.transform).transform;
+      Transform g = Instantiate(o, _currentNode.transform).transform;
       g.GetComponent<MeshRenderer>().material = PlayerMaterial;
       g.localScale /= 50;
-      g.gameObject.layer = PlayerPlayer;
+      g.gameObject.layer = _playerLayer;
+      g.name = g.name.Substring(0, g.name.Length - 14);
+      
+      _currentNode.ToggleDisplay(false);
    }
 }

@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10d129f90f700f34bb0d49982697943f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <stats>k__BackingField: {fileID: 0}
+  <stats>k__BackingField: {fileID: 11400000, guid: 6b61715ddfa95714a81af7db84ddb6a1, type: 2}
   projectile: {fileID: -3160180244165366855, guid: 972a076ffa29f164a92a0b63382dcf0e, type: 3}
 --- !u!114 &-1316284546936147987
 MonoBehaviour:
@@ -119,7 +119,6 @@ MonoBehaviour:
   <Shield>k__BackingField: 100
   <Speed>k__BackingField: 0
   <Turning>k__BackingField: 0
-  components: []
 --- !u!1 &1570126557378428
 GameObject:
   m_ObjectHideFlags: 0

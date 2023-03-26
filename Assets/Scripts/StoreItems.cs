@@ -36,10 +36,8 @@ public class StoreItems : MonoBehaviour
             {
                 i++;
                 p <<= 1;
-                print(p + " Comp " + d);
             }
             
-            print("ADDING ELEMENT TO: " + i + " : " + d);
             elems[i]++;
 
             RectTransform rt = Instantiate(storeItemPrefab, storeSections[i].GetComponent<Transform>()); // Comes instansiated with all parts.
@@ -92,4 +90,6 @@ public class StoreItems : MonoBehaviour
         }
         viewport.sizeDelta = new Vector2(800, len) ;
     }
+
+    
 }

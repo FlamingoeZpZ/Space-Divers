@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ModularPlayerScript : BaseCharacter
@@ -28,9 +29,29 @@ public class ModularPlayerScript : BaseCharacter
 
     [SerializeField] private float aimForgiveness = 0.05f; // range of -1,1
     
+    public static ModularPlayerScript Instance { get; private set; }
+    
+
+
+    protected override void Awake()
+    {
+        print(SceneManager.GetActiveScene().buildIndex == 0);
+        ui.gameObject.SetActive(SceneManager.GetActiveScene().buildIndex != 0);
+        if (Instance)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    
+        DontDestroyOnLoad(gameObject);
+        
+        base.Awake();
+    }
 
     void Start()
     {
+        
         ui.UpdateHealth(_currentHealth / stats.maxHealth);
         joyStick.DeadZone = 0.2f;
 

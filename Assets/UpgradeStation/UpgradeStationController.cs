@@ -151,5 +151,10 @@ public class UpgradeStationController : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    private void OnDisable()
+    {
+        Settings.instance.SaveShip();
+    }
+    
 }
 

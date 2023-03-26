@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3298969303697639525}
   - component: {fileID: 6596125377010317405}
   - component: {fileID: 7897759378945077793}
+  - component: {fileID: 1863154004257049679}
   m_Layer: 3
   m_Name: Particles
   m_TagString: Untagged
@@ -33,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9004657561637327750}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!2083052967 &8794143485973785059
 VisualEffect:
@@ -149,51 +150,19 @@ MonoBehaviour:
   m_Property:
     m_Name: Velocity
   Target: {fileID: 3768826559167132860}
---- !u!1 &9005941987892389084
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 9000449980728455906}
-  - component: {fileID: 8940219968542549710}
-  m_Layer: 0
-  m_Name: Collider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &9000449980728455906
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9005941987892389084}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 9004657561637327750}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8940219968542549710
+--- !u!65 &1863154004257049679
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9005941987892389084}
+  m_GameObject: {fileID: 1470040719708966056}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 2.8048668}
-  m_Center: {x: 0, y: 7.2113e-17, z: -0.13104439}
+  m_Size: {x: 1, y: 9.319495, z: 1.1578128}
+  m_Center: {x: 0, y: -4.1597486, z: -0.028255874}
 --- !u!1 &9006654505638681310
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,7 +194,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 9000449980728455906}
   - {fileID: 3768826559167132860}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -299,4 +267,3 @@ MonoBehaviour:
   <Shield>k__BackingField: 0
   <Speed>k__BackingField: 50
   <Turning>k__BackingField: -10
-  components: []

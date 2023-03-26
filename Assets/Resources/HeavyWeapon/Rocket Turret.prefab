@@ -28,7 +28,8 @@ Transform:
   m_LocalPosition: {x: 0, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 9123945773769391404}
   m_Father: {fileID: 6890752742824371939}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -78,7 +79,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6899301414774834527}
-  - {fileID: 9123945773769391404}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -151,7 +151,6 @@ MonoBehaviour:
   <Shield>k__BackingField: 0
   <Speed>k__BackingField: 0
   <Turning>k__BackingField: 0
-  components: []
 --- !u!114 &7872690186205498423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,8 +163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10d129f90f700f34bb0d49982697943f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <stats>k__BackingField: {fileID: 0}
-  projectile: {fileID: 0}
+  <stats>k__BackingField: {fileID: 11400000, guid: 9290d81944d56db4bbe6ee5269c2ad11, type: 2}
+  projectile: {fileID: -3160180244165366855, guid: af57dfe5f1c49fc4ca9203a4ffd9abb7, type: 3}
 --- !u!1 &9120561799113883868
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,7 +178,7 @@ GameObject:
   - component: {fileID: 9134308407376072910}
   - component: {fileID: 5055118128208263025}
   m_Layer: 0
-  m_Name: Rocket
+  m_Name: '[TEMP]Rocket'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -197,8 +196,8 @@ Transform:
   m_LocalScale: {x: 0.6902147, y: 0.64645, z: 0.4568656}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6890752742824371939}
-  m_RootOrder: 1
+  m_Father: {fileID: 6899301414774834527}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -359.999, z: 0}
 --- !u!33 &9144325737434912616
 MeshFilter:
@@ -269,6 +268,3 @@ MonoBehaviour:
   <Shield>k__BackingField: 0
   <Speed>k__BackingField: 0
   <Turning>k__BackingField: 0
-  components:
-  - {fileID: 0}
-  - {fileID: 0}

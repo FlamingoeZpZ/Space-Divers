@@ -23,7 +23,8 @@ public class Settings : MonoBehaviour
     private readonly int shipColC = Shader.PropertyToID("_ColorC");
     private readonly int shipColEmissive = Shader.PropertyToID("_EmissiveColor");
     private readonly int shipColIntensity = Shader.PropertyToID("_Intensity");
-
+    
+    private int shipID;
     private string SaveFolder; 
 
     public static Settings instance { get; private set; }
@@ -42,7 +43,7 @@ public class Settings : MonoBehaviour
             //if it doesn't, create it
             Directory.CreateDirectory(st);
             //This is pretty much game first load.
-            SaveShip(0, Resources.Load("Bodies/Body") as Transform); // Save ship for first time.   
+            SaveShip();
         }
 
         print("Target directory: " + SaveFolder);
@@ -75,6 +76,8 @@ public class Settings : MonoBehaviour
 
     private void LoadShip(int i)
     {
+        
+        PlayerPrefs.SetInt("LastShipKey", i);
         StreamReader sr = new StreamReader(SaveFolder + "shipData" + i + ".dat");
 
         int[] elems = { shipColA, shipColB, shipColC, shipColEmissive };
@@ -89,8 +92,88 @@ public class Settings : MonoBehaviour
         myShipMaterial.SetFloat(shipColIntensity, intensity);
         hiddenShipMaterial.SetFloat(shipColIntensity, intensity);
 
+        string s = sr.ReadLine();
+        if (s == null) return;
+        
+        //Clear the Host Object
+        Transform b = ModularPlayerScript.Instance.transform.GetChild(0);
+        int childCount = b.childCount;
+        for (int n = 0; n < childCount; ++n)
+        {
+            Destroy(b.GetChild(n).gameObject);
+        }
+        //Create ship before parenting
+
+        Stack<Node> nodes = new();
+        int height = 1;
+        
+        int emergency = 0;
+        Transform prv = null;
+        Transform x = Instantiate(Resources.Load<Transform>(s.Split(',')[1]),b);
+        x.name  = x.name.Substring(0,x.name.Length - 7);
+        
+        nodes.Push(new Node(x));
+        
+        while ((s = sr.ReadLine()) != null && nodes.Count != 0 && emergency < 2000)
+        {
+            emergency++;
+            string[] data = s.Split(',');
+            
+            int v = int.Parse(data[0]);
+            
+            // If the current node's height is larger than the previous one. Then we add a new node to the stack
+            if (height < v) 
+            {
+                print("Pushing");
+                nodes.Push(new Node(prv));
+                height = v;
+            }
+            //If the height is taller than the last node, then we must pop.
+            else if (height > v)
+            {
+                int dif = height - v;
+                print("Popping: " + dif);
+                while (dif-- != 0 ) // Correct if we are up 3 and going down to 1.
+                {
+                    nodes.Pop();                  
+                    print(nodes.Count + " -" + dif);
+                }
+                height = v;
+            }
+
+            //If we've marked it as empty, stay true to that.
+            if (data[1] == "Empty")
+            {
+                continue;
+            }
+            
+            prv = Instantiate(Resources.Load<Transform>(data[1]), nodes.Peek().GetChild());
+            prv.name = prv.name.Substring(0,prv.name.Length - 7);
+            print(prv);
+        }
+        Debug.Log("Iterations: " + emergency);
+        
         sr.Close();
     }
+
+    private class Node
+    {
+        private int index;
+        private readonly Transform root;
+
+        public Node(Transform root)
+        {
+            this.root = root;
+            index = 0;
+        }
+
+        public Transform GetChild()
+        {
+            return root.GetChild(++index);
+        }
+
+    }
+
 
 
     private void LoadGameInfo()
@@ -108,14 +191,10 @@ public class Settings : MonoBehaviour
     }
 
     
-    public void SaveShip(int i, Transform bodyRoot)
+    public void SaveShip()
     {
-        StreamWriter sw = new StreamWriter(SaveFolder + "shipData" + i + ".dat");
+        StreamWriter sw = new StreamWriter(SaveFolder + "shipData" + PlayerPrefs.GetInt("LastShipKey") + ".dat");
         
-        //----Save Color Data---
-        //First save material
-        //if(AssetDatabase.Contains())
-        //AssetDatabase.CreateAsset(new Material(), "");
         
         //Then save colors
         sw.WriteLine(myShipMaterial.GetColor(shipColA).ToRgba());
@@ -125,45 +204,29 @@ public class Settings : MonoBehaviour
         sw.WriteLine(myShipMaterial.GetFloat(shipColIntensity));
         
         //Save the body
-        sw.WriteLine(bodyRoot.GetComponent<ShipComponent>().MyType+"/"+ bodyRoot.name);
+        SavePart(sw, ModularPlayerScript.Instance.transform.GetChild(0).GetChild(0), 0 );
         
-        //First child is reserved for colliders
-        Queue<Transform> parts = new Queue<Transform>();
-        parts.Enqueue(bodyRoot);
-
-        while (parts.Count != 0)
-        {
-            Transform t = parts.Peek();
-            sw.WriteLine(t.GetComponent<ShipComponent>().MyType + "/" + t.name);
-
-            for (int j = 1; j < t.childCount; ++j)
-            {
-                Transform n = t.GetChild(j);
-                if(n.childCount != 0)
-                    parts.Enqueue(n.GetChild(0));
-            }
-
-            parts.Dequeue();
-        }
-
-        /*
-        for(int n = 0; n < part.childCount; ++n)
-        {
-            for (int j = 1; j < childCount; ++j)
-            {
-                
-                    if (part.childCount == 0)
-                    {
-                        sw.WriteLine(-1);
-                    }
-            }
-            //Semi recursive. If we've
-            part = bodyRoot.GetChild(j);
-        } */
-
         sw.Close();
     }
-    
+
+    private void SavePart(StreamWriter sw, Transform t, int height)
+    {
+        if (t == null)
+        {
+            sw.WriteLine(height +",Empty");
+            return;
+        }
+        sw.WriteLine(height +","+t.GetComponent<ShipComponent>().MyType + "/" + t.name); //Store the name (for rebuilding)
+        //Go through each child, skipping the first which is a collider
+        for (int j = 1; j < t.childCount; ++j)
+        {
+            Transform n = t.GetChild(j);
+            //if(n.childCount == 0) //If the object has no children, then enqueue it.
+            SavePart(sw, n.childCount == 0?null:n.GetChild(0), height+1);
+        }
+    }
+
+
     public void SaveSettings()
     {
         PlayerPrefs.SetInt("BelowCol", (int)gradientMaterial.GetColor(belowColor).ToRgba());
