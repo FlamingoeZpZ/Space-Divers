@@ -137,11 +137,13 @@ public class UpgradeStationController : MonoBehaviour
         //Play twinkle
         Transform kx = Instantiate(Twinkle,  playerShip.position, Quaternion.identity);
         kx.LookAt(cart.transform);
+        cart.LookAt = kx;
         Destroy(kx.gameObject, 0.6f);
         StartCoroutine(BringToGameScene());
         
-        //Destroy ship
-        Destroy( playerShip.gameObject);
+        //Hide ship
+        playerShip.position = Vector3.zero;
+        
     }
 
     //Temporary code
@@ -151,10 +153,7 @@ public class UpgradeStationController : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
-    private void OnDisable()
-    {
-        Settings.instance.SaveShip();
-    }
+    
     
 }
 

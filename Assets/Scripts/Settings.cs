@@ -34,8 +34,15 @@ public class Settings : MonoBehaviour
     //This should only be in the title screen
     private void Start()
     {
+        if (instance!=this&&instance)
+        {
+            Destroy(gameObject);
+            return;
+        }
         
-       
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+
         string st= SaveFolder  = Application.persistentDataPath + "/Ships";
         SaveFolder += '/';
         if(!Directory.Exists(st))
@@ -48,10 +55,10 @@ public class Settings : MonoBehaviour
 
         print("Target directory: " + SaveFolder);
         
-        instance = this;
+        
         
         //LoadGameInfo();
-        //LoadSettings();
+        LoadSettings();
         LoadShip(0);
         
     }
@@ -107,16 +114,14 @@ public class Settings : MonoBehaviour
         Stack<Node> nodes = new();
         int height = 1;
         
-        int emergency = 0;
         Transform prv = null;
         Transform x = Instantiate(Resources.Load<Transform>(s.Split(',')[1]),b);
         x.name  = x.name.Substring(0,x.name.Length - 7);
         
         nodes.Push(new Node(x));
         
-        while ((s = sr.ReadLine()) != null && nodes.Count != 0 && emergency < 2000)
+        while ((s = sr.ReadLine()) != null && nodes.Count != 0)
         {
-            emergency++;
             string[] data = s.Split(',');
             
             int v = int.Parse(data[0]);
@@ -124,7 +129,6 @@ public class Settings : MonoBehaviour
             // If the current node's height is larger than the previous one. Then we add a new node to the stack
             if (height < v) 
             {
-                print("Pushing");
                 nodes.Push(new Node(prv));
                 height = v;
             }
@@ -132,11 +136,9 @@ public class Settings : MonoBehaviour
             else if (height > v)
             {
                 int dif = height - v;
-                print("Popping: " + dif);
                 while (dif-- != 0 ) // Correct if we are up 3 and going down to 1.
                 {
                     nodes.Pop();                  
-                    print(nodes.Count + " -" + dif);
                 }
                 height = v;
             }
@@ -149,9 +151,7 @@ public class Settings : MonoBehaviour
             
             prv = Instantiate(Resources.Load<Transform>(data[1]), nodes.Peek().GetChild());
             prv.name = prv.name.Substring(0,prv.name.Length - 7);
-            print(prv);
         }
-        Debug.Log("Iterations: " + emergency);
         
         sr.Close();
     }

@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
+[DefaultExecutionOrder(300)]
 public class DEBUGLutManager : MonoBehaviour
 {
-    private int lutIdx = -1;
+    private static int lutIdx;
     [SerializeField] private Texture[] luts;
     
     [SerializeField] private Material mRenderMaterial;
@@ -15,10 +17,12 @@ public class DEBUGLutManager : MonoBehaviour
         Graphics.Blit(source, destination, mRenderMaterial);
     }
 
+    public static DEBUGLutManager Instance;
+    
     private void Awake()
     {
-        RotateLut();
-        DontDestroyOnLoad(gameObject);
+        Instance = this;
+        mRenderMaterial.SetTexture(lutTex, luts[lutIdx]);
     }
 
     public void RotateLut()

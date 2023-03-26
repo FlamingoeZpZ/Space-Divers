@@ -67,7 +67,7 @@ public class StoreItems : MonoBehaviour
         }
         
         //Epic
-        transform.parent.parent.parent.parent.parent.gameObject.SetActive(false);
+         transform.parent.parent.parent.parent.parent.gameObject.SetActive(false);
     }
 
     public void ValidateShop(PartType type)
@@ -91,5 +91,9 @@ public class StoreItems : MonoBehaviour
         viewport.sizeDelta = new Vector2(800, len) ;
     }
 
-    
+    public void OnDisable()
+    {
+        if (enabled) return; // Only true when about to be stroyed
+        Settings.instance.SaveShip();
+    }
 }

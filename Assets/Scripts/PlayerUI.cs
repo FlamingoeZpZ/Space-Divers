@@ -38,7 +38,7 @@ public class PlayerUI : MonoBehaviour
    [SerializeField] private Slider healthLeft;
    [SerializeField] private Slider healthRight;
 
-   
+   [Header("For Marks")] [SerializeField] private Button LUTButton;
    
    public static int Balance;
    private Transform parent;
@@ -50,7 +50,6 @@ public class PlayerUI : MonoBehaviour
         EnemyBlipParent = enemyBlipParent;
         VerticalityDetection = verticalityDetection;
         RadarDist = radarDist;
-        cam = Camera.main;
         Vector2 w = healthRoot.rect.size;
         w.x /= 2;
         RectTransform left = healthLeft.GetComponent<RectTransform>();
@@ -62,7 +61,10 @@ public class PlayerUI : MonoBehaviour
         crossHairTrans = crossHairCenter.transform;
         parent = transform.parent;
 
-        
+        LUTButton.onClick.AddListener(()=>
+        { 
+            if(DEBUGLutManager.Instance) DEBUGLutManager.Instance.RotateLut();
+        });
 
         SceneManager.sceneUnloaded += (scene) =>
         {
@@ -109,7 +111,7 @@ public class PlayerUI : MonoBehaviour
         if ((v - old).sqrMagnitude > 0)
         {
             old = v;
-            crossHairTrans.parent.position = cam.WorldToScreenPoint(v);
+            crossHairTrans.parent.position = Camera.main.WorldToScreenPoint(v);
         }
         foreach (KeyValuePair<int, Vector3> planet in PlanetSystem.PlanetDirs)
         {
@@ -129,7 +131,7 @@ public class PlayerUI : MonoBehaviour
             }
         }
         if (!target) return;
-        crossHairTrans.position = (Vector2)cam.WorldToScreenPoint(target.position);
+        crossHairTrans.position = (Vector2)Camera.main.WorldToScreenPoint(target.position);
 
         
     }
@@ -181,7 +183,6 @@ public class PlayerUI : MonoBehaviour
     }
 
     private Coroutine blinking;
-    private Camera cam;
 
     public void SetTarget(Transform prvTarget)
     {

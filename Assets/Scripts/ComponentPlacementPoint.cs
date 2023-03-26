@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(SphereCollider))]
@@ -12,7 +13,6 @@ public class ComponentPlacementPoint : MonoBehaviour
         _mr = GetComponent<MeshRenderer>();
         c = GetComponent<Collider>();
     }
-
 
     public void ToggleDisplay(bool t)
     {

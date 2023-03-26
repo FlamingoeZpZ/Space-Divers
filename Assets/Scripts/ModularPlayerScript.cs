@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
@@ -35,15 +36,26 @@ public class ModularPlayerScript : BaseCharacter
 
     protected override void Awake()
     {
-        print(SceneManager.GetActiveScene().buildIndex == 0);
-        ui.gameObject.SetActive(SceneManager.GetActiveScene().buildIndex != 0);
-        if (Instance)
+        
+        if (Instance != this && Instance) // ikf it's not this and it's null;
         {
             Destroy(gameObject);
             return;
         }
+
+        SceneManager.sceneLoaded += (scene, mode) =>
+        {
+            bool x = scene.buildIndex != 0;
+            if (x)
+            {
+                if(Camera.main)
+                    Camera.main.GetComponent<CinemachineBrain>().m_WorldUpOverride = transform;
+            }
+
+            ui.gameObject.SetActive(x);
+        };
+        
         Instance = this;
-    
         DontDestroyOnLoad(gameObject);
         
         base.Awake();
@@ -130,4 +142,5 @@ public class ModularPlayerScript : BaseCharacter
         
         base.UpdateHealth(attacker, damage);
     }
+
 }

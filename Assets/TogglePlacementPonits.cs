@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class TogglePlacementPonits : MonoBehaviour
@@ -47,13 +45,11 @@ public class TogglePlacementPonits : MonoBehaviour
    
    private void ManageNodes(bool state)
    {
-      if(UpgradeStationController.playerShip == null) return;
-      
       ComponentPlacementPoint[] cx = UpgradeStationController.playerShip
          .GetComponentsInChildren<ComponentPlacementPoint>();
       foreach(ComponentPlacementPoint c in cx)
       {
-         c.ToggleDisplay(state); 
+         c.ToggleDisplay(state && c.transform.childCount == 0); 
       }  
    }
 
