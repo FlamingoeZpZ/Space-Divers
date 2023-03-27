@@ -21,6 +21,13 @@ public class TogglePlacementPonits : MonoBehaviour
    private void OnDisable()
    {
       ManageNodes(false);
+      if (changes)
+      {
+         changes = false;
+         Settings.instance.SaveGameInfo();
+         Settings.instance.SaveShip();
+      }
+
    }
 
    private void Start()
@@ -53,6 +60,7 @@ public class TogglePlacementPonits : MonoBehaviour
       }  
    }
 
+   private static bool changes;
    public static void PlaceNode(GameObject o)
    {
       Transform g = Instantiate(o, _currentNode.transform).transform;
@@ -60,7 +68,8 @@ public class TogglePlacementPonits : MonoBehaviour
       g.localScale /= 50;
       g.gameObject.layer = _playerLayer;
       g.name = g.name.Substring(0, g.name.Length - 14);
-      
+      changes = true;
       _currentNode.ToggleDisplay(false);
    }
+
 }

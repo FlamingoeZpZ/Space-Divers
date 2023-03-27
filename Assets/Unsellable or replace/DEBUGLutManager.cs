@@ -1,37 +1,61 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Cinemachine;
 using UnityEngine;
-[DefaultExecutionOrder(300)]
-public class DEBUGLutManager : MonoBehaviour
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
+
+public class DEBUGLutManager : ScriptableRenderPass
 {
     private static int lutIdx;
-    [SerializeField] private Texture[] luts;
+    private Texture[] luts;
     
-    [SerializeField] private Material mRenderMaterial;
+    private Material mRenderMaterial;
 
     private readonly int lutTex = Shader.PropertyToID("_LUT");
-    void OnRenderImage(RenderTexture source, RenderTexture destination)
-    {
-        Graphics.Blit(source, destination, mRenderMaterial);
-    }
-
-    public static DEBUGLutManager Instance;
     
-    private void Awake()
+    public DEBUGLutManager(RenderPassEvent evt, Shader shader)
     {
-        Instance = this;
-        mRenderMaterial.SetTexture(lutTex, luts[lutIdx]);
+        renderPassEvent = evt;
+        if (shader == null)
+        {
+            Debug.Log("No Shader");
+            return;
+        }
+ 
+        mRenderMaterial = CoreUtils.CreateEngineMaterial(shader);
     }
 
-    public void RotateLut()
+    private const string KRenderTag = "LUT"; // Add tag for Frame Debugger ???
+
+    public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
     {
-        if (++lutIdx >= luts.Length)
+        if (mRenderMaterial == null)
         {
-            lutIdx = 0;
+            Debug.LogError("Material not Created");
+            return;
         }
-        print("swapping");
-        mRenderMaterial.SetTexture(lutTex, luts[lutIdx]);
+ 
+        if (!renderingData.cameraData.postProcessEnabled) return;
+   
+        CommandBuffer cmd = CommandBufferPool.Get(KRenderTag); //???
+        Render(cmd, ref renderingData);
+        context.ExecuteCommandBuffer(cmd);
+        CommandBufferPool.Release(cmd);
+    }
+    
+    void Render(CommandBuffer cmd, ref RenderingData renderingData)
+    {
+        CameraData cameraData = renderingData.cameraData;
+        RenderTargetIdentifier source = currentTarget;
+        int destination = TempTargetId;
+        int shaderPass = 0;
+   
+        int w = cameraData.camera.scaledPixelWidth >> 3;
+        int h = cameraData.camera.scaledPixelHeight >> 3;
+   
+        cmd.GetTemporaryRT(destination, w, h, 0, FilterMode.Point, RenderTextureFormat.Default);
+        //cmd.Blit(source, destination, blitRenderMaterial, shaderPass);
+        cmd.Blit(source, source, mRenderMaterial, shaderPass);
+   
+        cmd.ReleaseTemporaryRT(destination);
     }
 }

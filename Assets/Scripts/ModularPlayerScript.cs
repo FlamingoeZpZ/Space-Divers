@@ -45,14 +45,7 @@ public class ModularPlayerScript : BaseCharacter
 
         SceneManager.sceneLoaded += (scene, mode) =>
         {
-            bool x = scene.buildIndex != 0;
-            if (x)
-            {
-                if(Camera.main)
-                    Camera.main.GetComponent<CinemachineBrain>().m_WorldUpOverride = transform;
-            }
-
-            ui.gameObject.SetActive(x);
+            ui.gameObject.SetActive(scene.buildIndex != 0);
         };
         
         Instance = this;

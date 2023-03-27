@@ -43,9 +43,6 @@ public class StoreItems : MonoBehaviour
             RectTransform rt = Instantiate(storeItemPrefab, storeSections[i].GetComponent<Transform>()); // Comes instansiated with all parts.
             
             
-            
-            
-            
             //Header Text
             rt.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.name;
 
@@ -89,11 +86,5 @@ public class StoreItems : MonoBehaviour
             len += 200 + t.length;
         }
         viewport.sizeDelta = new Vector2(800, len) ;
-    }
-
-    public void OnDisable()
-    {
-        if (enabled) return; // Only true when about to be stroyed
-        Settings.instance.SaveShip();
     }
 }
