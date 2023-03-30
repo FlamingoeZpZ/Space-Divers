@@ -45,17 +45,17 @@ public class DEBUGLutManager : ScriptableRenderPass
     void Render(CommandBuffer cmd, ref RenderingData renderingData)
     {
         CameraData cameraData = renderingData.cameraData;
-        RenderTargetIdentifier source = currentTarget;
-        int destination = TempTargetId;
+        //RenderTargetIdentifier source = currentTarget;
+        //int destination = TempTargetId;
         int shaderPass = 0;
    
         int w = cameraData.camera.scaledPixelWidth >> 3;
         int h = cameraData.camera.scaledPixelHeight >> 3;
    
-        cmd.GetTemporaryRT(destination, w, h, 0, FilterMode.Point, RenderTextureFormat.Default);
+        //cmd.GetTemporaryRT(destination, w, h, 0, FilterMode.Point, RenderTextureFormat.Default);
         //cmd.Blit(source, destination, blitRenderMaterial, shaderPass);
-        cmd.Blit(source, source, mRenderMaterial, shaderPass);
+        //cmd.Blit(source, source, mRenderMaterial, shaderPass);
    
-        cmd.ReleaseTemporaryRT(destination);
+        //cmd.ReleaseTemporaryRT(destination);
     }
 }

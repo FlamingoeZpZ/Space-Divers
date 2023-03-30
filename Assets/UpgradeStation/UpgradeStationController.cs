@@ -51,6 +51,7 @@ public class UpgradeStationController : MonoBehaviour
     private void Update()
     {
         //May not work in mobile...
+
         if (!IsInMenu && Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
         {
             if (hit.transform.TryGetComponent(out UpgradeStationNode n))

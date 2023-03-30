@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4987582868183440}
   - component: {fileID: 65083813728876926}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 33413720152084060}
   - component: {fileID: 23170779576975900}
   - component: {fileID: -5790544833923954989}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LongFin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,4 +149,3 @@ MonoBehaviour:
   <Shield>k__BackingField: 0
   <Speed>k__BackingField: 0
   <Turning>k__BackingField: 0
-  components: []

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 23314147900957894}
   - component: {fileID: 2301323875269263967}
   - component: {fileID: -1316284546936147987}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Blaster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4233332810635762}
   - component: {fileID: 65124326715562174}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

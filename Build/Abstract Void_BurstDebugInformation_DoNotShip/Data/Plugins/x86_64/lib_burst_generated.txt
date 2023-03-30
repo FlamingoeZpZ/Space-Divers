@@ -1,4 +1,4 @@
-Library: N:\Unity\Space-Divers\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
+Library: C:\Users\gabek\Space Divers\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
 --platform=Windows
 --backend=burst-llvm-14
 --target=AVX2
@@ -6,7 +6,7 @@ Library: N:\Unity\Space-Divers\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_ge
 --meta-data-generation=False
 --dump=Function
 --float-precision=Standard
---compilation-defines=UNITY_2021_3_20
+--compilation-defines=UNITY_2021_3_19
 --compilation-defines=UNITY_2021_3
 --compilation-defines=UNITY_2021
 --compilation-defines=UNITY_5_3_OR_NEWER
@@ -142,8 +142,8 @@ Library: N:\Unity\Space-Divers\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_ge
 --compilation-defines=VFX_HAS_AUDIO
 --linker-options=PdbAltPath="Abstract Void_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=N:\Unity\Space-Divers\Temp\Burst
---output=N:\Unity\Space-Divers\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
+--temp-folder=C:\Users\gabek\Space Divers\Temp\Burst
+--output=C:\Users\gabek\Space Divers\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 --pdb-search-paths=Temp/ManagedSymbols/
 
@@ -167,7 +167,7 @@ Library: N:\Unity\Space-Divers\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_ge
 --meta-data-generation=False
 --dump=Function
 --float-precision=Standard
---compilation-defines=UNITY_2021_3_20
+--compilation-defines=UNITY_2021_3_19
 --compilation-defines=UNITY_2021_3
 --compilation-defines=UNITY_2021
 --compilation-defines=UNITY_5_3_OR_NEWER
@@ -303,8 +303,8 @@ Library: N:\Unity\Space-Divers\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_ge
 --compilation-defines=VFX_HAS_AUDIO
 --linker-options=PdbAltPath="Abstract Void_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=N:\Unity\Space-Divers\Temp\Burst
---output=N:\Unity\Space-Divers\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
+--temp-folder=C:\Users\gabek\Space Divers\Temp\Burst
+--output=C:\Users\gabek\Space Divers\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 --pdb-search-paths=Temp/ManagedSymbols/
 

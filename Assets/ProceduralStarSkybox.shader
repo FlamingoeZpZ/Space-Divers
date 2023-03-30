@@ -38,8 +38,7 @@ Shader "Custom/ProceduralStarSkybox" {
             vertexOutput output;
  
             float4x4 modelMatrix = unity_ObjectToWorld;
-            output.viewDir = mul(modelMatrix, input.vertex).xyz 
-               - _WorldSpaceCameraPos;
+            output.viewDir = mul(modelMatrix, input.vertex).xyz - _WorldSpaceCameraPos;
             output.pos = UnityObjectToClipPos(input.vertex);
             return output;
          }

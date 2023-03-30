@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5879310714178605034}
   - component: {fileID: 7750869820985186513}
   - component: {fileID: -4124495814608371784}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ShieldGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,4 +117,3 @@ MonoBehaviour:
   <Shield>k__BackingField: 1500
   <Speed>k__BackingField: 0
   <Turning>k__BackingField: 0
-  components: []

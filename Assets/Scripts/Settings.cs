@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Application = UnityEngine.Application;
 
 [DefaultExecutionOrder(-20)]
@@ -252,6 +253,15 @@ public static class Utilities
         uint b = (c  >> 8) - (r << 16) - (g<< 8);
         uint a = c - (r << 24) - (g << 16) - (b<<8);
         return new Color(r, g, b, a)/255f;
+    }
+    
+    public static bool IsPointerOverUIObject()
+    {
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Input.mousePosition;
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+        return results.Count > 0;
     }
 }
 

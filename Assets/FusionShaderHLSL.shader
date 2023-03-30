@@ -87,9 +87,7 @@ Shader "Custom/FusionShaderHLSL"
 
                 float4 frag(VertexOutput i) : COLOR{
 
-                    float4 col2 = tex2D(_Tex0, i.uv) * _ColorA + tex2D(_Tex1, i.uv) * _ColorB + tex2D(_Tex2, i.uv) * _ColorC + tex2D(_TexEmissive0, i.uv) * _EmissiveColor; 
-
-                    col2 *= pow(2.2, _Intensity);
+                    float4 col2 = tex2D(_Tex0, i.uv) * _ColorA + tex2D(_Tex1, i.uv) * _ColorB + tex2D(_Tex2, i.uv) * _ColorC + tex2D(_TexEmissive0, i.uv) * _EmissiveColor * pow(2.2, _Intensity); 
                     return col2;
                 }
                 ENDCG

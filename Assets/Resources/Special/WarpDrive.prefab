@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 6004709389966089160}
   - component: {fileID: 6012501972426763704}
   - component: {fileID: -4108032880481003696}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: WarpDrive
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -93,8 +93,6 @@ public class ColorWheelController : MonoBehaviour, IPointerMoveHandler
         hiddenMat.SetColor(storedId, c);
         hexText.text = ColorUtility.ToHtmlStringRGB(c);
         
-        
-        
     }
     
     

@@ -63,7 +63,7 @@ public class PlayerUI : MonoBehaviour
 
         LUTButton.onClick.AddListener(()=>
         { 
-            if(DEBUGLutManager.Instance) DEBUGLutManager.Instance.RotateLut();
+            //if(DEBUGLutManager.Instance) DEBUGLutManager.Instance.RotateLut();
         });
 
         SceneManager.sceneUnloaded += (scene) =>
@@ -226,6 +226,7 @@ public readonly struct Blip
     {
         coreComponent = core;
         blipComponent = Object.Instantiate(blip, PlayerUI.EnemyBlipParent);
+        if(!blipComponent) Debug.Log("Critical Failure loading blip");
         blipObject = blipComponent.gameObject;
         blipBaseImage = blipComponent.GetComponent<Image>();
         blipImage = blipComponent.GetChild(0).GetComponent<Image>();
@@ -260,8 +261,6 @@ public readonly struct Blip
             //let 0.5 be the center.
             //First, normalize the y., then we apply an offset
             //
-            if(blipImage == null) Debug.Log("blipImage is null");
-            if(Settings.verticalityGradient == null) Debug.Log("verticalityGradient is null");
             
             blipImage.color = Settings.verticalityGradient.Evaluate((dif.y / mag + 1)/2);
             blipBaseImage.color = Enemy.Targeting[blipID] ? Settings.enemyTargetingPlayer : Settings.enemyLostPlayer;

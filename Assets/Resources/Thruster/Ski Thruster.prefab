@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 8975501922719791768}
   - component: {fileID: 8983416927318991284}
   - component: {fileID: 3389475909535357807}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ski Thruster
   m_TagString: Untagged
   m_Icon: {fileID: 0}

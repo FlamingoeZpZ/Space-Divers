@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 33296774479776784}
   - component: {fileID: 23929073818721078}
   - component: {fileID: 1256548493688280712}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Maneuver Engine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,6 @@ MonoBehaviour:
   <Shield>k__BackingField: 500
   <Speed>k__BackingField: 10
   <Turning>k__BackingField: 30
-  components: []
 --- !u!1 &1693674368464086
 GameObject:
   m_ObjectHideFlags: 0
@@ -115,7 +114,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4880458572361382}
   - component: {fileID: 65056878957366174}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

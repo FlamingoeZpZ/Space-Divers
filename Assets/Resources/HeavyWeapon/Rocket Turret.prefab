@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6899301414774834527}
   - component: {fileID: 6866098505379340391}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 6916239888061706447}
   - component: {fileID: 5683051144777923953}
   - component: {fileID: 7872690186205498423}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Rocket Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 9144325737434912616}
   - component: {fileID: 9134308407376072910}
   - component: {fileID: 5055118128208263025}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: '[TEMP]Rocket'
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -21,6 +21,7 @@ Shader "Custom/SkyboxCubemap" {
             #include "UnityCG.cginc"
  
             samplerCUBE _MainTex;
+            float4 _MainTex_ST;
             float _Exposure;
             float _SunSize;
             float _SunStrength;

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4209958805881120}
   - component: {fileID: 65400248666886828}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 33866436052483878}
   - component: {fileID: 23289455789690464}
   - component: {fileID: 2423695547767289621}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ShortFin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,4 +149,3 @@ MonoBehaviour:
   <Shield>k__BackingField: 0
   <Speed>k__BackingField: 0
   <Turning>k__BackingField: 0
-  components: []

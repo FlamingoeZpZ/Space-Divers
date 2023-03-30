@@ -15,16 +15,16 @@ public class DebugLutShader : ScriptableRendererFeature
     
     private void Awake()
     {
-        mRenderMaterial.SetTexture(lutTex, luts[lutIdx]);
+        //mRenderMaterial.SetTexture(lutTex, luts[lutIdx]);
     }
 
     public void RotateLut()
     {
-        if (++lutIdx >= luts.Length)
-        {
-            lutIdx = 0;
-        }
-        mRenderMaterial.SetTexture(lutTex, luts[lutIdx]);
+        //if (++lutIdx >= luts.Length)
+        //{
+        //    lutIdx = 0;
+        //}
+        //mRenderMaterial.SetTexture(lutTex, luts[lutIdx]);
     }
     
     class CustomRenderPass : ScriptableRenderPass
