@@ -39,14 +39,22 @@ public class PlayerUI : MonoBehaviour
    [SerializeField] private Slider healthRight;
 
    [Header("For Marks")] [SerializeField] private Button LUTButton;
+   [SerializeField] private TextMeshProUGUI tempText;
+   
    
    public static int Balance;
    private Transform parent;
    private static bool fromWarp;
+
+   private static bool instance;
    
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
+        print("I c u");
+        if (instance) return;
+        instance =true;
+        
         EnemyBlipParent = enemyBlipParent;
         VerticalityDetection = verticalityDetection;
         RadarDist = radarDist;
@@ -80,7 +88,6 @@ public class PlayerUI : MonoBehaviour
     }
 
 
-
     private Vector3 old;
 
     private Vector3 parentForward;
@@ -111,11 +118,14 @@ public class PlayerUI : MonoBehaviour
         if ((v - old).sqrMagnitude > 0)
         {
             old = v;
+            
             crossHairTrans.parent.position = Camera.main.WorldToScreenPoint(v);
         }
+
         foreach (KeyValuePair<int, Vector3> planet in PlanetSystem.PlanetDirs)
         {
             if(warpTo != 0 && planet.Key != warpTo) continue;
+
             if (Vector3.Dot(parentForward, planet.Value) + 0.01f > 1)
             {
 
@@ -226,7 +236,6 @@ public readonly struct Blip
     {
         coreComponent = core;
         blipComponent = Object.Instantiate(blip, PlayerUI.EnemyBlipParent);
-        if(!blipComponent) Debug.Log("Critical Failure loading blip");
         blipObject = blipComponent.gameObject;
         blipBaseImage = blipComponent.GetComponent<Image>();
         blipImage = blipComponent.GetChild(0).GetComponent<Image>();
@@ -234,9 +243,7 @@ public readonly struct Blip
     }
     public void DestroyBlip()
     {
-        Debug.Log("Destroying Blip");
         Object.Destroy(blipObject);
-        Debug.Log(Enemy.Blips.Count);
     }
     
     public void UpdatePosition(Vector3 start)

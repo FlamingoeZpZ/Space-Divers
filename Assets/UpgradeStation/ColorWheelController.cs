@@ -57,7 +57,8 @@ public class ColorWheelController : MonoBehaviour, IPointerMoveHandler
             if (isEmissive)
             {
                 mat.SetFloat(intensityID, blackMult.value * 20 - 10);
-                hiddenMat.SetFloat(intensityID, blackMult.value * 20 - 10);
+                if(hiddenMat)
+                 hiddenMat.SetFloat(intensityID, blackMult.value * 20 - 10);
             }
             else
             {
@@ -79,9 +80,6 @@ public class ColorWheelController : MonoBehaviour, IPointerMoveHandler
         curCol = colorWheel.GetPixelBilinear(d.x, d.y);
         colorTrans.position = eventData.position;
         SetColor();
-        
-        //MOVE THIS!
-        //Settings.instance.SaveShip(0, );
     }
     
 
@@ -90,7 +88,8 @@ public class ColorWheelController : MonoBehaviour, IPointerMoveHandler
         Color c = curCol * (isEmissive?1:blackMult.value);
         colorWheelColor.color = c;
         mat.SetColor(storedId, c);
-        hiddenMat.SetColor(storedId, c);
+        if(hiddenMat)
+            hiddenMat.SetColor(storedId, c);
         hexText.text = ColorUtility.ToHtmlStringRGB(c);
         
     }

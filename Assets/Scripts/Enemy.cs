@@ -69,6 +69,7 @@ public class Enemy : BaseCharacter
 
     private void OnDestroy()
     {
+        print("Destroyed: " + id);
         Blips[id].DestroyBlip();
         Blips.Remove(id);
         Targeting.Remove(id);

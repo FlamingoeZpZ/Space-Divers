@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIMover : MonoBehaviour
 {
@@ -11,16 +13,64 @@ public class UIMover : MonoBehaviour
     private Vector3 pointB;
     private bool atPointB;
 
+    private int prvMenu = -1;
+
+
+    [SerializeField] private MenuObject[] menus;
+    [SerializeField] private GameObject stickerCanvas;
+    
+    
+    [Serializable]
+    public struct MenuObject
+    {
+        [SerializeField] private GameObject menuObject;
+        [SerializeField] private Image uiObject;
+
+        public void SelectObject(bool state)
+        {
+            
+            if (state)
+            {
+                menuObject.SetActive(true);
+                uiObject.color = new Color(1f,1f,1f);
+                uiObject.transform.SetAsLastSibling();
+            }
+            else
+            {
+                menuObject.SetActive(false);
+                uiObject.color = new Color(0.6f,0.6f,0.6f);
+            }
+        }
+    }
+
     private void Start()
     {
         pointA = transform.position;
         pointB = pointBTrans.position;
-    }
 
-    public void ChangePoints()
+        foreach (MenuObject m in menus)
+        {
+            m.SelectObject(false);
+        }
+    }
+    public void SetMenu(int menu)
     {
-        StopAllCoroutines();
-        StartCoroutine(Move());
+        
+        if(prvMenu != -1 )
+            menus[prvMenu].SelectObject(false);    
+        
+        
+        if (prvMenu == menu || prvMenu == -1)
+        {
+            StopAllCoroutines();
+            StartCoroutine(Move());
+        }
+        
+        menus[menu].SelectObject(true);
+        prvMenu = menu;
+
+
+
     }
 
     private IEnumerator Move()
@@ -30,6 +80,7 @@ public class UIMover : MonoBehaviour
 
         Vector3 a = transform.position;
         Vector3 b = atPointB ? pointA : pointB;
+
         
         while (curTime < travelTime)
         {
@@ -38,7 +89,13 @@ public class UIMover : MonoBehaviour
             yield return null;
         }
 
+        if (atPointB)
+        {
+            menus[prvMenu].SelectObject(false);
+            prvMenu = -1;
+            stickerCanvas.SetActive(false);
+        }
+
         atPointB = !atPointB;
-        
     }
 }

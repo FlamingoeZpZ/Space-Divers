@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering.Universal;
 using Application = UnityEngine.Application;
 
 [DefaultExecutionOrder(-20)]
@@ -17,6 +18,10 @@ public class Settings : MonoBehaviour
     [SerializeField] private Material myShipMaterial;
     [SerializeField] private Material hiddenShipMaterial;
     
+    [Header("Stickers")]
+    [SerializeField] private Material[] stickerMats;
+    [SerializeField] private StickerComponent stickerPrefab;
+    
     private readonly int belowColor = Shader.PropertyToID("_BelowColor");
     private readonly int aboveColor = Shader.PropertyToID("_AboveColor");
     private readonly int shipColA = Shader.PropertyToID("_ColorA");
@@ -26,7 +31,8 @@ public class Settings : MonoBehaviour
     private readonly int shipColIntensity = Shader.PropertyToID("_Intensity");
     
     private int shipID;
-    private string SaveFolder; 
+    private string SaveFolder;
+    private static readonly int Texture1 = Shader.PropertyToID("_Texture");
 
     public static Settings instance { get; private set; }
     
@@ -126,7 +132,18 @@ public class Settings : MonoBehaviour
             string[] data = s.Split(',');
             
             int v = int.Parse(data[0]);
-            
+
+            if (data.Length == 10) // sticker
+            {
+                StickerComponent sticker = Instantiate(stickerPrefab, prv);
+                sticker.transform.position = new Vector3(float.Parse(data[1]),float.Parse(data[2]),float.Parse(data[3]));
+                sticker.transform.rotation = new Quaternion(float.Parse(data[4]), float.Parse(data[5]), float.Parse(data[6]), float.Parse(data[7]));
+                stickerMats[sticker.MyIdx].SetTexture(Texture1,Resources.Load<Texture2D>("Stickers/"+data[8]));
+                stickerMats[sticker.MyIdx].SetColor(shipColA, uint.Parse(data[9]).ToColor());
+                
+                continue;
+            }
+
             // If the current node's height is larger than the previous one. Then we add a new node to the stack
             if (height < v) 
             {
@@ -217,13 +234,28 @@ public class Settings : MonoBehaviour
             sw.WriteLine(height +",Empty");
             return;
         }
-        sw.WriteLine(height +","+t.GetComponent<ShipComponent>().MyType + "/" + t.name); //Store the name (for rebuilding)
-        //Go through each child, skipping the first which is a collider
-        for (int j = 1; j < t.childCount; ++j)
+
+        if (t.TryGetComponent(out StickerComponent s))
         {
-            Transform n = t.GetChild(j);
-            //if(n.childCount == 0) //If the object has no children, then enqueue it.
-            SavePart(sw, n.childCount == 0?null:n.GetChild(0), height+1);
+            Transform n = s.transform;
+            Vector3 position = n.position;
+            Quaternion rotation = n.rotation;
+            sw.WriteLine(height +',' + position.x+','+position.y+','+position.z + ',' + rotation.x + "," + rotation.y + "," + rotation.z + "," + rotation.w+ "," +
+                         stickerMats[s.MyIdx].GetTexture(Texture1).name + ',' + stickerMats[s.MyIdx].GetColor(shipColA).ToRgba());
+        }
+        else
+        {
+            sw.WriteLine(height + "," + t.GetComponent<ShipComponent>().MyType + "/" +
+                         t.name); //Store the name (for rebuilding)
+
+
+            //Go through each child, skipping the first which is a collider
+            for (int j = 1; j < t.childCount; ++j)
+            {
+                Transform n = t.GetChild(j);
+                //if(n.childCount == 0) //If the object has no children, then enqueue it.
+                SavePart(sw, n.childCount == 0 ? null : n.GetChild(0), height + 1);
+            }
         }
     }
 
