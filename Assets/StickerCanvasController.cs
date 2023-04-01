@@ -37,6 +37,8 @@ public class StickerCanvasController : MonoBehaviour
 
     public void Enable(int num)
     {
+        print($"Trying to access sticker {num} ");
+            
         objTrans = StickerComponent.Stickers[num].transform;
         curStickerMat = StickerComponent.Stickers[num].GetComponent<DecalProjector>().material;
         isActive = false;
@@ -51,7 +53,9 @@ public class StickerCanvasController : MonoBehaviour
 
 
         objTrans.position = hit.point;
-        objTrans.forward = -hit.normal;
+        //objTrans.forward = -hit.normal;
+        objTrans.LookAt(Camera.main.transform);
+        
         objTrans.parent = hit.transform;
 
         //If hold is released.

@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 2415785517566079834}
   - component: {fileID: 2415785517566079839}
   - component: {fileID: 2415785517566079838}
+  - component: {fileID: 4943962854488198394}
   m_Layer: 0
   m_Name: GameEventSystem
   m_TagString: Untagged
@@ -132,3 +133,22 @@ MonoBehaviour:
   gradientMaterial: {fileID: 2100000, guid: 345c4b8f0de389943a2fa830cb042c2a, type: 2}
   myShipMaterial: {fileID: 2100000, guid: cac8a660b423c0d4f82ab0d84df4fe84, type: 2}
   hiddenShipMaterial: {fileID: 2100000, guid: 495c096d48e65834892f366ee58b6791, type: 2}
+  stickerMats: []
+  stickerPrefab: {fileID: 0}
+--- !u!114 &4943962854488198394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2415785517566079835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 5c725b6727db4f045bfa106349a1817a, type: 2}

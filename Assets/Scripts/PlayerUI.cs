@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
@@ -39,8 +41,9 @@ public class PlayerUI : MonoBehaviour
    [SerializeField] private Slider healthRight;
 
    [Header("For Marks")] [SerializeField] private Button LUTButton;
-   [SerializeField] private TextMeshProUGUI tempText;
-   
+
+   [SerializeField]private VolumeProfile ppxVolProfile;
+   private ChromaticAberration chromaticAberration;
    
    public static int Balance;
    private Transform parent;
@@ -87,6 +90,7 @@ public class PlayerUI : MonoBehaviour
 
             StartCoroutine(Warp(-1));
         };
+        chromaticAberration = (ChromaticAberration)ppxVolProfile.components[0];
     }
 
 
@@ -167,7 +171,9 @@ public class PlayerUI : MonoBehaviour
         float cT = dir==1?0:warpDur;
         while (cT <= warpDur && cT >= 0)
         {
-            Shader.SetGlobalVector(movementID, parentForward * -warpCurve.Evaluate(cT/warpDur));
+            float val = warpCurve.Evaluate(cT / warpDur);
+            chromaticAberration.intensity.value = val;
+            Shader.SetGlobalVector(movementID, parentForward * -val);
             cT += Time.deltaTime * dir;
             yield return null;
         }

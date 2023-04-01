@@ -20,5 +20,11 @@ public class StickerComponent : MonoBehaviour
         if(Stickers[_curidx])
             Destroy(Stickers[_curidx]);
         Stickers[_curidx++] = this;
+        print($"Set a new sticker with id: {_curidx} on object: {transform.root}");
+    }
+
+    private void OnDestroy()
+    {
+        print("Sticker was deleted: " + MyIdx);
     }
 }

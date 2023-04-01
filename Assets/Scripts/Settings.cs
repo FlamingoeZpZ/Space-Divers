@@ -119,11 +119,10 @@ public class Settings : MonoBehaviour
         Stack<Node> nodes = new();
         int height = 1;
 
-        Transform prv = null;
-        Transform x = Instantiate(Resources.Load<Transform>(s.Split(',')[1]), b);
-        x.name = x.name.Substring(0, x.name.Length - 7);
+        Transform prv = Instantiate(Resources.Load<Transform>(s.Split(',')[1]), b);
+        prv.name = prv.name.Substring(0, prv.name.Length - 7);
 
-        nodes.Push(new Node(x));
+        nodes.Push(new Node(prv));
 
         while ((s = sr.ReadLine()) != null && nodes.Count != 0)
         {
@@ -133,13 +132,14 @@ public class Settings : MonoBehaviour
 
             if (data.Length == 10) // sticker
             {
-                StickerComponent sticker = Instantiate(stickerPrefab, prv);
-                sticker.transform.position =
+                StickerComponent sticker = Instantiate(stickerPrefab, prv.GetChild(0));
+                sticker.transform.localPosition =
                     new Vector3(float.Parse(data[1]), float.Parse(data[2]), float.Parse(data[3]));
                 sticker.transform.rotation = new Quaternion(float.Parse(data[4]), float.Parse(data[5]),
                     float.Parse(data[6]), float.Parse(data[7]));
                 stickerMats[sticker.MyIdx].SetTexture(Texture1, Resources.Load<Texture2D>("Stickers/" + data[8]));
                 stickerMats[sticker.MyIdx].SetColor(shipColA, uint.Parse(data[9]).ToColor());
+                sticker.GetComponent<DecalProjector>().material = stickerMats[sticker.MyIdx];
 
                 continue;
             }
@@ -213,7 +213,7 @@ public class Settings : MonoBehaviour
     public void SaveShip()
     {
         StreamWriter sw = new StreamWriter(SaveFolder + "shipData" + PlayerPrefs.GetInt("LastShipKey") + ".dat");
-
+        sw.AutoFlush = true;
 
         //Then save colors
         sw.WriteLine(myShipMaterial.GetColor(shipColA).ToRgba());
@@ -223,43 +223,44 @@ public class Settings : MonoBehaviour
         sw.WriteLine(myShipMaterial.GetFloat(shipColIntensity));
 
         //Save the body
-        SavePart(sw, ModularPlayerScript.Instance.transform.GetChild(0).GetChild(0), 0);
+        SavePart( sw, ModularPlayerScript.Instance.transform.GetChild(0).GetChild(0), 0);
 
         sw.Close();
     }
 
-    private void SavePart(StreamWriter sw, Transform t, int height)
+    private void SavePart( StreamWriter sw, Transform t, int height)
     {
+        
         if (t == null)
         {
             sw.WriteLine(height + ",Empty");
             return;
         }
+        sw.WriteLine(height + "," + t.GetComponent<ShipComponent>().MyType + "/" +
+                     t.name); //Store the name (for rebuilding)
 
-        if (t.TryGetComponent(out StickerComponent s))
+        //Checking against collider
+        for (int j = 0; j < t.GetChild(0).childCount; ++j)
         {
-            Transform n = s.transform;
-            Vector3 position = n.position;
+            Transform n = t.GetChild(0).GetChild(j);
+            StickerComponent s = n.GetComponent<StickerComponent>();
+
+            Vector3 position = n.localPosition;
             Quaternion rotation = n.rotation;
-            sw.WriteLine(height + ',' + position.x + ',' + position.y + ',' + position.z + ',' + rotation.x + "," +
-                         rotation.y + "," + rotation.z + "," + rotation.w + "," +
-                         stickerMats[s.MyIdx].GetTexture(Texture1).name + ',' +
-                         stickerMats[s.MyIdx].GetColor(shipColA).ToRgba());
+            print(position +" , " + height);
+
+            sw.WriteLine(height + "," + position.x + "," + position.y + "," + position.z + ","+rotation.x + "," + rotation.y + "," + rotation.z + "," + rotation.w + "," + stickerMats[s.MyIdx].GetTexture(Texture1).name + "," + stickerMats[s.MyIdx].GetColor(shipColA).ToRgba());
         }
-        else
+        
+
+        //Go through each child, skipping the first which is a collider
+        for (int j = 1; j < t.childCount; ++j)
         {
-            sw.WriteLine(height + "," + t.GetComponent<ShipComponent>().MyType + "/" +
-                         t.name); //Store the name (for rebuilding)
-
-
-            //Go through each child, skipping the first which is a collider
-            for (int j = 1; j < t.childCount; ++j)
-            {
-                Transform n = t.GetChild(j);
-                //if(n.childCount == 0) //If the object has no children, then enqueue it.
-                SavePart(sw, n.childCount == 0 ? null : n.GetChild(0), height + 1);
-            }
+            Transform n = t.GetChild(j);
+            //if(n.childCount == 0) //If the object has no children, then enqueue it.
+            SavePart( sw, n.childCount == 0 ? null : n.GetChild(0), height + 1);
         }
+        
     }
 
 
