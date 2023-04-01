@@ -39,7 +39,9 @@ public class UpgradeStationController : MonoBehaviour
     private void Awake()
     {
         //Follow the ship
-        playerShip = Instantiate(myShippyDoo, shipStartPoint.position, Quaternion.identity);
+        playerShip = ModularPlayerScript.Instance ? ModularPlayerScript.Instance.transform : Instantiate(myShippyDoo);
+        playerShip.position = shipStartPoint.position;
+        playerShip.rotation = Quaternion.identity;
         playerShip.LookAt(shipEndPoint.position, Vector3.up);
         cart.Follow =  playerShip;
 

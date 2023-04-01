@@ -82,8 +82,10 @@ public class PlayerUI : MonoBehaviour
                 Shader.SetGlobalVector(movementID, new Vector4(0,0,0,0));
                 return;
             }
-            
-           StartCoroutine(Warp(-1));
+
+
+
+            StartCoroutine(Warp(-1));
         };
     }
 
@@ -176,8 +178,8 @@ public class PlayerUI : MonoBehaviour
 
         if (dir == 1)
         {
-            Enemy.Blips.Clear();
-            Enemy.Targeting.Clear();
+            //Enemy.Blips.Clear();
+            //Enemy.Targeting.Clear();
             int prv = SceneManager.GetActiveScene().buildIndex;
             SceneManager.LoadSceneAsync(warpTo);
             SceneManager.UnloadSceneAsync(prv);

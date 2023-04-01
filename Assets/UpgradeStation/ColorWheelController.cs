@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -57,7 +56,6 @@ public class ColorWheelController : MonoBehaviour, IPointerMoveHandler
             if (isEmissive)
             {
                 mat.SetFloat(intensityID, blackMult.value * 20 - 10);
-                if(hiddenMat)
                  hiddenMat.SetFloat(intensityID, blackMult.value * 20 - 10);
             }
             else

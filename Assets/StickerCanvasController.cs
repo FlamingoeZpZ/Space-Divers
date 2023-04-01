@@ -12,7 +12,8 @@ public class StickerCanvasController : MonoBehaviour
     private readonly int textureID = Shader.PropertyToID("_Texture");
     // Start is called before the first frame update
     private int playerLayer;
-    private int curSticker;
+    private Material curStickerMat;
+    private Transform objTrans;
     private Camera cam;
     private bool isActive;
     void Start()
@@ -24,17 +25,20 @@ public class StickerCanvasController : MonoBehaviour
             me.sprite = s;
             me.GetComponent<Button>().onClick.AddListener(() =>
             {
+                print("sticker selected");
                 isActive = true;
+                curStickerMat.SetTexture(textureID, s.texture);
                 
             });
         }
         cam = Camera.main;
-        playerLayer = 1 << LayerMask.NameToLayer("Player");
+        playerLayer = (1 << LayerMask.NameToLayer("Player")) + (1<< LayerMask.NameToLayer("PlayerRoot"));
     }
 
     public void Enable(int num)
     {
-        curSticker = num;
+        objTrans = StickerComponent.Stickers[num].transform;
+        curStickerMat = StickerComponent.Stickers[num].GetComponent<DecalProjector>().material;
         isActive = false;
     }
 
@@ -42,13 +46,19 @@ public class StickerCanvasController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //If not active. OR we're not hitting the ship return
         if (!isActive || !Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 100, playerLayer)) return;
-        
-        
-        
 
-        if (!Input.GetMouseButtonDown(0))
+
+        objTrans.position = hit.point;
+        objTrans.forward = -hit.normal;
+        objTrans.parent = hit.transform;
+
+        //If hold is released.
+        if (Input.GetMouseButtonDown(0))
         {
+            print("You let go: parented to:" + objTrans.parent);
+            gameObject.SetActive(false);
             
         }
 

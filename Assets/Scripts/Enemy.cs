@@ -77,10 +77,13 @@ public class Enemy : BaseCharacter
                 if (Application.isEditor && !Application.isFocused)
                     return;
         #endif
+        
+        /* TODO fix
+        
         if (Blips.Count == 0)
         {
             GameManager.instance.TEMP_END_GAME(true);
-        }
+        }*/
     }
 
     public override void OnTargeted()

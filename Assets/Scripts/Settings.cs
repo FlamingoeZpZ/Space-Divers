@@ -10,18 +10,15 @@ public class Settings : MonoBehaviour
 {
     public static Gradient verticalityGradient { get; private set; }
     public static Color enemyTargetingPlayer { get; set; }
-    public static Color enemyLostPlayer { get;  set; }
-    
-    [Header("Radar")]
-    
-    [SerializeField] private Material gradientMaterial;
+    public static Color enemyLostPlayer { get; set; }
+
+    [Header("Radar")] [SerializeField] private Material gradientMaterial;
     [SerializeField] private Material myShipMaterial;
     [SerializeField] private Material hiddenShipMaterial;
-    
-    [Header("Stickers")]
-    [SerializeField] private Material[] stickerMats;
+
+    [Header("Stickers")] [SerializeField] private Material[] stickerMats;
     [SerializeField] private StickerComponent stickerPrefab;
-    
+
     private readonly int belowColor = Shader.PropertyToID("_BelowColor");
     private readonly int aboveColor = Shader.PropertyToID("_AboveColor");
     private readonly int shipColA = Shader.PropertyToID("_ColorA");
@@ -29,31 +26,31 @@ public class Settings : MonoBehaviour
     private readonly int shipColC = Shader.PropertyToID("_ColorC");
     private readonly int shipColEmissive = Shader.PropertyToID("_EmissiveColor");
     private readonly int shipColIntensity = Shader.PropertyToID("_Intensity");
-    
+
     private int shipID;
     private string SaveFolder;
     private static readonly int Texture1 = Shader.PropertyToID("_Texture");
 
     public static Settings instance { get; private set; }
-    
+
     //public static Action OnSettingsSaved;
-    
+
     //This should only be in the title screen
     private void Start()
     {
-        if (instance!=this&&instance)
+        if (instance != this && instance)
         {
             Destroy(gameObject);
             return;
         }
-        
+
         instance = this;
         DontDestroyOnLoad(gameObject);
 
-        string st= SaveFolder  = Application.persistentDataPath + "/Ships";
+        string st = SaveFolder = Application.persistentDataPath + "/Ships";
         SaveFolder += '/';
-        if(!Directory.Exists(st))
-        {    
+        if (!Directory.Exists(st))
+        {
             //if it doesn't, create it
             Directory.CreateDirectory(st);
             //This is pretty much game first load.
@@ -61,13 +58,13 @@ public class Settings : MonoBehaviour
         }
 
         print("Target directory: " + SaveFolder);
-        
-        
-        
+
+
+
         //LoadGameInfo();
         LoadSettings();
         LoadShip(0);
-        
+
     }
 
     private void LoadSettings()
@@ -76,21 +73,22 @@ public class Settings : MonoBehaviour
         Color belowY = ((uint)PlayerPrefs.GetInt("BelowCol", -16776961)).ToColor();
         gradientMaterial.SetColor(belowColor, belowY); // Default of red
         gradientMaterial.SetColor(aboveColor, aboveY); // Default of blue
-        verticalityGradient = new ()
+        verticalityGradient = new()
         {
             colorKeys = new GradientColorKey[]
             {
-                new (belowY, 0),
-                new (aboveY, 1),
+                new(belowY, 0),
+                new(aboveY, 1),
             }
         };
-        enemyTargetingPlayer  = ((uint)PlayerPrefs.GetInt("enemyTargetingPlayer", 2139029759)).ToColor(); // Default orange
+        enemyTargetingPlayer =
+            ((uint)PlayerPrefs.GetInt("enemyTargetingPlayer", 2139029759)).ToColor(); // Default orange
         enemyLostPlayer = ((uint)PlayerPrefs.GetInt("enemyLostPlayer", -65281)).ToColor(); // default yellow
     }
 
     private void LoadShip(int i)
     {
-        
+
         PlayerPrefs.SetInt("LastShipKey", i);
         StreamReader sr = new StreamReader(SaveFolder + "shipData" + i + ".dat");
 
@@ -108,7 +106,7 @@ public class Settings : MonoBehaviour
 
         string s = sr.ReadLine();
         if (s == null) return;
-        
+
         //Clear the Host Object
         Transform b = ModularPlayerScript.Instance.transform.GetChild(0);
         int childCount = b.childCount;
@@ -120,32 +118,34 @@ public class Settings : MonoBehaviour
 
         Stack<Node> nodes = new();
         int height = 1;
-        
+
         Transform prv = null;
-        Transform x = Instantiate(Resources.Load<Transform>(s.Split(',')[1]),b);
-        x.name  = x.name.Substring(0,x.name.Length - 7);
-        
+        Transform x = Instantiate(Resources.Load<Transform>(s.Split(',')[1]), b);
+        x.name = x.name.Substring(0, x.name.Length - 7);
+
         nodes.Push(new Node(x));
-        
+
         while ((s = sr.ReadLine()) != null && nodes.Count != 0)
         {
             string[] data = s.Split(',');
-            
+
             int v = int.Parse(data[0]);
 
             if (data.Length == 10) // sticker
             {
                 StickerComponent sticker = Instantiate(stickerPrefab, prv);
-                sticker.transform.position = new Vector3(float.Parse(data[1]),float.Parse(data[2]),float.Parse(data[3]));
-                sticker.transform.rotation = new Quaternion(float.Parse(data[4]), float.Parse(data[5]), float.Parse(data[6]), float.Parse(data[7]));
-                stickerMats[sticker.MyIdx].SetTexture(Texture1,Resources.Load<Texture2D>("Stickers/"+data[8]));
+                sticker.transform.position =
+                    new Vector3(float.Parse(data[1]), float.Parse(data[2]), float.Parse(data[3]));
+                sticker.transform.rotation = new Quaternion(float.Parse(data[4]), float.Parse(data[5]),
+                    float.Parse(data[6]), float.Parse(data[7]));
+                stickerMats[sticker.MyIdx].SetTexture(Texture1, Resources.Load<Texture2D>("Stickers/" + data[8]));
                 stickerMats[sticker.MyIdx].SetColor(shipColA, uint.Parse(data[9]).ToColor());
-                
+
                 continue;
             }
 
             // If the current node's height is larger than the previous one. Then we add a new node to the stack
-            if (height < v) 
+            if (height < v)
             {
                 nodes.Push(new Node(prv));
                 height = v;
@@ -154,10 +154,11 @@ public class Settings : MonoBehaviour
             else if (height > v)
             {
                 int dif = height - v;
-                while (dif-- != 0 ) // Correct if we are up 3 and going down to 1.
+                while (dif-- != 0) // Correct if we are up 3 and going down to 1.
                 {
-                    nodes.Pop();                  
+                    nodes.Pop();
                 }
+
                 height = v;
             }
 
@@ -166,11 +167,11 @@ public class Settings : MonoBehaviour
             {
                 continue;
             }
-            
+
             prv = Instantiate(Resources.Load<Transform>(data[1]), nodes.Peek().GetChild());
-            prv.name = prv.name.Substring(0,prv.name.Length - 7);
+            prv.name = prv.name.Substring(0, prv.name.Length - 7);
         }
-        
+
         sr.Close();
     }
 
@@ -197,7 +198,7 @@ public class Settings : MonoBehaviour
     private void LoadGameInfo()
     {
         StreamReader sr = new StreamReader(SaveFolder + "gameInfo.dat");
-        
+
         sr.Close();
     }
 
@@ -208,22 +209,22 @@ public class Settings : MonoBehaviour
         sw.Close();
     }
 
-    
+
     public void SaveShip()
     {
         StreamWriter sw = new StreamWriter(SaveFolder + "shipData" + PlayerPrefs.GetInt("LastShipKey") + ".dat");
-        
-        
+
+
         //Then save colors
         sw.WriteLine(myShipMaterial.GetColor(shipColA).ToRgba());
         sw.WriteLine(myShipMaterial.GetColor(shipColB).ToRgba());
         sw.WriteLine(myShipMaterial.GetColor(shipColC).ToRgba());
         sw.WriteLine(myShipMaterial.GetColor(shipColEmissive).ToRgba());
         sw.WriteLine(myShipMaterial.GetFloat(shipColIntensity));
-        
+
         //Save the body
-        SavePart(sw, ModularPlayerScript.Instance.transform.GetChild(0).GetChild(0), 0 );
-        
+        SavePart(sw, ModularPlayerScript.Instance.transform.GetChild(0).GetChild(0), 0);
+
         sw.Close();
     }
 
@@ -231,7 +232,7 @@ public class Settings : MonoBehaviour
     {
         if (t == null)
         {
-            sw.WriteLine(height +",Empty");
+            sw.WriteLine(height + ",Empty");
             return;
         }
 
@@ -240,8 +241,10 @@ public class Settings : MonoBehaviour
             Transform n = s.transform;
             Vector3 position = n.position;
             Quaternion rotation = n.rotation;
-            sw.WriteLine(height +',' + position.x+','+position.y+','+position.z + ',' + rotation.x + "," + rotation.y + "," + rotation.z + "," + rotation.w+ "," +
-                         stickerMats[s.MyIdx].GetTexture(Texture1).name + ',' + stickerMats[s.MyIdx].GetColor(shipColA).ToRgba());
+            sw.WriteLine(height + ',' + position.x + ',' + position.y + ',' + position.z + ',' + rotation.x + "," +
+                         rotation.y + "," + rotation.z + "," + rotation.w + "," +
+                         stickerMats[s.MyIdx].GetTexture(Texture1).name + ',' +
+                         stickerMats[s.MyIdx].GetColor(shipColA).ToRgba());
         }
         else
         {
@@ -268,6 +271,15 @@ public class Settings : MonoBehaviour
         PlayerPrefs.SetInt("enemyLostPlayer", (int)enemyLostPlayer.ToRgba());
         PlayerPrefs.Save();
     }
+
+    public void PurgeAndQuit()
+    {
+        File.Delete(Directory.EnumerateFiles(SaveFolder).GetEnumerator().Current);
+        Directory.Delete(SaveFolder);
+
+        Application.Quit();
+    }
+
 }
 
 public static class Utilities
@@ -295,5 +307,7 @@ public static class Utilities
         EventSystem.current.RaycastAll(eventData, results);
         return results.Count > 0;
     }
+    
+    
 }
 

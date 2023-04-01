@@ -45,7 +45,16 @@ public class ModularPlayerScript : BaseCharacter
 
         SceneManager.sceneLoaded += (scene, mode) =>
         {
-            ui.gameObject.SetActive(scene.buildIndex != 0);
+            if (scene.buildIndex == 0)
+            {
+                ui.gameObject.SetActive(false);
+                speedSlider.value = 0;
+                curSpeed = 0;
+            }
+            else
+            {
+                ui.gameObject.SetActive(true);
+            }
         };
         
         Instance = this;
