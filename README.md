@@ -3,7 +3,13 @@
 
 Abstract void is a space action adventure game with strategy elements where players will manage their fleets, gather resources and defeat their opposition.
 
-Total working time: Approx. 9 Days
+Total working time: Approx. 20 Days
+
+General Features:
+* Ship creation and customization
+* Saving
+* Battling
+* Traversal
 
 
 
@@ -25,9 +31,9 @@ The Blinn shader is taken from class, again minor changes for increased control
 
 Why rim light? Because it counts for one of the sections, and looks like atmosphere
 
-### LUTS
+## Post Processing
 
-Color Grading: 
+### Color Grading (old): 
 
 Default:
 ![](B0.png)
@@ -44,6 +50,15 @@ Warm:
 
 Custom (Warm + Contrast):
 ![img.png](E.png)
+
+### Chromatic aberration
+It follows an animation curve with texture tiling, Same SRP implementation as what was provided in files (Thanks a lot btw, very cool effect!), uses post processing volume, but it's very hard to notice, and makes me think I need to learn the URP alt... but because we're going to unreal (And I want to go to unreal), I'm probably gunna stick to what's easier here.
+![](ChromAb.PNG)
+
+### Blooom
+Same as what we did in class, bloom implementation, but I used the post process volume
+![](Bloom.PNG)
+
 
 LUTs seem to always look bad, not sure why... They look really good in Photoshop
 
@@ -95,16 +110,32 @@ GPU Particles:
 ### Lens Flares
 ![](Title.jpg)
 
+### Decals
+Project a texture onto a surface using the scenes depth. The object is set to look at where the cam was when placed.
+![](Decal.PNG)
+
+### Bill Boarding
+Transforms the object to look at, and always be a set distance in front of the player. I'll probably modify this so eventually you can actually fly to the planet naturally. 
+![](Billboard.PNG)
+
+### Texture Tiling
+Just modify the UVs along a vector2 for screen direction multiplied by scale which is an animation curve.
+![](ChromAb.PNG)
+
+### Stencils
+Just a simple stencil buffer in a secondary HLSL version of my URP fusion shader, along with a "window" stencil on another object
+![](Stencil.PNG)
 
 ## NOTES | (Updated each assignment)
-
 Notes in short cus I'm lazy
 * Still a fun project
-* URP is very restrictive in their shading language, and much harder to debug
-* You are supposed to use shader graph in urp.
-* Learning SRP and those components have taught me a lot though... I feel, as an engineer it's important to understand how a wheel works, and how to make one... not necessarily make one and carve out all the ridges by hand for maximal (maybe) runtime
-* Depending on when you view the project, there may be a tree based upgrade system which is pretty cool
-* Old androids suck.
+* Game will be ready in August
+* More effects need to be added and tweaked
+* Saving is kinda scuffed and I'm unsure why, but I don't have time to work on it
+* Sometimes the scene's lighting breaks and I'm not sure why
+* Marks > Gameplay in a graphics course lol
+* As fun as a solo project is, it's very time consuming...
+* I am very tired, and definitely missed something somewhere. I made so many mistakes in the vid lol
 
 ## Resources and Links
 
