@@ -44,5 +44,5 @@ Material:
     - _DrawOrder: 0
     m_Colors:
     - _Color: {r: 1, g: 0, b: 0, a: 0}
-    - _ColorA: {r: 0.9882353, g: 0.9254902, b: 0.12941177, a: 1}
+    - _ColorA: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

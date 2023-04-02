@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering.Universal;
 using Application = UnityEngine.Application;
@@ -194,7 +196,6 @@ public class Settings : MonoBehaviour
     }
 
 
-
     private void LoadGameInfo()
     {
         StreamReader sr = new StreamReader(SaveFolder + "gameInfo.dat");
@@ -262,6 +263,8 @@ public class Settings : MonoBehaviour
         }
         
     }
+    
+    
 
 
     public void SaveSettings()

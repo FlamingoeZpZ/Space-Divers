@@ -17,8 +17,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0.02
   contrast:
-    m_OverrideState: 1
-    m_Value: -0
+    m_OverrideState: 0
+    m_Value: 40
   colorFilter:
     m_OverrideState: 0
     m_Value: {r: 1, g: 1, b: 1, a: 1}
@@ -41,8 +41,8 @@ MonoBehaviour:
   m_Name: Main Camera Profile
   m_EditorClassIdentifier: 
   components:
-  - {fileID: 721555053019586109}
   - {fileID: 452443686838067869}
+  - {fileID: 721555053019586109}
   - {fileID: -1107095057790324923}
 --- !u!114 &452443686838067869
 MonoBehaviour:
@@ -59,7 +59,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 0.0000008819155
 --- !u!114 &721555053019586109
 MonoBehaviour:
   m_ObjectHideFlags: 3
