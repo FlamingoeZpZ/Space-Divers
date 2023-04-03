@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 929313687160950535}
   - component: {fileID: 929313687160950536}
   - component: {fileID: 929313687160950537}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: StickerPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &929313687160950535
 Transform:
@@ -53,8 +53,8 @@ MonoBehaviour:
   m_UVScale: {x: 1, y: 1}
   m_UVBias: {x: 0, y: 0}
   m_ScaleMode: 0
-  m_Offset: {x: 0, y: 0, z: 0.5}
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Offset: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1, z: 5}
   m_FadeFactor: 1
 --- !u!114 &929313687160950537
 MonoBehaviour:

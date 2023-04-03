@@ -278,8 +278,7 @@ public class Settings : MonoBehaviour
 
     public void PurgeAndQuit()
     {
-        File.Delete(Directory.EnumerateFiles(SaveFolder).GetEnumerator().Current);
-        Directory.Delete(SaveFolder);
+        Directory.Delete(SaveFolder, true);
 
         Application.Quit();
     }

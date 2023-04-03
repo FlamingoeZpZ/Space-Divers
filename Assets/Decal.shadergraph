@@ -437,7 +437,7 @@
     "m_ObjectId": "3877ce7fe702470fbab57c3fb6603c76",
     "m_DecalData": {
         "affectsAlbedo": true,
-        "affectsNormalBlend": false,
+        "affectsNormalBlend": true,
         "affectsNormal": false,
         "affectsMAOS": false,
         "affectsEmission": false,
@@ -1094,7 +1094,7 @@
         "m_Id": "3877ce7fe702470fbab57c3fb6603c76"
     },
     "m_AllowMaterialOverride": false,
-    "m_SurfaceType": 0,
+    "m_SurfaceType": 1,
     "m_ZTestMode": 4,
     "m_ZWriteControl": 0,
     "m_AlphaMode": 0,
