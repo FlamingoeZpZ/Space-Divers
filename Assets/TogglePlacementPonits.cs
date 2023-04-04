@@ -66,7 +66,7 @@ ResetUI();
    private void Update()
    {
       //Inpur helps PC
-      #if UNITY_EDITOR
+      #if UNITY_EDITOR || UNITY_STANDALONE
       if (!Input.GetMouseButtonDown(0)) return;
       Debug.Log("Editor logged mouse button down");
       #endif
