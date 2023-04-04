@@ -142,7 +142,6 @@ public class PlayerUI : MonoBehaviour
             }
             else 
             {
-                warpTo = 0;
                 warpButton.SetActive(false);
             }
         }
@@ -189,6 +188,10 @@ public class PlayerUI : MonoBehaviour
             int prv = SceneManager.GetActiveScene().buildIndex;
             SceneManager.LoadSceneAsync(warpTo);
             SceneManager.UnloadSceneAsync(prv);
+        }
+        else
+        {
+            warpTo = 0;
         }
 
     }

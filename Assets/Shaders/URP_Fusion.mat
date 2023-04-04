@@ -75,7 +75,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Intensity: 4.050634
+    - _Intensity: 7.199999
     - _Metallic: 0.2
     - _NormalScalar: 10
     - _OutlineWidth: 0
@@ -83,9 +83,9 @@ Material:
     - _QueueOffset: 0
     - _Smoothness: 0.8
     m_Colors:
-    - _ColorA: {r: 0.99607843, g: 0.5411765, b: 0.15686275, a: 1}
-    - _ColorB: {r: 0.9882353, g: 0.15686275, b: 0.4117647, a: 1}
-    - _ColorC: {r: 0.9882353, g: 0.69411767, b: 0.10980392, a: 1}
-    - _EmissiveColor: {r: 0.99607843, g: 0.039215688, b: 0, a: 1}
+    - _ColorA: {r: 0.99607843, g: 0.050980393, b: 0.84705883, a: 1}
+    - _ColorB: {r: 1, g: 0.9137255, b: 0.07450981, a: 1}
+    - _ColorC: {r: 0.99215686, g: 0.6392157, b: 0.09803922, a: 1}
+    - _EmissiveColor: {r: 0.972549, g: 0.24705882, b: 0.03529412, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

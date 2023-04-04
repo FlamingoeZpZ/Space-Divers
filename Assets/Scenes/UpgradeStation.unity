@@ -10741,6 +10741,10 @@ PrefabInstance:
       propertyPath: stickerMats.Array.data[4]
       value: 
       objectReference: {fileID: 2100000, guid: c49f86aa046edf04087f392f8965401f, type: 2}
+    - target: {fileID: 4943962854488198394, guid: 020f4515c503b8b4084318b5616f5f8f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 020f4515c503b8b4084318b5616f5f8f, type: 3}
 --- !u!1 &994199001
