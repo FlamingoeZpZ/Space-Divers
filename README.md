@@ -143,9 +143,13 @@ Notes in short cus I'm lazy
 
 [Youtube Video Assignment 2](https://youtu.be/M33u_Xt4gQE)
 
+[Youtube Video Assignment 3](https://youtu.be/NJzTvvST0Vk)
+
 [Google slides Assignment 1](https://docs.google.com/presentation/d/1b1NrIQdTX083GBhReAvFBrGcwF4PFgROCB6B2utCwPA/edit?usp=sharing)
 
 [Google Slides Assignment 2](https://docs.google.com/presentation/d/1-ya4YOdd23T-f0EnUmP507uGf4BSvMQ88fiNTJCULbE/edit?usp=sharing)
+
+[Google Slides Assignment 3](https://docs.google.com/presentation/d/14XiePcXBM33RzcY7F8aJj6Bv2ksJsN2Ch4lFoNHZ-Sg/edit?usp=sharing)
 
 [Unity shader fundamentals: (I needed it to help figure out how to combine the code because the shaders from class were written with vertex and frag instead of surface shaders)](https://docs.unity3d.com/Manual/SL-VertexFragmentShaderExamples.html)
 
