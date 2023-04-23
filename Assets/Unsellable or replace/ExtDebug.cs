@@ -1,3 +1,5 @@
+
+#if UNITY_EDITOR
 using UnityEngine;
   
  public static class ExtDebug
@@ -111,3 +113,4 @@ using UnityEngine;
          return pivot + rotation * direction;
      }
  }
+ #endif

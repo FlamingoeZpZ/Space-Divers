@@ -14,8 +14,10 @@ public class StickerCanvasController : MonoBehaviour
     private int playerLayer;
     private Material curStickerMat;
     private Transform objTrans;
+    private DecalProjector dp;
     private Camera cam;
     private bool isActive;
+    private GameObject root;
     void Start()
     {
         transform.GetComponent<RectTransform>().sizeDelta = new Vector2(sprites.Length * 180, 300);
@@ -31,6 +33,8 @@ public class StickerCanvasController : MonoBehaviour
                 
             });
         }
+
+        root = transform.parent.parent.parent.gameObject;
         cam = Camera.main;
         playerLayer = (1 << LayerMask.NameToLayer("Player")) + (1<< LayerMask.NameToLayer("PlayerRoot"));
     }
@@ -40,6 +44,7 @@ public class StickerCanvasController : MonoBehaviour
         print($"Trying to access sticker {num} ");
             
         objTrans = StickerComponent.Stickers[num].transform;
+        dp = objTrans.GetComponent<DecalProjector>();
         curStickerMat = StickerComponent.Stickers[num].GetComponent<DecalProjector>().material;
         isActive = false;
     }
@@ -55,14 +60,18 @@ public class StickerCanvasController : MonoBehaviour
         objTrans.position = hit.point;
         //objTrans.forward = -hit.normal;
         objTrans.LookAt(Camera.main.transform);
+        //dp.size
         
         objTrans.parent = hit.transform;
+        
+        
+        
 
         //If hold is released.
         if (Input.GetMouseButtonDown(0))
         {
             print("You let go: parented to:" + objTrans.parent);
-            gameObject.SetActive(false);
+            root.SetActive(false);
             
         }
 

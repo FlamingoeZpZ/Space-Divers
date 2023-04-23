@@ -118,6 +118,9 @@ MonoBehaviour:
   <bulletParent>k__BackingField: {fileID: 2415785515789054731}
   TEMP_WIN_OBJECT: {fileID: 3423320391781076188, guid: 76d20e444956c4a4bbaf1db3c1a5c646, type: 3}
   TEMP_LOSS_OBJECT: {fileID: 3423320391781076188, guid: 860d10a8c21d7ce4c81ac82785dc0300, type: 3}
+  removeLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &2415785517566079838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,8 +136,13 @@ MonoBehaviour:
   gradientMaterial: {fileID: 2100000, guid: 345c4b8f0de389943a2fa830cb042c2a, type: 2}
   myShipMaterial: {fileID: 2100000, guid: cac8a660b423c0d4f82ab0d84df4fe84, type: 2}
   hiddenShipMaterial: {fileID: 2100000, guid: 495c096d48e65834892f366ee58b6791, type: 2}
-  stickerMats: []
-  stickerPrefab: {fileID: 0}
+  stickerMats:
+  - {fileID: 2100000, guid: 04b848ac54b863b419fa7b39ccd74fdd, type: 2}
+  - {fileID: 2100000, guid: 6127b0817f7bcb04f99ef01b2218a8d8, type: 2}
+  - {fileID: 2100000, guid: 7954cd9f97338d84c8aa336979be7008, type: 2}
+  - {fileID: 2100000, guid: 58a950113043de340a982996dcb2d0b3, type: 2}
+  - {fileID: 2100000, guid: c49f86aa046edf04087f392f8965401f, type: 2}
+  stickerPrefab: {fileID: 929313687160950537, guid: 61a43eb8dff40ee4d9e6affdbe4e1ae0, type: 3}
 --- !u!114 &4943962854488198394
 MonoBehaviour:
   m_ObjectHideFlags: 0

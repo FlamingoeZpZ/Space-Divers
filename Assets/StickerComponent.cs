@@ -5,26 +5,22 @@ using UnityEngine;
 
 public class StickerComponent : MonoBehaviour
 {
-
     public static readonly StickerComponent [] Stickers= new StickerComponent[5];
-
-    private static int _curidx;
-
-    public int MyIdx { get; private set; }
+    [field: SerializeField] public int MyIdx { get; private set; }
 
     private void Awake()
     {
-        if (_curidx == Stickers.Length)
-            _curidx = 0;
-        MyIdx = _curidx;
-        if(Stickers[_curidx])
-            Destroy(Stickers[_curidx]);
-        Stickers[_curidx++] = this;
-        print($"Set a new sticker with id: {_curidx} on object: {transform.root}");
+        if (MyIdx == -1) return; // If we have reached sticker . length. start pooling.
+        Stickers[MyIdx] = this;
     }
 
-    private void OnDestroy()
+    public void SetID(int id)
     {
-        print("Sticker was deleted: " + MyIdx);
+        //Take advantage of static reference
+        if(Stickers[id] != this)
+            Destroy(Stickers[id].gameObject);
+        
+        MyIdx = id;
+        Stickers[MyIdx] = this;
     }
 }

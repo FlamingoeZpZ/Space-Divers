@@ -20,7 +20,10 @@ public class Enemy : BaseCharacter
         Blips.Add(id, new Blip(transform, stats.blip, id));
         target = Random.insideUnitSphere * 100;
         Targeting.Add(id, false);
-
+        
+        
+        
+        
     }
 
 

@@ -119,7 +119,7 @@ public class Settings : MonoBehaviour
         //Create ship before parenting
 
         Stack<Node> nodes = new();
-        int height = 1;
+        int height = 0;
 
         Transform prv = Instantiate(Resources.Load<Transform>(s.Split(',')[1]), b);
         prv.name = prv.name.Substring(0, prv.name.Length - 7);
@@ -132,16 +132,18 @@ public class Settings : MonoBehaviour
 
             int v = int.Parse(data[0]);
 
-            if (data.Length == 10) // sticker
+            if (data.Length == 11) // sticker
             {
                 StickerComponent sticker = Instantiate(stickerPrefab, prv.GetChild(0));
                 sticker.transform.localPosition =
                     new Vector3(float.Parse(data[1]), float.Parse(data[2]), float.Parse(data[3]));
                 sticker.transform.rotation = new Quaternion(float.Parse(data[4]), float.Parse(data[5]),
                     float.Parse(data[6]), float.Parse(data[7]));
-                stickerMats[sticker.MyIdx].SetTexture(Texture1, Resources.Load<Texture2D>("Stickers/" + data[8]));
-                stickerMats[sticker.MyIdx].SetColor(shipColA, uint.Parse(data[9]).ToColor());
-                sticker.GetComponent<DecalProjector>().material = stickerMats[sticker.MyIdx];
+                int id = int.Parse(data[10]);
+                sticker.SetID(id);
+                stickerMats[id].SetTexture(Texture1, Resources.Load<Texture2D>("Stickers/" + data[8]));
+                stickerMats[id].SetColor(shipColA, uint.Parse(data[9]).ToColor());
+                sticker.GetComponent<DecalProjector>().material = stickerMats[id];
 
                 continue;
             }
@@ -149,6 +151,8 @@ public class Settings : MonoBehaviour
             // If the current node's height is larger than the previous one. Then we add a new node to the stack
             if (height < v)
             {
+                print("Pushing: " + v);
+
                 nodes.Push(new Node(prv));
                 height = v;
             }
@@ -156,6 +160,7 @@ public class Settings : MonoBehaviour
             else if (height > v)
             {
                 int dif = height - v;
+                print("Popping: " + dif);
                 while (dif-- != 0) // Correct if we are up 3 and going down to 1.
                 {
                     nodes.Pop();
@@ -167,11 +172,17 @@ public class Settings : MonoBehaviour
             //If we've marked it as empty, stay true to that.
             if (data[1] == "Empty")
             {
+                nodes.Peek().SkipIncrement();
                 continue;
             }
-
+            
+            //print("Trying to create: " + data[1] + " on: " + nodes.Peek().GetChild());
+            
             prv = Instantiate(Resources.Load<Transform>(data[1]), nodes.Peek().GetChild());
             prv.name = prv.name.Substring(0, prv.name.Length - 7);
+            
+            print(prv.name);
+            
         }
 
         sr.Close();
@@ -191,6 +202,11 @@ public class Settings : MonoBehaviour
         public Transform GetChild()
         {
             return root.GetChild(++index);
+        }
+
+        public void SkipIncrement()
+        {
+            index++;
         }
 
     }
@@ -249,8 +265,10 @@ public class Settings : MonoBehaviour
             Vector3 position = n.localPosition;
             Quaternion rotation = n.rotation;
             print(position +" , " + height);
-
-            sw.WriteLine(height + "," + position.x + "," + position.y + "," + position.z + ","+rotation.x + "," + rotation.y + "," + rotation.z + "," + rotation.w + "," + stickerMats[s.MyIdx].GetTexture(Texture1).name + "," + stickerMats[s.MyIdx].GetColor(shipColA).ToRgba());
+            print("Null check A: " + n);
+            print("Null check B: " + s);
+            print("Null check C: " + stickerMats[s.MyIdx]);
+            sw.WriteLine(height + "," + position.x + "," + position.y + "," + position.z + ","+rotation.x + "," + rotation.y + "," + rotation.z + "," + rotation.w + "," + stickerMats[s.MyIdx].GetTexture(Texture1).name + "," + stickerMats[s.MyIdx].GetColor(shipColA).ToRgba() +","+ s.MyIdx);
         }
         
 
