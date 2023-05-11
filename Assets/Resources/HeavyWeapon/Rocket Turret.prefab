@@ -89,7 +89,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6893720843710361295}
-  m_Mesh: {fileID: 4300000, guid: 71e6e8f0e9dd9164da8d88a237ed787b, type: 3}
+  m_Mesh: {fileID: 5759120849085475748, guid: 71e6e8f0e9dd9164da8d88a237ed787b, type: 3}
 --- !u!23 &6916239888061706447
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -163,8 +163,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10d129f90f700f34bb0d49982697943f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <stats>k__BackingField: {fileID: 11400000, guid: 9290d81944d56db4bbe6ee5269c2ad11, type: 2}
+  <Stats>k__BackingField: {fileID: 0}
   projectile: {fileID: -3160180244165366855, guid: af57dfe5f1c49fc4ca9203a4ffd9abb7, type: 3}
+  onHitFX: {fileID: 0}
+  toSpawn: 3
 --- !u!1 &9120561799113883868
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,7 +208,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9120561799113883868}
-  m_Mesh: {fileID: 4300002, guid: 71e6e8f0e9dd9164da8d88a237ed787b, type: 3}
+  m_Mesh: {fileID: -46175015126617247, guid: 71e6e8f0e9dd9164da8d88a237ed787b, type: 3}
 --- !u!23 &9134308407376072910
 MeshRenderer:
   m_ObjectHideFlags: 0

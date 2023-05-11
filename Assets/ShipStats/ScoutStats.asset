@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8592864d85f7e8e4c9e958a47674e558, type: 3}
+  m_Name: ScoutStats
+  m_EditorClassIdentifier: 
+  <blip>k__BackingField: {fileID: 5879452361471887674, guid: c7b22ed0f658a3b4fb796f61ae7eb8e1, type: 3}
+  <maxSpeed>k__BackingField: 0
+  <baseHandling>k__BackingField: 3
+  <maxRollAngle>k__BackingField: 40
+  <rollSpeed>k__BackingField: 4
+  <rollDecay>k__BackingField: 0.5
+  <timeBetweenDodges>k__BackingField: 5
+  <maxHealth>k__BackingField: 10
+  <maxArmor>k__BackingField: 0
+  <maxShield>k__BackingField: 20

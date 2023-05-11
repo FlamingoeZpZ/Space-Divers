@@ -279,7 +279,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 897
   maxWeapons: 2
-  swivelSpeed: 20
+  swivelSpeed: 60
   angBeforeShooting: 0.04
   maxAng: 0.4
 --- !u!1 &8458732445951139310
