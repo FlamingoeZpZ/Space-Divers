@@ -32,6 +32,10 @@ public class ColorWheelController : MonoBehaviour, IPointerMoveHandler
     private Transform colorTrans;
     private Vector2 pos;
     
+    public delegate void Dele(Color c);
+
+    public Dele OnValueChanged;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -64,7 +68,7 @@ public class ColorWheelController : MonoBehaviour, IPointerMoveHandler
                 SetColor();
             }
         });
-
+        ResetUI();
 
     }
 
@@ -89,9 +93,22 @@ public class ColorWheelController : MonoBehaviour, IPointerMoveHandler
         if(hiddenMat)
             hiddenMat.SetColor(storedId, c);
         hexText.text = ColorUtility.ToHtmlStringRGB(c);
-        
+        OnValueChanged?.Invoke(c);
     }
-    
-    
-    
+
+
+    public void SetMaterial(Material material)
+    {
+        mat = material;
+    }
+
+    public void ResetUI()
+    {
+        Color c = mat.GetColor(storedId);
+        
+        blackMult.SetValueWithoutNotify(c.grayscale);
+        colorWheelColor.color = c;
+
+        hexText.text = ColorUtility.ToHtmlStringRGB(c);
+    }
 }

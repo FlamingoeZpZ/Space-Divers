@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edb7fee73e1775d4c8874a9e3c0622ee, type: 3}
   m_Name: LaserStats
   m_EditorClassIdentifier: 
-  <damage>k__BackingField: 5
-  <criticalMultiplier>k__BackingField: 1.5
-  <criticalChance>k__BackingField: 0.2
-  <isExplosive>k__BackingField: 0
-  <isHarvestable>k__BackingField: 0
-  <speed>k__BackingField: 5
-  <lifeTime>k__BackingField: 2
-  <isHoming>k__BackingField: 1
+  <Color>k__BackingField: {r: 0, g: 0.23631507, b: 0.8301887, a: 0}
+  <Damage>k__BackingField: 15
+  <CriticalMultiplier>k__BackingField: 2
+  <CriticalChance>k__BackingField: 0.01
+  <IsExplosive>k__BackingField: 0
+  <IsHarvestable>k__BackingField: 0
+  <Speed>k__BackingField: 0.2
+  <LifeTime>k__BackingField: 5
+  <IsHoming>k__BackingField: 1
+  <Accelerates>k__BackingField: 1

@@ -31,7 +31,6 @@ public class ModularPlayerScript : BaseCharacter
     [SerializeField] private float aimForgiveness = 0.05f; // range of -1,1
     
     public static ModularPlayerScript Instance { get; private set; }
-    
 
 
     protected override void Awake()

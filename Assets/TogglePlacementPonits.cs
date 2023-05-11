@@ -73,6 +73,7 @@ ResetUI();
       if (Utilities.IsPointerOverUIObject()) return;
       if (Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 100, checkLayers))
       {
+         CustomPool.Instance.Explode(hit.point);
          Transform t = hit.transform;
          print(t.gameObject.layer + " vs " + _playerLayer + " | " + _nodeLayer + " | " + _UILayer);
          if (state != 3 && t.gameObject.layer == _UILayer)

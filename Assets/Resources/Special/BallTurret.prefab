@@ -72,14 +72,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2174692326383933018}
-  m_LocalRotation: {x: -0.21263112, y: 0.67437977, z: 0.67437977, w: 0.21263112}
-  m_LocalPosition: {x: -0.4, y: -0, z: -0.4}
+  m_LocalRotation: {x: 0, y: 0, z: 0.953717, w: 0.30070582}
+  m_LocalPosition: {x: -0.4, y: 0.4, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2466833580736385898}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 145}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 145}
 --- !u!135 &9131816510694551600
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -168,6 +168,7 @@ GameObject:
   - component: {fileID: 6677915598974974745}
   - component: {fileID: 5879310714178605034}
   - component: {fileID: -4124495814608371784}
+  - component: {fileID: 6936751936938984293}
   m_Layer: 3
   m_Name: BallTurret
   m_TagString: Untagged
@@ -182,7 +183,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5520982342694368690}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -262,6 +263,25 @@ MonoBehaviour:
   <Shield>k__BackingField: 1500
   <Speed>k__BackingField: 0
   <Turning>k__BackingField: 0
+--- !u!114 &6936751936938984293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5520982342694368690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65433d22512fa534483c879e74393314, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  otherLayers:
+    serializedVersion: 2
+    m_Bits: 897
+  maxWeapons: 2
+  swivelSpeed: 20
+  angBeforeShooting: 0.04
+  maxAng: 0.4
 --- !u!1 &8458732445951139310
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,14 +309,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8458732445951139310}
-  m_LocalRotation: {x: -0.21263112, y: -0.6743797, z: -0.6743797, w: 0.21263112}
-  m_LocalPosition: {x: 0.4, y: 0, z: -0.4}
+  m_LocalRotation: {x: 0, y: 0, z: -0.95371693, w: 0.30070582}
+  m_LocalPosition: {x: 0.4, y: 0.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2466833580736385898}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: -145}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -145}
 --- !u!135 &4916888526095923988
 SphereCollider:
   m_ObjectHideFlags: 0

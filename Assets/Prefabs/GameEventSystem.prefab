@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 2415785517566079839}
   - component: {fileID: 2415785517566079838}
   - component: {fileID: 4943962854488198394}
+  - component: {fileID: 328595297156259438}
   m_Layer: 0
   m_Name: GameEventSystem
   m_TagString: Untagged
@@ -160,3 +161,16 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: 5c725b6727db4f045bfa106349a1817a, type: 2}
+--- !u!114 &328595297156259438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2415785517566079835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eaad7cd6722cae46a5072d8a7f09a0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionEffect: {fileID: 8528172272634941155, guid: 9a7c713e3d202154f85f7e1277aa19b6, type: 3}

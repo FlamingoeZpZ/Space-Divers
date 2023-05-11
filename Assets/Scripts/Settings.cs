@@ -18,20 +18,21 @@ public class Settings : MonoBehaviour
     [SerializeField] private Material myShipMaterial;
     [SerializeField] private Material hiddenShipMaterial;
 
-    [Header("Stickers")] [SerializeField] private Material[] stickerMats;
+    [Header("Stickers")] public Material[] stickerMats;
     [SerializeField] private StickerComponent stickerPrefab;
 
-    private readonly int belowColor = Shader.PropertyToID("_BelowColor");
-    private readonly int aboveColor = Shader.PropertyToID("_AboveColor");
-    private readonly int shipColA = Shader.PropertyToID("_ColorA");
-    private readonly int shipColB = Shader.PropertyToID("_ColorB");
-    private readonly int shipColC = Shader.PropertyToID("_ColorC");
-    private readonly int shipColEmissive = Shader.PropertyToID("_EmissiveColor");
-    private readonly int shipColIntensity = Shader.PropertyToID("_Intensity");
+
+    private static readonly int BelowColor = Shader.PropertyToID("_BelowColor");
+    private static readonly int AboveColor = Shader.PropertyToID("_AboveColor");
+    public static readonly int ShipColA = Shader.PropertyToID("_ColorA");
+    private static readonly int ShipColB = Shader.PropertyToID("_ColorB");
+    private static readonly int ShipColC = Shader.PropertyToID("_ColorC");
+    private static readonly int ShipColEmissive = Shader.PropertyToID("_EmissiveColor");
+    private static readonly int ShipColIntensity = Shader.PropertyToID("_Intensity");
+    public static readonly int TextureID = Shader.PropertyToID("_Texture");
 
     private int shipID;
     private string SaveFolder;
-    private static readonly int Texture1 = Shader.PropertyToID("_Texture");
 
     public static Settings instance { get; private set; }
 
@@ -73,8 +74,8 @@ public class Settings : MonoBehaviour
     {
         Color aboveY = ((uint)PlayerPrefs.GetInt("AboveCol", 65535)).ToColor();
         Color belowY = ((uint)PlayerPrefs.GetInt("BelowCol", -16776961)).ToColor();
-        gradientMaterial.SetColor(belowColor, belowY); // Default of red
-        gradientMaterial.SetColor(aboveColor, aboveY); // Default of blue
+        gradientMaterial.SetColor(BelowColor, belowY); // Default of red
+        gradientMaterial.SetColor(AboveColor, aboveY); // Default of blue
         verticalityGradient = new()
         {
             colorKeys = new GradientColorKey[]
@@ -94,7 +95,7 @@ public class Settings : MonoBehaviour
         PlayerPrefs.SetInt("LastShipKey", i);
         StreamReader sr = new StreamReader(SaveFolder + "shipData" + i + ".dat");
 
-        int[] elems = { shipColA, shipColB, shipColC, shipColEmissive };
+        int[] elems = { ShipColA, ShipColB, ShipColC, ShipColEmissive };
         foreach (int t in elems)
         {
             Color c = uint.Parse(sr.ReadLine()).ToColor();
@@ -103,8 +104,8 @@ public class Settings : MonoBehaviour
         }
 
         float intensity = float.Parse(sr.ReadLine());
-        myShipMaterial.SetFloat(shipColIntensity, intensity);
-        hiddenShipMaterial.SetFloat(shipColIntensity, intensity);
+        myShipMaterial.SetFloat(ShipColIntensity, intensity);
+        hiddenShipMaterial.SetFloat(ShipColIntensity, intensity);
 
         string s = sr.ReadLine();
         if (s == null) return;
@@ -132,7 +133,7 @@ public class Settings : MonoBehaviour
 
             int v = int.Parse(data[0]);
 
-            if (data.Length == 11) // sticker
+            if (data.Length == 13) // sticker
             {
                 StickerComponent sticker = Instantiate(stickerPrefab, prv.GetChild(0));
                 sticker.transform.localPosition =
@@ -141,9 +142,11 @@ public class Settings : MonoBehaviour
                     float.Parse(data[6]), float.Parse(data[7]));
                 int id = int.Parse(data[10]);
                 sticker.SetID(id);
-                stickerMats[id].SetTexture(Texture1, Resources.Load<Texture2D>("Stickers/" + data[8]));
-                stickerMats[id].SetColor(shipColA, uint.Parse(data[9]).ToColor());
-                sticker.GetComponent<DecalProjector>().material = stickerMats[id];
+                stickerMats[id].SetTexture(TextureID, Resources.Load<Texture2D>("Stickers/" + data[8]));
+                stickerMats[id].SetColor(ShipColA, uint.Parse(data[9]).ToColor());
+                DecalProjector dp = sticker.GetComponent<DecalProjector>();
+                dp.material = stickerMats[id];
+                dp.size = new Vector3(float.Parse(data[11]), float.Parse(data[12]), 5);
 
                 continue;
             }
@@ -233,11 +236,11 @@ public class Settings : MonoBehaviour
         sw.AutoFlush = true;
 
         //Then save colors
-        sw.WriteLine(myShipMaterial.GetColor(shipColA).ToRgba());
-        sw.WriteLine(myShipMaterial.GetColor(shipColB).ToRgba());
-        sw.WriteLine(myShipMaterial.GetColor(shipColC).ToRgba());
-        sw.WriteLine(myShipMaterial.GetColor(shipColEmissive).ToRgba());
-        sw.WriteLine(myShipMaterial.GetFloat(shipColIntensity));
+        sw.WriteLine(myShipMaterial.GetColor(ShipColA).ToRgba());
+        sw.WriteLine(myShipMaterial.GetColor(ShipColB).ToRgba());
+        sw.WriteLine(myShipMaterial.GetColor(ShipColC).ToRgba());
+        sw.WriteLine(myShipMaterial.GetColor(ShipColEmissive).ToRgba());
+        sw.WriteLine(myShipMaterial.GetFloat(ShipColIntensity));
 
         //Save the body
         SavePart( sw, ModularPlayerScript.Instance.transform.GetChild(0).GetChild(0), 0);
@@ -261,14 +264,15 @@ public class Settings : MonoBehaviour
         {
             Transform n = t.GetChild(0).GetChild(j);
             StickerComponent s = n.GetComponent<StickerComponent>();
-
+            if(!s || !s.isSet) continue;
+            DecalProjector dp = n.GetComponent<DecalProjector>();
+            
             Vector3 position = n.localPosition;
             Quaternion rotation = n.rotation;
-            print(position +" , " + height);
-            print("Null check A: " + n);
-            print("Null check B: " + s);
-            print("Null check C: " + stickerMats[s.MyIdx]);
-            sw.WriteLine(height + "," + position.x + "," + position.y + "," + position.z + ","+rotation.x + "," + rotation.y + "," + rotation.z + "," + rotation.w + "," + stickerMats[s.MyIdx].GetTexture(Texture1).name + "," + stickerMats[s.MyIdx].GetColor(shipColA).ToRgba() +","+ s.MyIdx);
+            sw.WriteLine(height + "," + position.x + "," + position.y + "," + position.z + "," +
+                         rotation.x + "," + rotation.y + "," + rotation.z + "," + rotation.w + "," +
+                         stickerMats[s.MyIdx].GetTexture(TextureID).name + "," + stickerMats[s.MyIdx].GetColor(ShipColA).ToRgba() +
+                         "," + s.MyIdx+","+dp.size.x+","+dp.size.y);
         }
         
 
@@ -287,8 +291,8 @@ public class Settings : MonoBehaviour
 
     public void SaveSettings()
     {
-        PlayerPrefs.SetInt("BelowCol", (int)gradientMaterial.GetColor(belowColor).ToRgba());
-        PlayerPrefs.SetInt("AboveCol", (int)gradientMaterial.GetColor(aboveColor).ToRgba());
+        PlayerPrefs.SetInt("BelowCol", (int)gradientMaterial.GetColor(BelowColor).ToRgba());
+        PlayerPrefs.SetInt("AboveCol", (int)gradientMaterial.GetColor(AboveColor).ToRgba());
         PlayerPrefs.SetInt("enemyTargetingPlayer", (int)enemyTargetingPlayer.ToRgba());
         PlayerPrefs.SetInt("enemyLostPlayer", (int)enemyLostPlayer.ToRgba());
         PlayerPrefs.Save();

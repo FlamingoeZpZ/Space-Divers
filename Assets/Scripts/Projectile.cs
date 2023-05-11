@@ -11,26 +11,32 @@ public class Projectile : MonoBehaviour
     private bool initialized;
     private Transform owner;
     private Vector3 direction;
-    public bool isHoming => stats.isHoming;
+    private Vector3 accel;
+    public bool isHoming => stats.IsHoming;
+    public Color Color => stats.Color;
 
+    private Action onHit;
+    
     private void Awake()
     {
-        Destroy(gameObject, stats.lifeTime);
+        accel = transform.forward * stats.Speed;
+        Destroy(gameObject, stats.LifeTime);
     }
 
     /// <summary>
     /// Should be called AFTER setting transform information.
     /// </summary>
-    /// <param name="allyLayer"></param>
+    /// <param name="ignoreLayers"></param>
     /// <param name="myOwner"></param>
+    /// <param name="hitAction"></param>
     /// <param name="setTarget"></param>
-    public void Init(int allyLayer, Transform myOwner, Transform setTarget = null)
+    public void Init(int ignoreLayers, Transform myOwner, Action hitAction, Transform setTarget = null)
     {
         //Prevent cheating? Idk if even necessary.
         if (initialized) return;
         initialized = true;
-
-        layer = ~(1<<allyLayer);
+        onHit = hitAction;
+        layer = ~ignoreLayers;
         target = setTarget;
         direction = transform.forward;
         owner = myOwner;
@@ -39,17 +45,27 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (stats.isHoming && target)
+        if (stats.IsHoming && target)
         {
             direction = Vector3.Normalize(target.position - transform.position);
         }
 
-        transform.position += direction * stats.speed;
+        if (stats.Accelerates)
+        {
+            accel +=  stats.Speed * Time.deltaTime *direction;
+        }
+
+
+
+        transform.position += accel;
         if (Physics.Raycast(transform.position, transform.forward, out RaycastHit h, 2, layer))
         {
+            transform.forward = h.normal;
+            transform.position = h.point;
+            onHit.Invoke();
             if (h.transform.root.TryGetComponent(out BaseCharacter c))
             {
-                c.UpdateHealth(owner,-stats.damage);
+                c.UpdateHealth(owner,-stats.Damage);
             }
             Destroy(gameObject); // Play particle effect here
         }

@@ -107,7 +107,7 @@ public abstract class BaseCharacter : MonoBehaviour, ITargetable
             return;
         foreach (Weapon w in Weapons)
         {
-            if (w.stats.isAutomatic)
+            if (w.Stats.isAutomatic)
             {
                 w.TryShoot(curTarget);
             }
