@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edb7fee73e1775d4c8874a9e3c0622ee, type: 3}
+  m_Name: MissleStats
+  m_EditorClassIdentifier: 
+  <Color>k__BackingField: {r: 1, g: 0, b: 0, a: 0}
+  <Damage>k__BackingField: 50
+  <CriticalMultiplier>k__BackingField: 2
+  <CriticalChance>k__BackingField: 0.1
+  <ExplosiveRadius>k__BackingField: 2
+  <IsHarvestable>k__BackingField: 0
+  <ExplodeOnDeath>k__BackingField: 1
+  <Speed>k__BackingField: 40
+  <LifeTime>k__BackingField: 5
+  <TurningRate>k__BackingField: 15
+  <IsHoming>k__BackingField: 1
+  acceleration:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.000011444092
+      value: 0.3902588
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.2432772
+      value: 0.15371265
+      inSlope: 2.0592003
+      outSlope: 2.0592003
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.7837451
+    - serializedVersion: 3
+      time: 0.4986331
+      value: 1.0046328
+      inSlope: 0.40846255
+      outSlope: 0.40846255
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.31744224
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

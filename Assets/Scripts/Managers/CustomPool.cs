@@ -11,7 +11,7 @@ public class CustomPool : MonoBehaviour
     [SerializeField] private VisualEffect explosionEffect;
     private const int StoredExplosions = 30;
     private readonly Queue<VisualEffect> explosionEffects = new();
-    private readonly int explodeID = Shader.PropertyToID("Explode");
+    private readonly int explodeID = Shader.PropertyToID("Fire");
     private readonly int scaleID = Shader.PropertyToID("Scale");
 
     public void Start()

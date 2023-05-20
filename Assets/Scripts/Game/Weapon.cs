@@ -11,19 +11,28 @@ public class Weapon : MonoBehaviour
     [SerializeField] private Projectile projectile; // Eventually this will be moved elsewhere to a SO.
     [SerializeField] private VisualEffect onHitFX;
     [SerializeField] private int toSpawn = 3;
-    
+
     //Array pool structure... Is this smart or even necessary??
     private VisualEffect[] onHitEffects;
     private int index;
-    
-    
+
+
     private int ignoreLayer;
     private Transform parent;
     private VisualEffect vfx;
 
     private static readonly int ShootID = Shader.PropertyToID("Fire");
+    private static readonly int LoopDurID = Shader.PropertyToID("LoopDur");
+    private static readonly int ExplosionSparksID = Shader.PropertyToID("SecondarySize");
     private static readonly int ColorID = Shader.PropertyToID("Color");
+
+    [SerializeField] private bool useLoopDur;
+    [SerializeField] private bool useColor = true;
+    [SerializeField] private bool useSecondaryAmount;
     
+    [SerializeField] private float loopDur;
+    [SerializeField] private Vector2 secondaryAmount;
+
     private bool canShoot = true;
     
     
@@ -62,7 +71,12 @@ public class Weapon : MonoBehaviour
         for (int i = 0; i < toSpawn; ++i)
         {
             onHitEffects[i] = Instantiate(onHitFX, GameManager.instance.bulletParent);
-            onHitEffects[i].SetVector4(ColorID, c);
+            if(useColor)
+                onHitEffects[i].SetVector4(ColorID, c);
+            if(useLoopDur)
+                onHitEffects[i].SetFloat(LoopDurID, loopDur);
+            if(useSecondaryAmount)
+                onHitEffects[i].SetVector2(ExplosionSparksID, secondaryAmount);
         }
     }
 
