@@ -1,144 +1,191 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
+using Stats;
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class Weapon : MonoBehaviour
+namespace Game
 {
-    //First add self to owner
-    [field: SerializeField] public WeaponStats Stats { get; private set; }
-    [SerializeField] private Projectile projectile; // Eventually this will be moved elsewhere to a SO.
-    [SerializeField] private VisualEffect onHitFX;
-    [SerializeField] private int toSpawn = 3;
-
-    //Array pool structure... Is this smart or even necessary??
-    private VisualEffect[] onHitEffects;
-    private int index;
-
-
-    private int ignoreLayer;
-    private Transform parent;
-    private VisualEffect vfx;
-
-    private static readonly int ShootID = Shader.PropertyToID("Fire");
-    private static readonly int LoopDurID = Shader.PropertyToID("LoopDur");
-    private static readonly int ExplosionSparksID = Shader.PropertyToID("SecondarySize");
-    private static readonly int ColorID = Shader.PropertyToID("Color");
-
-    [SerializeField] private bool useLoopDur;
-    [SerializeField] private bool useColor = true;
-    [SerializeField] private bool useSecondaryAmount;
-    
-    [SerializeField] private float loopDur;
-    [SerializeField] private Vector2 secondaryAmount;
-
-    private bool canShoot = true;
-    
-    
-    
-    
-    private void Start() //Should be start, This is a function that depends other objects.
+    public class Weapon : MonoBehaviour
     {
-        //Player has two layers in order for placements. This is essential to prevent collisions with all parts of the player, while still working for enemies
-        int rL = 1 << transform.root.gameObject.layer;
-        ignoreLayer = 1 << gameObject.layer;
-        print("layerCheck: " + rL + " + " + ignoreLayer);
-        
-        if (rL != ignoreLayer)
-            ignoreLayer += rL;
-        
-        
+        //First add self to owner
+        [field: SerializeField] public WeaponStats Stats { get; private set; }
+        [SerializeField] protected Projectile projectile; // Eventually this will be moved elsewhere to a SO.
 
-        if (transform.parent.parent.TryGetComponent(out Turret t))
+        [SerializeField] private VisualEffect onHitFX;
+        [SerializeField] private int toSpawn = 3;
+
+        //Array pool structure... Is this smart or even necessary??
+        private VisualEffect[] onHitEffects;
+        private int index;
+
+
+        protected int IgnoreLayer;
+        protected BaseCharacter Owner;
+        private Transform parent;
+        private VisualEffect vfx;
+
+        protected static readonly int ShootID = Shader.PropertyToID("Fire");
+        protected static readonly int LoopDurID = Shader.PropertyToID("LoopDur");
+        protected static readonly int SecondarySizeID = Shader.PropertyToID("SecondarySize");
+        private static readonly int ColorID = Shader.PropertyToID("Color");
+
+        [SerializeField] private bool useLoopDur;
+        [SerializeField] private bool useColor = true;
+        [SerializeField] private bool useSecondaryAmount;
+
+        [SerializeField] protected float loopDur;
+        [SerializeField] private Vector2 secondaryAmount;
+
+        private float timeBetweenShots;
+
+        private bool isAlreadyShooting;
+
+        private void Start() //Should be start, This is a function that depends other objects.
         {
-            parent = transform.parent.parent;
-            t.AppendWeapon(this);
-            
-        }
-        else if (transform.root.TryGetComponent(out BaseCharacter ch))
-        {
-            parent = transform.root;
-            ch.AddWeapon(this, Stats.isTargeting || projectile.isHoming, Stats.isAutomatic);
-        }
+            //Player has two layers in order for placements. This is essential to prevent collisions with all parts of the player, while still working for enemies
+            int rL = 1 << transform.root.gameObject.layer;
+            IgnoreLayer = 1 << gameObject.layer;
+            print("layerCheck: " + rL + " + " + IgnoreLayer);
 
-        vfx = transform.GetChild(0).GetComponent<VisualEffect>();
-        Color c = projectile.Color;
-        vfx.SetVector4(ColorID, c);
+            if (rL != IgnoreLayer)
+                IgnoreLayer += rL;
 
-        onHitEffects = new VisualEffect[toSpawn];
 
-        for (int i = 0; i < toSpawn; ++i)
-        {
-            onHitEffects[i] = Instantiate(onHitFX, GameManager.instance.bulletParent);
-            if(useColor)
-                onHitEffects[i].SetVector4(ColorID, c);
-            if(useLoopDur)
-                onHitEffects[i].SetFloat(LoopDurID, loopDur);
-            if(useSecondaryAmount)
-                onHitEffects[i].SetVector2(ExplosionSparksID, secondaryAmount);
-        }
-    }
+            IgnoreLayer = ~IgnoreLayer;
 
-    private void MyProjectileHit(Transform other)
-    {
-        print("Summoned Projectile");
-        Transform t = onHitEffects[index].transform;
-        t.position = other.position;
-        t.forward = other.forward;
-        onHitEffects[index++].SendEvent(ShootID);
-        if (index == toSpawn)
-            index = 0;
-    }
-
-    /// <summary>
-    /// Shoots towards a target
-    /// </summary>
-    /// <param name="target"></param>
-    public void TryShoot(Transform target)
-    {
-
-        if (!canShoot) return;
-        StartCoroutine(ShootDelay());
-        Vector3 tp = transform.position;
-        Projectile instance = Instantiate(projectile, tp, transform.rotation,
-            GameManager.instance.bulletParent);
-        
-        print("activated VFX?");
-        vfx.SendEvent(ShootID);
-        
-        //NO CODE BELOW
-        Transform iT = instance.transform;
-        if (target)
-        {
-            
-            if (projectile.isHoming)
+            Owner = transform.root.GetComponent<BaseCharacter>();
+            if (transform.parent.parent.TryGetComponent(out Turret t))
             {
-                iT.forward = iT.forward;
-                instance.Init(ignoreLayer, parent, () => MyProjectileHit(iT), target);
-                return;
+                parent = transform.parent.parent;
+                t.AppendWeapon(this);
+
             }
-            if (Stats.isTargeting)
+            else //Not connected to turret
             {
-                iT.forward = (target.position - tp).normalized;
+                parent = Owner.transform;
+            }
+
+            //Allows for weapons to force fire.
+            Owner.AddWeapon(this, Stats.isTargeting || projectile.isHoming, Stats.isAutomatic);
+
+
+            vfx = transform.GetChild(0).GetComponent<VisualEffect>();
+            Color c = projectile.Color;
+            vfx.SetVector4(ColorID, c);
+
+            onHitEffects = new VisualEffect[toSpawn];
+
+            for (int i = 0; i < toSpawn; ++i)
+            {
+                onHitEffects[i] = Instantiate(onHitFX, GameManager.instance.bulletParent);
+                if (useColor)
+                    onHitEffects[i].SetVector4(ColorID, c);
+                if (useLoopDur)
+                    onHitEffects[i].SetFloat(LoopDurID, loopDur);
+                if (useSecondaryAmount)
+                    onHitEffects[i].SetVector2(SecondarySizeID, secondaryAmount);
+            }
+
+            timeBetweenShots = Stats.timeBetweenShots;
+        }
+
+        protected void MyProjectileHit(Transform other)
+        {
+            MyProjectileHit(other.position, other.forward);
+        }
+
+        protected void MyProjectileHit(Vector3 pos, Vector3 forward)
+        {
+            Transform t = onHitEffects[index].transform;
+            t.position = pos;
+            t.forward = forward;
+            onHitEffects[index++].SendEvent(ShootID);
+            if (index == toSpawn)
+                index = 0;
+        }
+        
+
+        /// <summary>
+        /// Shoots towards a target
+        /// </summary>
+        /// <param name="target"></param>
+        protected virtual void TryShoot(Transform target)
+        {
+
+
+            Vector3 tp = transform.position;
+            Projectile instance = Instantiate(projectile, tp, transform.rotation,
+                GameManager.instance.bulletParent);
+
+            print("activated VFX?");
+
+
+            //NO CODE BELOW
+            Transform iT = instance.transform;
+            if (target)
+            {
+
+                if (projectile.isHoming)
+                {
+                    iT.forward = iT.forward;
+                    instance.Init(IgnoreLayer, Owner, () => MyProjectileHit(iT), target);
+                    StartCoroutine(ShootLoop(target));
+                    return;
+                }
+
+                if (Stats.isTargeting)
+                {
+                    iT.forward = (target.position - tp).normalized;
+                }
+            }
+
+            instance.Init(IgnoreLayer, Owner, () => MyProjectileHit(iT));
+
+            //Restart loop...
+            StartCoroutine(ShootLoop(target));
+
+        }
+
+        public void TryStartFiring(Transform target)
+        {
+            if (!Owner.CanShoot(Stats.ammoType, Stats.fireCost) || isAlreadyShooting) return;
+            isAlreadyShooting = true;
+            StartFiring(target);
+        }
+
+        protected virtual void StartFiring(Transform target)
+        {
+            
+            timeBetweenShots = Mathf.Max(timeBetweenShots - Stats.chargeDelay, -Stats.chargeDelay);
+            StartCoroutine(ShootLoop(target));
+        }
+
+
+        private IEnumerator ShootLoop(Transform target)
+        {
+            while(timeBetweenShots < Stats.timeBetweenShots)
+            {
+                timeBetweenShots += Time.deltaTime;
+                yield return null;
+            }
+            if (!Owner.CanShoot(Stats.ammoType, Stats.fireCost, true)) yield break;
+            timeBetweenShots = 0;
+            TryShoot(target);
+            vfx.SendEvent(ShootID);
+        }
+
+        public virtual void StopFiring()
+        {
+            StopAllCoroutines();
+            isAlreadyShooting = false;
+        }
+
+        private void OnDestroy()
+        {
+            foreach (VisualEffect v in onHitEffects)
+            {
+                Destroy(v.gameObject,projectile.Lifetime + 1); // 1s Wait for it to finish (Just in case)  
             }
         }
-       
-        instance.Init(ignoreLayer, parent, () => MyProjectileHit(iT));
-    }
-
-    private void OnDestroy()
-    {
-        foreach (VisualEffect v in onHitEffects)
-        {
-          Destroy(v.gameObject,projectile.Lifetime + 1); // 1s Wait for it to finish (Just in case)  
-        }
-    }
-
-    private IEnumerator ShootDelay()
-    {
-        canShoot = false;
-        yield return new WaitForSeconds(Stats.timeBetweenShots);
-        canShoot = true;
     }
 }

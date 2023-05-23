@@ -124,7 +124,7 @@ public class ModularPlayerScript : BaseCharacter
     }
 
 
-    public override void UpdateHealth(Transform attacker, float damage)
+    public override void UpdateHealth(BaseCharacter attacker, float damage)
     {
         ui.UpdateHealth(_currentHealth / stats.maxHealth);
         
@@ -137,7 +137,7 @@ public class ModularPlayerScript : BaseCharacter
         if (_currentHealth + damage <= 0)
         {
             GameManager.instance.TEMP_END_GAME(false);
-            cmv.LookAt = attacker;
+            cmv.LookAt = attacker.transform;
             cmv.transform.parent = null;
         }
         

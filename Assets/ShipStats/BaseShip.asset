@@ -22,3 +22,7 @@ MonoBehaviour:
   <maxHealth>k__BackingField: 100
   <maxArmor>k__BackingField: 0
   <maxShield>k__BackingField: 20
+  <maxBullets>k__BackingField: 0
+  <maxEnergy>k__BackingField: 100
+  <energyRechargeRate>k__BackingField: 1
+  <maxRockets>k__BackingField: 0

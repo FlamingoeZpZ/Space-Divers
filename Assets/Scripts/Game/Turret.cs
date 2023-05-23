@@ -1,4 +1,5 @@
 using System;
+using Game;
 using UnityEngine;
 
 public class Turret : MonoBehaviour
@@ -14,6 +15,9 @@ public class Turret : MonoBehaviour
     private Weapon[] weapons;
     private int id;
     private Transform root;
+
+    private bool isFiring;
+    
     private void Awake()
     {
         targetLayers = 1<<LayerMask.NameToLayer("Enemy");
@@ -33,7 +37,16 @@ public class Turret : MonoBehaviour
         //Scan for targets
         //bool h = Physics.SphereCast(transform.position, 50, transform.forward, out hit, 50,d);
         int h = Physics.OverlapSphereNonAlloc(transform.position, 250, hits,  targetLayers);
-        if (id == 0 || h == 0) return;
+        if (id == 0 || h == 0)
+        {
+            if(!isFiring) return;
+            isFiring = false;
+            for (int i = 0; i < id; ++i)
+            {
+                weapons[i].StopFiring();
+            }
+            return;
+        }
         
         //If able to look at target
         Vector3 forward = transform.forward;
@@ -43,6 +56,12 @@ public class Turret : MonoBehaviour
         if (Physics.Raycast(transform.position, lookVec, out RaycastHit t,lookVec.magnitude,  otherLayers))// Cringe as hell.
         {
             Debug.DrawRay(transform.position - forward, forward * 50, Color.red);
+            if(!isFiring) return;
+            isFiring = false;
+            for (int i = 0; i < id; ++i)
+            {
+                weapons[i].StopFiring();
+            }
             return;
         }
         
@@ -64,9 +83,20 @@ public class Turret : MonoBehaviour
         
         if (Vector3.Dot(transform.forward, lookVec) > angBeforeShooting)
         {
+            if(isFiring) return;
+            isFiring = true;
             for (int i = 0; i < id; ++i)
             {
-                weapons[i].TryShoot(hits[0].transform);
+                weapons[i].TryStartFiring(hits[0].transform);
+            }
+        }
+        else
+        {
+            if(!isFiring) return;
+            isFiring = false;
+            for (int i = 0; i < id; ++i)
+            {
+                weapons[i].StopFiring();
             }
         }
         //

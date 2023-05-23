@@ -43,16 +43,16 @@ Material:
     m_Ints: []
     m_Floats:
     - _Glossiness: 0.2
-    - _Intensity: 10
+    - _Intensity: 7.199999
     - _Metallic: 0.8
     - _NormalHeight: 1
     m_Colors:
     - _Color0: {r: 1, g: 1, b: 1, a: 1}
     - _Color1: {r: 1, g: 1, b: 1, a: 1}
     - _Color2: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorA: {r: 0.06666667, g: 0.6666667, b: 0.93333334, a: 1}
-    - _ColorB: {r: 0.99959743, g: 0.8980392, b: 0.01347555, a: 1}
-    - _ColorC: {r: 0.06256251, g: 0.9700564, b: 0.07932085, a: 1}
+    - _ColorA: {r: 0.99607843, g: 0.039215688, b: 0.84705883, a: 1}
+    - _ColorB: {r: 1, g: 0.9137255, b: 0.039215688, a: 1}
+    - _ColorC: {r: 0.9882353, g: 0.6392157, b: 0.039215688, a: 1}
     - _ColorEmissive0: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissiveColor: {r: 0.89167905, g: 0.37887424, b: 0.31047824, a: 0.66444385}
+    - _EmissiveColor: {r: 0.972549, g: 0.16078432, b: 0.03529412, a: 1}
   m_BuildTextureStacks: []

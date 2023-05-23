@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -9,13 +7,17 @@ public class Projectile : MonoBehaviour
     private int layer;
     private Transform target;
     private bool initialized;
-    private Transform owner;
+    private BaseCharacter owner;
     private Vector3 direction;
     public bool isHoming => stats.IsHoming;
     public Color Color => stats.Color;
     public float Lifetime => stats.LifeTime;
+    public float ExplosionSize => stats.ExplosiveRadius;
+    public float Damage => stats.Damage;
 
     private Action onHit;
+
+    private float initSpeed;
 
     private bool hasExploded;
     
@@ -31,16 +33,19 @@ public class Projectile : MonoBehaviour
     /// <param name="myOwner"></param>
     /// <param name="hitAction"></param>
     /// <param name="setTarget"></param>
-    public void Init(int ignoreLayers, Transform myOwner, Action hitAction, Transform setTarget = null)
+    public void Init(int ignoreLayers, BaseCharacter myOwner, Action hitAction, Transform setTarget = null)
     {
         //Prevent cheating? Idk if even necessary.
         if (initialized) return;
         initialized = true;
         onHit = hitAction;
-        layer = ~ignoreLayers;
+        layer = ignoreLayers;
         target = setTarget;
         direction = transform.forward;
         owner = myOwner;
+
+        initSpeed = owner.GetCurrentSpeed;
+
     }
 
     private readonly Collider[] hits = new Collider[8];
@@ -55,7 +60,7 @@ public class Projectile : MonoBehaviour
 
         lifeTime += Time.deltaTime;
         print("Accel: " + stats.Acceleration(lifeTime));
-        transform.position += stats.Acceleration(lifeTime) * stats.Speed * Time.deltaTime *direction;
+        transform.position += (stats.Acceleration(lifeTime) * stats.Speed * Time.deltaTime + initSpeed) *direction ;
         if (Physics.Raycast(transform.position, transform.forward, out RaycastHit h, 2, layer))
         {
             transform.forward = h.normal;

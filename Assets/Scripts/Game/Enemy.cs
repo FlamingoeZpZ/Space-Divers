@@ -58,14 +58,14 @@ public class Enemy : BaseCharacter
         
     }
 
-    public override void UpdateHealth(Transform attacker, float damage)
+    public override void UpdateHealth(BaseCharacter attacker, float damage)
     {
         base.UpdateHealth(attacker, damage);
 
         print("I've been hit!" + damage +" by: " + attacker );
         if (damage < 0)
         {
-            curTarget = attacker;
+            curTarget = attacker.transform;
             Targeting[id] = false;
         }
     }

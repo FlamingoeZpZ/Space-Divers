@@ -15,3 +15,6 @@ MonoBehaviour:
   timeBetweenShots: 0.4
   <isTargeting>k__BackingField: 0
   <isAutomatic>k__BackingField: 1
+  <chargeDelay>k__BackingField: 0
+  <fireCost>k__BackingField: 1
+  <ammoType>k__BackingField: 0

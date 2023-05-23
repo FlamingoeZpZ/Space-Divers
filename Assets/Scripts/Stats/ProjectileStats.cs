@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ProjectileStats", order = 1, menuName = "SpaceDivers/ProjectileStats")]
 public class ProjectileStats : ScriptableObject
 {
-    [field: SerializeField] public Color Color { get; private set; }
+    [field: SerializeField, ColorUsage(true , true)] public Color Color { get; private set; }
 
     [field: Header("Damage")]
     [field: SerializeField] public float Damage { get; private set; }

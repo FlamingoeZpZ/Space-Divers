@@ -1,9 +1,15 @@
 using System.Collections.Generic;
-using Unity.Mathematics;
+using Game;
+using Stats;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class BaseCharacter : MonoBehaviour, ITargetable
 {
+    public float GetCurrentSpeed => (transform.position - prvPos).magnitude;
+
+    private Vector3 prvPos;
+
     //Serialized for enemies, but accessible
     protected readonly List<Weapon> Weapons = new();
     protected bool hasTargetingCapability { get; private set; }
@@ -23,7 +29,6 @@ public abstract class BaseCharacter : MonoBehaviour, ITargetable
     [SerializeField] protected ShipBaseStats stats;
     
     protected Transform curTarget;
-    protected Transform myTrans; //is this really faster?
 
     protected float roll;
     protected float curSpeed;
@@ -32,12 +37,21 @@ public abstract class BaseCharacter : MonoBehaviour, ITargetable
 
     protected bool targetLocked;
     private Vector3 searchBoxExtent;
+
+    private float numBullets;
+    private float numEnergy;
+    private float numRockets;
+    
     protected virtual void Awake()
     {
         _currentHealth = stats.maxHealth;
         searchBoxExtent = new Vector3(viewDist.x, viewDist.x, viewDist.y);
-        myTrans = transform;
         shipBody = transform.GetChild(0);
+
+        numBullets = stats.maxBullets;
+        numEnergy = stats.maxEnergy;
+        numRockets = stats.maxRockets;
+
     }
 
     public void AddWeapon(Weapon newWeapon, bool homing, bool automatic)
@@ -57,16 +71,25 @@ public abstract class BaseCharacter : MonoBehaviour, ITargetable
     public void FireWeapons()
     {
         print(Weapons.Count);
+        
         foreach (Weapon w in Weapons)
         {
-            w.TryShoot(null);
+            w.TryStartFiring(curTarget);
         }
     }
 
+    public void StopFiringWeapons()
+    {
+        print(Weapons.Count);
+        foreach (Weapon w in Weapons)
+        {
+            w.StopFiring();
+        } 
+    }
 
 
     //Problem: This assumes components aren't individualized.
-    public virtual void UpdateHealth(Transform attacker, float damage)
+    public virtual void UpdateHealth(BaseCharacter attacker, float damage)
     {
         _currentHealth += damage;
 
@@ -82,16 +105,16 @@ public abstract class BaseCharacter : MonoBehaviour, ITargetable
         //handles shooting logic
         //1) Raycast
         Move();
-        Vector3 fwd = myTrans.forward;
+        Vector3 fwd = transform.forward;
         RaycastHit[] hits = new RaycastHit[10];
         int c = Physics.BoxCastNonAlloc(eyePoint.position + fwd * viewDist.y, searchBoxExtent, fwd, hits,
-            myTrans.rotation, viewDist.y, targetableLayers);
+            transform.rotation, viewDist.y, targetableLayers);
         #if UNITY_EDITOR
-        ExtDebug.DrawBox(eyePoint.position + fwd * viewDist.y, searchBoxExtent, myTrans.rotation, Color.blue);
+        ExtDebug.DrawBox(eyePoint.position + fwd * viewDist.y, searchBoxExtent, transform.rotation, Color.blue);
         #endif
         //print(c);
         if(!targetLocked)
-        curTarget = null;
+            curTarget = null;
         for (int i = 0; i < c; ++i)
         {
             //TODO: better enemy AI
@@ -109,7 +132,7 @@ public abstract class BaseCharacter : MonoBehaviour, ITargetable
         {
             if (w.Stats.isAutomatic)
             {
-                w.TryShoot(curTarget);
+                w.TryStartFiring(curTarget);
             }
         }
     }
@@ -120,7 +143,10 @@ public abstract class BaseCharacter : MonoBehaviour, ITargetable
     {
         //Handles movement logic.
         //Quaternion eulerAngles = myTrans.rotation;
-        myTrans.position += curSpeed * Time.deltaTime * myTrans.forward;
+        Vector3 position = transform.position;
+        prvPos = position;
+        position += curSpeed * Time.deltaTime * transform.forward;
+        transform.position = position;
         float s = (stats.baseHandling + curSpeed) * Time.deltaTime;
         if (Mathf.Abs(direction.y) > 0) //if going right and left
         {
@@ -133,8 +159,8 @@ public abstract class BaseCharacter : MonoBehaviour, ITargetable
         else if (roll >stats.rollDecay)
             roll -= stats.rollDecay * stats.baseHandling * Time.deltaTime * s;
 
-        myTrans.rotation *= Quaternion.Euler(direction.x * s, direction.y * s,0);
-        Vector3 n = myTrans.eulerAngles;
+        transform.rotation *= Quaternion.Euler(direction.x * s, direction.y * s,0);
+        Vector3 n = transform.eulerAngles;
 
         /*
         if(direction == Vector2.zero && Mathf.Abs(n.z - 180) > 0.5f)
@@ -142,7 +168,7 @@ public abstract class BaseCharacter : MonoBehaviour, ITargetable
             if (n.z > 180) n.z += Time.deltaTime * s;
             else if (n.z < 180) n.z -= stats.rollDecay * stats.baseHandling * Time.deltaTime;
         } */
-        myTrans.eulerAngles = n;
+        transform.eulerAngles = n;
         
         //eulerAngles.z = 0;
         
@@ -160,4 +186,38 @@ public abstract class BaseCharacter : MonoBehaviour, ITargetable
     public abstract void OnTargeted();
 
     public abstract void OnUnTargeted();
+
+    public bool CanShoot(EAmmoType statsAmmoType, float statsFireCost, bool spendAmmo = false)
+    {
+        print("Remaining Ammo: " + numEnergy);
+        
+        switch (statsAmmoType)
+        {
+            case EAmmoType.Bullet:
+                if (numBullets >= statsFireCost)
+                {
+                    if (spendAmmo)
+                        numBullets -= statsFireCost;
+                    return true;
+                }
+                return false;
+            case EAmmoType.Energy:
+                if (numEnergy >= statsFireCost)
+                {
+                    if (spendAmmo)
+                        numEnergy -= statsFireCost;
+                    return true;
+                }
+                return false;
+            case EAmmoType.Rocket:
+                if (numRockets >= statsFireCost)
+                {
+                    if (spendAmmo)
+                        numRockets -= statsFireCost;
+                    return true;
+                }
+                return false;
+        }
+        return false;
+    }
 }

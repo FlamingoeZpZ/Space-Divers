@@ -21,6 +21,13 @@ public class ShipBaseStats : ScriptableObject
     [field: SerializeField] public float maxHealth { get; private set; }
     [field: SerializeField, Tooltip("Laser resistance")] public float maxArmor { get; private set; }
     [field: SerializeField, Tooltip("Explosive Resistance")] public float maxShield { get; private set; }
+    
+    [field:Header("Ammo")]
+    [field:SerializeField] public float maxBullets { get; private set; }
+    [field:SerializeField] public float maxEnergy { get; private set; }
+    [field:SerializeField] public float energyRechargeRate{ get; private set; }
+    [field:SerializeField] public float maxRockets{ get; private set; }
+   
 
     
 }

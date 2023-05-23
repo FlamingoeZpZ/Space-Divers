@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 244eb6fdc4effbb4d970144530c3639e, type: 3}
-  m_Name: WeaponTargetAuto
+  m_Name: LaserBeamWeapon
   m_EditorClassIdentifier: 
-  timeBetweenShots: 1.2
+  timeBetweenShots: 0.1
   <isTargeting>k__BackingField: 1
-  <isAutomatic>k__BackingField: 1
+  <isAutomatic>k__BackingField: 0
   <chargeDelay>k__BackingField: 0
-  <fireCost>k__BackingField: 1
-  <ammoType>k__BackingField: 0
+  <fireCost>k__BackingField: 0.01
+  <ammoType>k__BackingField: 1

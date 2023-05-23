@@ -23598,6 +23598,7 @@ MonoBehaviour:
   - {fileID: -5790544833923954989, guid: 53643d8f33e9df94ba733d00e1c6d10c, type: 3}
   - {fileID: 2423695547767289621, guid: dde490f5ea9b7d94d9594ec8d6435f29, type: 3}
   - {fileID: 1351978521701283817, guid: b30ca3097cfd8de47aa1ba38578e0c30, type: 3}
+  - {fileID: 5683051144777923953, guid: 3a9bcd8ad4b46c342ae0dfa11887fbd6, type: 3}
   mainMat: {fileID: 2100000, guid: 495c096d48e65834892f366ee58b6791, type: 2}
 --- !u!1001 &1666253997
 PrefabInstance:
@@ -24355,8 +24356,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1363318884}
   m_HandleRect: {fileID: 1363318883}
   m_Direction: 0
-  m_Value: -0.000012207031
-  m_Size: 0.975
+  m_Value: -0.0000076293713
+  m_Size: 0.9749999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
