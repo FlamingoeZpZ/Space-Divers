@@ -1,10 +1,11 @@
+using Managers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using ColorUtility = UnityEngine.ColorUtility;
 
-public class ColorWheelController : MonoBehaviour, IPointerMoveHandler
+public class ColorWheelController : MonoBehaviour, IPointerMoveHandler, IPointerExitHandler
 {
     
     [SerializeField] private Image colorWheelColor;
@@ -84,7 +85,6 @@ public class ColorWheelController : MonoBehaviour, IPointerMoveHandler
         SetColor();
     }
     
-
     private void SetColor()
     {
         Color c = curCol * (isEmissive?1:blackMult.value);
@@ -102,13 +102,19 @@ public class ColorWheelController : MonoBehaviour, IPointerMoveHandler
         mat = material;
     }
 
-    public void ResetUI()
+    private void ResetUI()
     {
         Color c = mat.GetColor(storedId);
         
-        blackMult.SetValueWithoutNotify(c.grayscale);
+        blackMult.SetValueWithoutNotify(isEmissive?mat.GetFloat(intensityID)/10+0.5f:c.a);
         colorWheelColor.color = c;
 
         hexText.text = ColorUtility.ToHtmlStringRGB(c);
+        
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Settings.instance.SaveShip();
     }
 }

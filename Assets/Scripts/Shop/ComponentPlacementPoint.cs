@@ -1,4 +1,5 @@
 using System;
+using Stats.ComponentStats;
 using UnityEngine;
 
 [RequireComponent(typeof(SphereCollider))]

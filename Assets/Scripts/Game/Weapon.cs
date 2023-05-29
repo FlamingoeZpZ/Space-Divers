@@ -182,6 +182,7 @@ namespace Game
 
         private void OnDestroy()
         {
+            if (onHitEffects == null) return;
             foreach (VisualEffect v in onHitEffects)
             {
                 Destroy(v.gameObject,projectile.Lifetime + 1); // 1s Wait for it to finish (Just in case)  

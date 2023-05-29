@@ -42,7 +42,7 @@ public class Section : MonoBehaviour
                 continue;
             }
             */
-            if (item.Cost > PlayerUI.Balance)
+            if (item.CurrencyCost > PlayerUI.Balance)
             {
                 continue;
             }

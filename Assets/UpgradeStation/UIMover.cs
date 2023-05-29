@@ -17,7 +17,6 @@ public class UIMover : MonoBehaviour
 
 
     [SerializeField] private MenuObject[] menus;
-    [SerializeField] private GameObject stickerCanvas;
     
     
     [Serializable]
@@ -47,7 +46,6 @@ public class UIMover : MonoBehaviour
     {
         pointA = transform.position;
         pointB = pointBTrans.position;
-
         foreach (MenuObject m in menus)
         {
             m.SelectObject(false);
@@ -55,7 +53,7 @@ public class UIMover : MonoBehaviour
     }
     public void SetMenu(int menu)
     {
-        
+        print("Setting menu: " + menu + ", " + prvMenu);
         if(prvMenu != -1 )
             menus[prvMenu].SelectObject(false);    
         
@@ -93,7 +91,6 @@ public class UIMover : MonoBehaviour
         {
             menus[prvMenu].SelectObject(false);
             prvMenu = -1;
-            stickerCanvas.SetActive(false);
         }
 
         atPointB = !atPointB;

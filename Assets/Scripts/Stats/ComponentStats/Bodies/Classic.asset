@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5170c395a4717244ca8089ebf515d120, type: 3}
+  m_Name: Classic
+  m_EditorClassIdentifier: 
+  <Type>k__BackingField: 0
+  <Size>k__BackingField: 0
+  <Description>k__BackingField: 2 Very-Large, 2 Large, 1 medium, 3 Small placement
+    points
+  <Weight>k__BackingField: 0
+  <CurrencyCost>k__BackingField: 0
+  <MaterialCosts>k__BackingField: []
+  <HealthCapacity>k__BackingField: 0
+  <ShieldCapacity>k__BackingField: 0
+  <EnergyCapacity>k__BackingField: 0
+  <HealthRate>k__BackingField: 0
+  <ShieldRate>k__BackingField: 0
+  <EnergyRate>k__BackingField: 0

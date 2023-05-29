@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Stats.ComponentStats;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,7 +32,7 @@ public class StoreItems : MonoBehaviour
 
             int i = 0;
             int p = 1;
-            int d = (int)item.MyType;
+            int d = (int)item.TypeInt;
             while (p < d)
             {
                 i++;
@@ -53,12 +54,18 @@ public class StoreItems : MonoBehaviour
             g.layer = layer;
             t.GetComponent<MeshRenderer>().material = mainMat;
             Transform stats = rt.GetChild(2);
-            stats.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.Cost.ToString();
-            stats.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.Health.ToString();
-            stats.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.Shield.ToString();
-            stats.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.Speed.ToString();
-            stats.GetChild(4).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.Turning.ToString();
-            stats.GetChild(5).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.Damage.ToString();
+            
+            for (int m = 0; i < 4; ++i)
+            {
+                stats.GetChild(m).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.Displays[m];
+            }
+            //TODO implement
+            
+            
+            
+            stats.GetChild(4).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.ResourceCostCompiled;
+            stats.GetChild(5).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.CurrencyCost.ToString();
+
             
             storeSections[i].AddElement(rt, item);
         }
