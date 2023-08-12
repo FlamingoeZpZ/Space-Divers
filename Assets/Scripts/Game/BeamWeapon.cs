@@ -15,8 +15,6 @@ namespace Game
             laserBeamEffect = transform.GetChild(0).GetComponent<LineRenderer>();
             laserBeamEffect.material.SetColor(ColorID, projectile.Color);
             laserBeamEffect.startWidth = projectile.ExplosionSize;
-            
-            StartFiring(null);
         }
 
         protected override void TryShoot(Transform target)

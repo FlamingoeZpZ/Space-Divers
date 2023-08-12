@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2ad533b6a292384ebbce1505f65f62e, type: 3}
   m_Name: Shield Generator
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 1
+  <Type>k__BackingField: 0
   <Size>k__BackingField: 1
   <Description>k__BackingField: Only consumes energy when shields need to be replenished.
   <Weight>k__BackingField: 8

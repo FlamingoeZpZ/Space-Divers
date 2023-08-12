@@ -24,9 +24,9 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: 497d4e11c3c84e148b1fceace247e553, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 2
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
+  m_LightmapFlags: 1
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 1
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
@@ -75,7 +75,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Intensity: 4.604604
+    - _Intensity: 8.763255
     - _Metallic: 0.4
     - _NormalScalar: 3
     - _OutlineWidth: 0
@@ -83,9 +83,9 @@ Material:
     - _QueueOffset: 0
     - _Smoothness: 0.6
     m_Colors:
-    - _ColorA: {r: 0.45490196, g: 0.16470589, b: 0.5294118, a: 0.5372549}
-    - _ColorB: {r: 0.3137255, g: 0.02745098, b: 0.25490198, a: 0.32156864}
-    - _ColorC: {r: 0.38431373, g: 0.3254902, b: 0.003921569, a: 0.39215687}
-    - _EmissiveColor: {r: 1, g: 0.6666667, b: 0.14509805, a: 1}
+    - _ColorA: {r: 0.15686275, g: 0.7411765, b: 0.078431375, a: 0.67058825}
+    - _ColorB: {r: 0.62352943, g: 0.2627451, b: 0.09411765, a: 0.54509807}
+    - _ColorC: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissiveColor: {r: 1, g: 0.45882353, b: 0.039215688, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

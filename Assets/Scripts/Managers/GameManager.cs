@@ -1,9 +1,7 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using IconSystem;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 [DefaultExecutionOrder(-100)]
 public class GameManager : MonoBehaviour
@@ -25,7 +23,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
         }
-        
+        IconManager.Build();
         instance = this;
         DontDestroyOnLoad(instance);
         

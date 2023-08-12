@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d3455c133e3a7e4d8ca0efa37667ae0, type: 3}
   m_Name: Maneuver Engine
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 6
+  <Type>k__BackingField: 4
   <Size>k__BackingField: 2
   <Description>k__BackingField: 'Unlocks the DODGE ability. TODO: When pressing on
     DODGE it says more about it.'

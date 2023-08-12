@@ -1,5 +1,50 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &266463570440482622
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1281080119860354276}
+  - component: {fileID: 4805943351612933813}
+  m_Layer: 3
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1281080119860354276
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266463570440482622}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6899301414774834527}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4805943351612933813
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266463570440482622}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.4137574, y: 1.4750842, z: 3.760171}
+  m_Center: {x: 0.0452469, y: -0.013064325, z: -0.35524893}
 --- !u!1 &270876640588399638
 GameObject:
   m_ObjectHideFlags: 0
@@ -11,7 +56,6 @@ GameObject:
   - component: {fileID: 3891294496485483145}
   - component: {fileID: 5937581116300140927}
   - component: {fileID: 4444325464052363296}
-  - component: {fileID: 82226277374480863}
   m_Layer: 3
   m_Name: '[TEMP]Rocket (4)'
   m_TagString: Untagged
@@ -41,7 +85,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 270876640588399638}
-  m_Mesh: {fileID: 2966632794383433731, guid: 0f10d4be1eb44194bbb483752c917073, type: 3}
+  m_Mesh: {fileID: 2966632794383433731, guid: 7172815f857ae894f94aaa6b51788caf, type: 3}
 --- !u!23 &4444325464052363296
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -84,19 +128,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &82226277374480863
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 270876640588399638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c91156c4fb06c840bd6fe5b68f67d2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stats: {fileID: 0}
 --- !u!1 &3826403209198792887
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,7 +139,6 @@ GameObject:
   - component: {fileID: 1463768966325939553}
   - component: {fileID: 8218299102568756547}
   - component: {fileID: 6670823524929624689}
-  - component: {fileID: 1923432800606348872}
   m_Layer: 3
   m_Name: '[TEMP]Rocket (1)'
   m_TagString: Untagged
@@ -181,19 +211,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1923432800606348872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3826403209198792887}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c91156c4fb06c840bd6fe5b68f67d2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stats: {fileID: 0}
 --- !u!1 &4594032517184637222
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +222,6 @@ GameObject:
   - component: {fileID: 4367131635444464481}
   - component: {fileID: 3403798328963821363}
   - component: {fileID: 2977642670284325571}
-  - component: {fileID: 3775658483253459370}
   m_Layer: 3
   m_Name: '[TEMP]Rocket (2)'
   m_TagString: Untagged
@@ -278,19 +294,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3775658483253459370
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4594032517184637222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c91156c4fb06c840bd6fe5b68f67d2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stats: {fileID: 0}
 --- !u!1 &6892878759411719983
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,7 +303,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6899301414774834527}
-  - component: {fileID: 6866098505379340391}
   - component: {fileID: 2130819666301537395}
   - component: {fileID: 2946298622383238696}
   m_Layer: 3
@@ -318,7 +320,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6892878759411719983}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 1.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -327,22 +329,10 @@ Transform:
   - {fileID: 4367131635444464481}
   - {fileID: 6100830290758176294}
   - {fileID: 3891294496485483145}
+  - {fileID: 1281080119860354276}
   m_Father: {fileID: 6890752742824371939}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &6866098505379340391
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6892878759411719983}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.4137574, y: 1.4750842, z: 3.760171}
-  m_Center: {x: 0.0452469, y: -0.013064325, z: -0.35524893}
 --- !u!2083052967 &2130819666301537395
 VisualEffect:
   m_ObjectHideFlags: 0
@@ -449,7 +439,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6893720843710361295}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.5, z: 1.6}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -502,7 +492,6 @@ GameObject:
   - component: {fileID: 6100830290758176294}
   - component: {fileID: 7286816482847631378}
   - component: {fileID: 7148479976782153300}
-  - component: {fileID: 4491560033509657965}
   m_Layer: 3
   m_Name: '[TEMP]Rocket (3)'
   m_TagString: Untagged
@@ -575,19 +564,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4491560033509657965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9042805087359821207}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c91156c4fb06c840bd6fe5b68f67d2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stats: {fileID: 0}
 --- !u!1 &9120561799113883868
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,7 +575,6 @@ GameObject:
   - component: {fileID: 9123945773769391404}
   - component: {fileID: 9144325737434912616}
   - component: {fileID: 9134308407376072910}
-  - component: {fileID: 5055118128208263025}
   m_Layer: 3
   m_Name: '[TEMP]Rocket'
   m_TagString: Untagged
@@ -672,16 +647,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5055118128208263025
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9120561799113883868}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c91156c4fb06c840bd6fe5b68f67d2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stats: {fileID: 0}

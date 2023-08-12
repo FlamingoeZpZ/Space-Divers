@@ -1,4 +1,3 @@
-using System;
 using System.Globalization;
 using UnityEngine;
 
@@ -15,8 +14,16 @@ namespace Stats.ComponentStats
         [field: SerializeField] public ERateType CapacityType  { get; private set; }
         [field: SerializeField] public float Cost  { get; private set; }
         [field: SerializeField] public ERateType CostType  { get; private set; }
-        public string GetCost() => Cost == 0 ? "" : Cost.ToString(CultureInfo.InvariantCulture);
-        
+        protected override void Awake()
+        {
+            base.Awake();
+            Displays[1] = Rate.ToString(CultureInfo.InvariantCulture);
+            DisplayWords[1] = string.Concat(RateType.ToString("G"), " Rate");
+            Displays[2] = Capacity.ToString(CultureInfo.InvariantCulture);
+            DisplayWords[2] = string.Concat(CapacityType.ToString("G"), " Capacity");
+            Displays[3] =  Cost == 0 ? "" : Cost.ToString(CultureInfo.InvariantCulture);
+            DisplayWords[3] = string.Concat(CostType.ToString("G"), " Cost");
+        }
     }
 
     public enum ERateType

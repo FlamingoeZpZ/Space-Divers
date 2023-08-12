@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using Cinemachine;
 using Managers;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class PreventGUIMovement : MonoBehaviour
 {
@@ -26,5 +24,11 @@ public class PreventGUIMovement : MonoBehaviour
         }
         cvm.m_XAxis.m_MaxSpeed = 450;
         cvm.m_YAxis.m_MaxSpeed = 2;
+    }
+
+    private void OnDisable()
+    {
+        cvm.m_XAxis.m_MaxSpeed = 0;
+        cvm.m_YAxis.m_MaxSpeed = 0;
     }
 }

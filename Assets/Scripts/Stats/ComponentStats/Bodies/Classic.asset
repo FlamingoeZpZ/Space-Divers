@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5170c395a4717244ca8089ebf515d120, type: 3}
   m_Name: Classic
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 0
+  <Type>k__BackingField: -1
   <Size>k__BackingField: 0
   <Description>k__BackingField: 2 Very-Large, 2 Large, 1 medium, 3 Small placement
     points

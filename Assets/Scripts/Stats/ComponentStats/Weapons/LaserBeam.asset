@@ -12,16 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a3acfec78d70bd499118a3155cc5041, type: 3}
   m_Name: LaserBeam
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 6
+  <Type>k__BackingField: 3
   <Size>k__BackingField: 2
   <Description>k__BackingField: 
   <Weight>k__BackingField: 0
   <CurrencyCost>k__BackingField: 0
   <MaterialCosts>k__BackingField: []
-  <projectile>k__BackingField: {fileID: 0}
+  <projectile>k__BackingField: {fileID: 11400000, guid: d096db0c4a3442d408446f277b91ec48, type: 2}
   <chargeDelay>k__BackingField: 0
-  timeBetweenShots: 0
-  <isTargeting>k__BackingField: 0
-  <isAutomatic>k__BackingField: 0
+  <timeBetweenShots>k__BackingField: 0
   <fireCost>k__BackingField: 0
   <ammoType>k__BackingField: 0

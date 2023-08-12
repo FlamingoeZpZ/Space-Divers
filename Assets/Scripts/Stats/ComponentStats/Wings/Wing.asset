@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62c72e53c5272e2479dfe4aea32fda7b, type: 3}
   m_Name: Wing
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 1
+  <Type>k__BackingField: 6
   <Size>k__BackingField: 4
   <Description>k__BackingField: 
   <Weight>k__BackingField: 0

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2ad533b6a292384ebbce1505f65f62e, type: 3}
   m_Name: Harvester
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 3
+  <Type>k__BackingField: 0
   <Size>k__BackingField: 3
   <Description>k__BackingField: Collects nearby ores that are in front of this object.
   <Weight>k__BackingField: 50

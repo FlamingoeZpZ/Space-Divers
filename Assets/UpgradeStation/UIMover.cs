@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class UIMover : MonoBehaviour
@@ -8,7 +9,7 @@ public class UIMover : MonoBehaviour
     [SerializeField] private float travelTime;
     
     [SerializeField]  private Transform pointBTrans;
-    
+    [SerializeField] private UnityEvent onClose;
     private Vector3 pointA;
     private Vector3 pointB;
     private bool atPointB;
@@ -36,7 +37,7 @@ public class UIMover : MonoBehaviour
             }
             else
             {
-                menuObject.SetActive(false);
+                 menuObject.SetActive(false);
                 uiObject.color = new Color(0.6f,0.6f,0.6f);
             }
         }
@@ -90,6 +91,7 @@ public class UIMover : MonoBehaviour
         if (atPointB)
         {
             menus[prvMenu].SelectObject(false);
+            onClose?.Invoke();
             prvMenu = -1;
         }
 

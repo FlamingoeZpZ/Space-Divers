@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using UnityEngine;
 
 namespace Stats.ComponentStats
@@ -15,7 +16,19 @@ namespace Stats.ComponentStats
         [field: SerializeField, Min(0)] public int CurrencyCost { get; private set; }
         [field: SerializeField] public MaterialCost [] MaterialCosts { get; private set; }
         
-        
+        public string[] DisplayWords { get; protected set; }
+        public string[] Displays { get; protected set; }
+
+        protected virtual void Awake()
+        {
+            Debug.Log("Awaken");
+            Displays = new string[4];
+            DisplayWords  = new string[4];
+            Displays[0] = Weight.ToString(CultureInfo.InvariantCulture);
+            DisplayWords[0] = "Weight";
+        }
+
+
         [Serializable]
         public struct MaterialCost
         {
@@ -26,13 +39,13 @@ namespace Stats.ComponentStats
     
     public enum PartType
     {
-        Body,
-        Defense,
-        Fin,
+        Body=-1,
         Generator,
-        HeavyWeapon,
+        Defense,
         LightWeapon,
+        HeavyWeapon,
         Thruster,
+        Fin,
         Wing
     }
 

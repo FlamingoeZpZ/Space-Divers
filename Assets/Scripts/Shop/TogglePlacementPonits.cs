@@ -1,37 +1,33 @@
 
-using System;
+using System.Collections;
+using Cinemachine;
 using Managers;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class TogglePlacementPonits : MonoBehaviour
-{   
+{
+
    private Camera cam;
-   private static ComponentPlacementPoint _currentNode;
-   private static int _playerLayer;
+   private Transform _currentNode;
+   private Transform _toPlace;
+   private int _playerLayer;
 
-    [SerializeField] private Material notSelectedNode;
-    [SerializeField] private Material selectedNode;
     [SerializeField] private Material playerMaterial;
-    [SerializeField] private Material playerMaterialHidden;
 
-    [SerializeField] private GameObject SelectionUI;
-    [SerializeField] private GameObject RemoveItem;
-
-    [SerializeField] private LayerMask checkLayers;
-    
-
-    private static Material PlayerMaterial;
+    [SerializeField] private InfoAndHandling selectedObject;
+    [SerializeField ]private Transform componentCanvas;
+    private Material _playerMaterial;
     private GameObject target;
+
+    [SerializeField]
+    private PreventGUIMovement freeLook;
+    private Transform curSelectedToRemove;
     
-    private static bool changes;
-    private TextMeshProUGUI _textMeshProUGUI;
-    private int _nodeLayer;
-    int state = -1;
-    private int _UILayer;
+    private static bool _changes;
+    private int nodeLayer;
+    private static bool _isPlacing;
     
-    private static TogglePlacementPonits instance;
 
    private void OnEnable()
    {
@@ -41,9 +37,9 @@ public class TogglePlacementPonits : MonoBehaviour
    private void OnDisable()
    {
       ManageNodes(false);
-      if (changes)
+      if (_changes)
       {
-         changes = false;
+         _changes = false;
          Settings.instance.SaveGameInfo();
          Settings.instance.SaveShip();
       }
@@ -52,77 +48,114 @@ public class TogglePlacementPonits : MonoBehaviour
 
    private void Start()
    {
-      instance = this;
-      _textMeshProUGUI = RemoveItem.transform.GetChild(0).GetChild(3).GetComponent<TextMeshProUGUI>();
-      PlayerMaterial = playerMaterial;
+      //_textMeshProUGUI = RemoveItem.transform.GetChild(0).GetChild(3).GetComponent<TextMeshProUGUI>();
+      _playerMaterial = playerMaterial;
       cam = Camera.main;
-      _playerLayer =  LayerMask.NameToLayer("Player");
-      _nodeLayer =  LayerMask.NameToLayer("PlacementNode");
-      _UILayer =  LayerMask.NameToLayer("UI");
-ResetUI();
-     
+      _playerLayer = 1<< LayerMask.NameToLayer("Player");
+      nodeLayer =  1<<LayerMask.NameToLayer("PlacementNode");
    }
    
 
    private void Update()
    {
-      //Inpur helps PC
-      #if UNITY_EDITOR || UNITY_STANDALONE
-      if (!Input.GetMouseButtonDown(0)) return;
-      Debug.Log("Editor logged mouse button down");
-      #endif
+
+      //Don't allow any of this to go on if there's UI blocking us anyways...
       if (Utilities.IsPointerOverUIObject()) return;
-      if (Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 100, checkLayers))
+      
+      #if UNITY_EDITOR || UNITY_STANDALONE
+      if (Input.GetMouseButtonDown(0))
+         StartCoroutine(_isPlacing ? PlaceLoop() : RemoveLoop());
+      #elif UNITY_ANDROID || UNITY_IOS
+      if (Input.GetTouch(0).phase == TouchPhase.Began)
+         StartCoroutine(_isPlacing ? PlaceLoop() : RemoveLoop());
+      #endif
+   }
+
+   private IEnumerator RemoveLoop()
+   {
+      #if UNITY_EDITOR || UNITY_STANDALONE
+      while (!Input.GetMouseButtonUp(0))
+      #elif UNITY_ANDROID || UNITY_IOS
+      while (Input.GetTouch(0).phase != TouchPhase.Ended)
+      #endif
       {
-         CustomPool.Instance.Explode(hit.point);
-         Transform t = hit.transform;
-         print(t.gameObject.layer + " vs " + _playerLayer + " | " + _nodeLayer + " | " + _UILayer);
-         if (state != 3 && t.gameObject.layer == _UILayer)
-         {
-            state = 3;
-            return;
-         }
 
-         if (state != 0 && t.gameObject.layer == _nodeLayer)
+            if (Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 100,  _playerLayer))
+            {
+               if (curSelectedToRemove != hit.transform.parent)
+               {
+                  
+                  curSelectedToRemove = hit.transform.parent.parent;
+                  print("Selected: " + curSelectedToRemove.name);
+                  selectedObject.SetItem(curSelectedToRemove.gameObject, curSelectedToRemove.GetComponent<ShipComponent>(), true);
+               }
+            }
+            else if (curSelectedToRemove)
+            {
+               curSelectedToRemove = null;
+               selectedObject.Disable();
+            }
+            yield return null;
+      }
+      _changes = true;
+   }
+   
+   private IEnumerator PlaceLoop()
+   {
+      print("SS");
+      freeLook.enabled = false;
+      bool inPlace = false;
+#if UNITY_EDITOR || UNITY_STANDALONE
+      while (!Input.GetMouseButtonUp(0))
+#elif UNITY_ANDROID || UNITY_IOS
+      while (Input.GetTouch(0).phase != TouchPhase.Ended)
+#endif
+      {
+         
+         Ray r = cam.ScreenPointToRay(Input.mousePosition);
+         inPlace = Physics.Raycast(r, out RaycastHit hit, 100, nodeLayer);
+         if (inPlace)
          {
-            state = 0;
-            if (_currentNode) _currentNode.SetMat(notSelectedNode);
-            _currentNode = t.GetComponent<ComponentPlacementPoint>();
-            StoreItems.Instance.ValidateShop(_currentNode.PlaceableTypes);
-            _currentNode.SetMat(selectedNode);
-            RemoveItem.SetActive(false);
-            SelectionUI.SetActive(true);
+            
+            _currentNode = hit.transform;
+            _toPlace.parent = _currentNode;
+            _toPlace.localPosition = Vector3.zero;
+            _toPlace.localRotation = Quaternion.identity;
+            _toPlace.localScale = Vector3.one;
+            _isPlacing = false;
          }
-         else if (state != 1 && t.gameObject.layer == _playerLayer)
+         else
          {
-            state = 1;
-            print("On player layer");
-            Transform o = RemoveItem.transform.GetChild(0).GetChild(2);
-            
-
-            target = t.parent.gameObject;
-            _textMeshProUGUI.text = target.name;
-            
-            Instantiate(target, o).GetComponent<MeshRenderer>().material = playerMaterialHidden;
-            Destroy(o.GetChild(0).gameObject); // delete prv
-            RemoveItem.SetActive(true);
-            SelectionUI.SetActive(false);
+            _toPlace.position = r.origin + r.direction * 15;
          }
+         yield return null;
       }
 
-      else if (state != 2)
+      if (inPlace)
       {
-         ResetUI();
+         _changes = true;
+        
+         
+         foreach (ComponentPlacementPoint cpp in _toPlace.GetComponentsInChildren<ComponentPlacementPoint>())
+         {
+            cpp.ForceActivate();
+         }
+         _toPlace = null; //Detach self...
+         _currentNode.GetComponent<ComponentPlacementPoint>().ToggleDisplay(false);
       }
+      else
+      {
+         Destroy(_toPlace.gameObject);
+         _isPlacing = false;
+      }
+
+      freeLook.enabled = true;
    }
 
    private void ResetUI()
    {
-      SelectionUI.SetActive(false);
-      RemoveItem.SetActive(false);
-      state = 2;
       if (!_currentNode) return;
-      _currentNode.SetMat(notSelectedNode);
+      _currentNode.GetComponent<ComponentPlacementPoint>().ToggleDisplay(false);
       _currentNode = null;
    }
 
@@ -137,22 +170,56 @@ ResetUI();
    }
 
 
-   public static void PlaceNode(GameObject o)
+   public void PlaceNode(GameObject o)
    {
-      Transform g = Instantiate(o, _currentNode.transform).transform;
-      g.GetComponent<MeshRenderer>().material = PlayerMaterial;
+      Transform g = Instantiate(o, _currentNode).transform;
+      g.GetComponent<MeshRenderer>().material = _playerMaterial;
       g.localScale /= 50;
       g.gameObject.layer = _playerLayer;
-      g.name = g.name.Substring(0, g.name.Length - 14);
-      changes = true;
-      _currentNode.ToggleDisplay(false);
-      instance.ResetUI();
+      
+      _changes = true;
+      //_currentNode.ToggleDisplay(false);
+   }
+
+   public void SetCursorObject(GameObject prefab)
+   {
+      if(_toPlace) Destroy(_toPlace.gameObject);
+      _toPlace = Instantiate(prefab, componentCanvas).transform;
+      _toPlace.localRotation = Quaternion.identity;
+      _toPlace.localScale = Vector3.one;
+      _toPlace.name = _toPlace.name.Substring(0, _toPlace.name.Length - 14);
+      SetGameLayerRecursive(_toPlace, 3);
+      foreach (MeshRenderer mr in _toPlace.GetComponentsInChildren<MeshRenderer>())
+      {
+         if(1<<mr.gameObject.layer == _playerLayer)
+            mr.material = _playerMaterial;
+      }
+      _isPlacing = true;
+   }
+   
+   private void SetGameLayerRecursive(Transform go, int layer)
+   {
+      go.gameObject.layer = layer;
+      foreach (Transform child in go)
+      {
+
+         if (child.TryGetComponent(out ComponentPlacementPoint cpp))
+         {
+            child.gameObject.layer = LayerMask.NameToLayer("PlacementNode");
+            continue;
+         }
+         
+         child.gameObject.layer = layer;
+ 
+         Transform hasChildren = child.GetComponentInChildren<Transform>();
+         if (hasChildren != null)
+            SetGameLayerRecursive(child, layer);
+      }
    }
 
    public void DeleteSelectedItem()
    {
-      state = -1;
-      changes = true;
+      _changes = true;
       target.transform.parent.GetComponent<ComponentPlacementPoint>().ToggleDisplay(true);
       Destroy(target);
 

@@ -76,7 +76,6 @@ public class ColorWheelController : MonoBehaviour, IPointerMoveHandler, IPointer
 
     public void OnPointerMove(PointerEventData eventData)
     {
-
         if (Vector2.Distance(eventData.position, transform.position) > rt.x/2) return;
         Vector2 d = (eventData.position - (Vector2)transform.position + rt/2)/rt;
         

@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Stats.ComponentStats;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,89 +6,96 @@ using UnityEngine.UI;
 public class StoreItems : MonoBehaviour
 {
     [SerializeField] private RectTransform storeItemPrefab;
-    [SerializeField] private Section[] storeSections;
+    private Section[] storeSections;
     [SerializeField] private ShipComponent[] purchasableComponents;
     [SerializeField] private Material mainMat;
-
+    [SerializeField] private InfoAndHandling handler;
+    [SerializeField] private TogglePlacementPonits placementPoints;
     
+    private readonly Dictionary<int, ComponentPlacementPoint> points = new();
+
     public static StoreItems Instance { get; private set; }
     
-
-    private RectTransform viewport;
-    void Start()
+    private void Awake()
     {
         Instance = this;
-        int l = purchasableComponents.Length;
 
-        viewport = GetComponent<RectTransform>();
+    }
+
+    void Start()
+    {
+        //I don't trust get component in children to not search unnecessary items...
+        storeSections = new Section[transform.childCount];
+        for(int i = 0; i < transform.childCount; ++ i)
+            storeSections[i] = transform.GetChild(i).GetComponent<Section>();
+        
+        
+        int l = purchasableComponents.Length;
         int layer = LayerMask.NameToLayer("UI"); 
-        viewport.sizeDelta = new Vector2(800, l * storeItemPrefab.sizeDelta.y + storeSections.Length * 200) ;
+        print($"Setting size: {l} + {storeSections.Length * 60}");
         int[] elems = new int[storeSections.Length];
         foreach (ShipComponent item in purchasableComponents)
         {
-
-            int i = 0;
-            int p = 1;
-            int d = (int)item.TypeInt;
-            while (p < d)
-            {
-                i++;
-                p <<= 1;
-            }
+            int i = (int)item.PartType;
+            //print("Adding to: " + item.name + ",  " + item.TypeStr);
             
             elems[i]++;
 
-            RectTransform rt = Instantiate(storeItemPrefab, storeSections[i].GetComponent<Transform>()); // Comes instansiated with all parts.
+            RectTransform rt = Instantiate(storeItemPrefab, storeSections[i].GetComponent<Transform>().GetChild(1)); // Comes instansiated with all parts.
             
             
             //Header Text
-            rt.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.name;
-
-            GameObject g  = Instantiate(item, rt.GetChild(1).GetChild(1)).gameObject;
+            rt.GetChild(0).GetChild(3).GetComponent<TextMeshProUGUI>().text = item.name;
+            
+            GameObject g  = Instantiate(item, rt.GetChild(0).GetChild(1)).gameObject;
+            
             Transform t = g.transform;
-            rt.GetComponent<Button>().onClick.AddListener(() => TogglePlacementPonits.PlaceNode(g));
+            //rt.GetComponent<Button>().onClick.AddListener(() => TogglePlacementPonits.PlaceNode(g));
             t.localScale *= 50;
+            MeshRenderer[] r = t.GetComponentsInChildren<MeshRenderer>();
             g.layer = layer;
-            t.GetComponent<MeshRenderer>().material = mainMat;
-            Transform stats = rt.GetChild(2);
-            
-            for (int m = 0; i < 4; ++i)
+            foreach (MeshRenderer n in r)
             {
-                stats.GetChild(m).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.Displays[m];
+                if(n.gameObject.layer == LayerMask.NameToLayer(("Player"))) 
+                    n.material = mainMat;
+                n.gameObject.layer = layer;
+               
             }
-            //TODO implement
-            
-            
-            
-            stats.GetChild(4).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.ResourceCostCompiled;
-            stats.GetChild(5).GetChild(0).GetComponent<TextMeshProUGUI>().text = item.CurrencyCost.ToString();
-
-            
+            rt.GetChild(0).GetChild(2).GetComponent<Button>().onClick.AddListener(() =>
+            {
+                print("activated");
+                int n = (int)item.PartSize;
+                foreach (ComponentPlacementPoint p in points.Values)
+                {
+                    p.Display(n);
+                }
+                handler.gameObject.SetActive(true);
+                handler.SetItem(g, item, false);
+                placementPoints.SetCursorObject(g);
+            });
             storeSections[i].AddElement(rt, item);
         }
-        
-        //Epic
-         transform.parent.parent.parent.parent.parent.gameObject.SetActive(false);
     }
 
-    public void ValidateShop(PartType type)
-    {
-        int d = (int)type;
-        float len = 0;
-        int p = 1;
-        foreach (Section t in storeSections)
-        {
-            if ((d & p) == 0)
-            {
-                t.gameObject.SetActive(false);
-                p <<= 1;
-                continue;
-            }
 
-            p <<= 1;
-            t.gameObject.SetActive(true);
-            len += 200 + t.length;
+    private static int id = 0;
+    public int BindPlacementPoint(ComponentPlacementPoint componentPlacementPoint)
+    {
+        points.Add(id, componentPlacementPoint);
+        return id++;
+    }
+
+    public void RemovePlacementPoint(int id)
+    {
+        points.Remove(id);
+    }
+
+    public void Close()
+    {
+        handler.gameObject.SetActive(false);
+        foreach (ComponentPlacementPoint p in points.Values)
+        {
+            p.Display(0);
         }
-        viewport.sizeDelta = new Vector2(800, len) ;
     }
 }

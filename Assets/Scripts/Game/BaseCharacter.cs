@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using Game;
-using Stats;
 using Stats.ComponentStats;
 using UnityEngine;
-using UnityEngine.UI;
 
 public abstract class BaseCharacter : MonoBehaviour, ITargetable
 {
@@ -108,8 +106,7 @@ public abstract class BaseCharacter : MonoBehaviour, ITargetable
         Move();
         Vector3 fwd = transform.forward;
         RaycastHit[] hits = new RaycastHit[10];
-        int c = Physics.BoxCastNonAlloc(eyePoint.position + fwd * viewDist.y, searchBoxExtent, fwd, hits,
-            transform.rotation, viewDist.y, targetableLayers);
+        int c = Physics.BoxCastNonAlloc(eyePoint.position + fwd * viewDist.y, searchBoxExtent, fwd, hits, transform.rotation, viewDist.y, targetableLayers);
         #if UNITY_EDITOR
         ExtDebug.DrawBox(eyePoint.position + fwd * viewDist.y, searchBoxExtent, transform.rotation, Color.blue);
         #endif
@@ -210,7 +207,7 @@ public abstract class BaseCharacter : MonoBehaviour, ITargetable
                     return true;
                 }
                 return false;
-            case EAmmoType.Rocket:
+            case EAmmoType.Explosive:
                 if (numRockets >= statsFireCost)
                 {
                     if (spendAmmo)

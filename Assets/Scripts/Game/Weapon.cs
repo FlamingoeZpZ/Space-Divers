@@ -44,7 +44,11 @@ namespace Game
         {
             //Player has two layers in order for placements. This is essential to prevent collisions with all parts of the player, while still working for enemies
             int rL = 1 << transform.root.gameObject.layer;
+
             IgnoreLayer = 1 << gameObject.layer;
+
+            if (rL != LayerMask.NameToLayer("PlayerRoot") || rL != LayerMask.NameToLayer("EnemyRoot")) return;
+            
             print("layerCheck: " + rL + " + " + IgnoreLayer);
 
             if (rL != IgnoreLayer)

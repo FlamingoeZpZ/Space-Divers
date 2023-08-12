@@ -117,7 +117,7 @@ namespace Managers
 
             Stack<Node> nodes = new();
             int height = 0;
-
+            print(s.Split(',')[1]);
             Transform prv = Instantiate(Resources.Load<Transform>(s.Split(',')[1]), b);
             prv.name = prv.name.Substring(0, prv.name.Length - 7);
 
@@ -236,7 +236,7 @@ namespace Managers
                 sw.WriteLine(height + ",Empty");
                 return;
             }
-            sw.WriteLine(height + "," + t.GetComponent<ShipComponent>().TypeStr + "/" +
+            sw.WriteLine(height + "," + t.GetComponent<ShipComponent>().PartType.ToString("G") + "/" +
                          t.name); //Store the name (for rebuilding)
 
             //Go through each child, skipping the first which is a collider
